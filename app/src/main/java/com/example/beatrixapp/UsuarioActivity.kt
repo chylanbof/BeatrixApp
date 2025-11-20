@@ -1,3 +1,5 @@
 package com.example.beatrixapp
 
-class UsuarioActivity {}
+class UsuarioActivity {
+
+}
