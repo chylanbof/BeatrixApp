@@ -1,3 +1,3 @@
 package com.example.beatrixapp
 
-class Proyectos2Activity {}
+class Proyectos2Activity {} //Dylan
