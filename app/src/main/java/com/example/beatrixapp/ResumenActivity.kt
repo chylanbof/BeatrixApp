@@ -1,3 +1,3 @@
 package com.example.beatrixapp
 
-class ResumenActivity {}
+class ResumenActivity {} //Dylan
