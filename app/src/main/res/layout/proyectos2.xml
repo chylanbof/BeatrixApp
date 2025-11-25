@@ -67,7 +67,7 @@
 
                 <!-- ⭐ por ahora avatar genérico -->
                 <ImageView
-                    android:src="@drawable/avatar"
+                    android:src="@drawable/avatarejemplo"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
                     android:layout_marginStart="8dp" />
