@@ -89,6 +89,15 @@
                 android:layout_height="2dp"
                 android:layout_marginTop="8dp" />
 
+            <TextView
+                android:id="@+id/txtDescripcionTarea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Descripción de la tarea"
+                android:textSize="16sp"
+                android:layout_marginTop="8dp"/>
+
+
             <!-- 🔵 LISTA DE TAREAS (CHECKBOX) -->
             <LinearLayout
                 android:id="@+id/layoutCheckboxTareas"
