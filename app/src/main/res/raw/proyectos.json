@@ -21,7 +21,7 @@
       },
       {
         "nombreTarea": "Desarrollo del Backend (API REST)",
-        "descripcion": "Implementar endpoints para autenticaci\uFFFDn, perfiles y gesti\uFFFDn de tareas.",
+        "descripcion": "Implementar endpoints para autenticaci\u00F3n, perfiles y gesti\u00F3n de tareas.",
         "fechaInicio": "2024-12-01T09:00:00Z",
         "fechaEntrega": "2025-02-15T18:00:00Z",
         "estado": "Pendiente",
@@ -38,7 +38,7 @@
       },
       {
         "nombreTarea": "Definir arquitectura de la app",
-        "descripcion": "Decidir la estructura de componentes, estado y navegaci\uFFFDn.",
+        "descripcion": "Decidir la estructura de componentes, estado y navegaci\u00F3n.",
         "fechaInicio": "2024-11-15T10:00:00Z",
         "fechaEntrega": "2024-11-17T17:00:00Z",
         "estado": "Completada",
@@ -63,7 +63,7 @@
       },
       {
         "nombreTarea": "nueva app",
-        "descripcion": "neuva app",
+        "descripcion": "nueva app",
         "fechaInicio": "2025-11-04T19:33:08.777",
         "fechaEntrega": "2025-11-08T19:33:08.773",
         "estado": "Pendiente",
@@ -87,12 +87,12 @@
         ]
       }
     ],
-    "fechaEntrega": "0001-01-01T00:00:00",
-    "fechaInicio": "0001-01-01T00:00:00",
+    "fechaEntrega": "2025-11-01T00:00:00",
+    "fechaInicio": "2025-11-30T00:00:00",
     "UsuariosAsignados": []
   },
   {
-    "NombreProyecto": "Migración a la Nube (AWS)",
+    "NombreProyecto": "Migraci\u00F3n a la Nube (AWS)",
     "Tareas": [
       {
         "nombreTarea": "Auditor\u00EDa de infraestructura",
@@ -113,7 +113,7 @@
       },
       {
         "nombreTarea": "Configuraci\u00F3n de VPC",
-        "descripcion": "Definir la red privada, subredes plicas y privadas, y gateways.",
+        "descripcion": "Definir la red privada, subredes p\u00FAblicas y privadas, y gateways.",
         "fechaInicio": "2024-12-11T09:00:00Z",
         "fechaEntrega": "2024-12-15T18:00:00Z",
         "estado": "Pendiente",
@@ -129,8 +129,8 @@
         ]
       }
     ],
-    "fechaEntrega": "0001-01-01T00:00:00",
-    "fechaInicio": "0001-01-01T00:00:00",
+    "fechaEntrega": "2025-12-25T09:00:00",
+    "fechaInicio": "2025-12-01T09:00:00",
     "UsuariosAsignados": []
   }
 ]
