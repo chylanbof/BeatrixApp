@@ -1,0 +1,101 @@
+[
+  {
+    "titulo": "Hola",
+    "fechaHora": "2026-11-04T19:10:39.9937186+01:00",
+    "usuariosReuniones": [
+      "Carlos Santana"
+    ],
+    "descripcion": "Adios",
+    "completado": true
+  },
+  {
+    "titulo": "DISTURBING THE PEEEEEEEEEEEACE",
+    "fechaHora": "2026-11-04T19:41:26.3524546+01:00",
+    "usuariosReuniones": [
+      "Marcos Gomez"
+    ],
+    "descripcion": "LOOK INTO MY EYEEEEEEEEEEEEEEEEEEEEEEEES",
+    "completado": false
+  },
+  {
+    "titulo": "CUZ IM HEARTLEESSSSSSSSS",
+    "fechaHora": "2026-11-04T20:03:07.4484675+01:00",
+    "usuariosReuniones": [
+      "Marcos Gomez"
+    ],
+    "descripcion": "Temazo\n",
+    "completado": false
+  },
+  {
+    "titulo": "ALL I WANT FOR CHRISTMAS ISYOU",
+    "fechaHora": "2026-11-04T20:08:07.8068841+01:00",
+    "usuariosReuniones": [
+      "Elena Ruiz"
+    ],
+    "descripcion": "THIS IS ALL IM ASKING FORRRRRRRRRR",
+    "completado": false
+  },
+  {
+    "titulo": "I WANNA RUIN OUR FRIENDSHIPP",
+    "fechaHora": "2026-11-04T20:10:58.7506853+01:00",
+    "usuariosReuniones": [
+      "Ana Fernandez"
+    ],
+    "descripcion": "WE SHOULD BE LOVERS INSTEADDDDDDDDDDDD",
+    "completado": false
+  },
+  {
+    "titulo": "WATCH US MULTIPLYYYYYYYYYYYYYY",
+    "fechaHora": "2025-11-25T19:00:19.055",
+    "usuariosReuniones": [],
+    "descripcion": "TRY TO STOP THE SHOOOOOOOOOOOOW",
+    "completado": false
+  },
+  {
+    "titulo": "A RIVER IN A DRYLAAAAAAAAND",
+    "fechaHora": "2025-11-26T20:15:27.99",
+    "usuariosReuniones": [
+      "Elena Ruiz"
+    ],
+    "descripcion": "THE LAST ACE IN A LOST HAND",
+    "completado": false
+  },
+  {
+    "titulo": "asdasdad",
+    "fechaHora": "2025-11-11T19:03:49.86",
+    "usuariosReuniones": [
+      "Elena Ruiz"
+    ],
+    "descripcion": "asdasd",
+    "completado": false
+  },
+  {
+    "titulo": "me aburrooooo",
+    "fechaHora": "2025-11-12T20:04:33.006",
+    "usuariosReuniones": [
+      "Marcos Gomez"
+    ],
+    "descripcion": "",
+    "completado": false
+  },
+  {
+    "titulo": "",
+    "fechaHora": "2025-11-21T19:27:35.636",
+    "usuariosReuniones": [
+      "Ana Fernandez"
+    ],
+    "descripcion": "ladidadadiadiadiadia",
+    "completado": false
+  },
+  {
+    "titulo": "nuew reunion swing",
+    "fechaHora": "2025-11-19T20:59:12.232",
+    "usuariosReuniones": [
+      "Ana Fernandez",
+      "Carlos Santana",
+      "Elena Ruiz"
+    ],
+    "descripcion": "nueva swing",
+    "completado": false
+  }
+]
