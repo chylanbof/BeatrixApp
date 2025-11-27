@@ -108,15 +108,17 @@ class Proyectos2Activity : AppCompatActivity() {
 
 
     private fun cargarProyecto(proyecto: Proyecto) {
-        txtNombreProyecto.text =
-            "${proyecto.nombreProyecto}\n${proyecto.fechaInicio} → ${proyecto.fechaEntrega}"
+        txtNombreProyecto.text = proyecto.nombreProyecto
+
+        // Fecha del PROYECTO arriba
+        txtFechasTarea.text = "${proyecto.fechaInicio.substring(0, 10)} - ${proyecto.fechaEntrega.substring(0, 10)}"
     }
+
 
     private fun mostrarTarea(tarea: Tarea) {
         // Función interna para actualizar la vista según una tarea
         fun actualizarVista(tareaSeleccionada: Tarea) {
             // Fechas y mini calendario
-            txtFechasTarea.text = "${tareaSeleccionada.fechaInicio} - ${tareaSeleccionada.fechaEntrega}"
             txtMiniCalendario.text = "${tareaSeleccionada.fechaInicio} → ${tareaSeleccionada.fechaEntrega}"
 
             // Estado de la tarea y color de fondo
@@ -152,6 +154,10 @@ class Proyectos2Activity : AppCompatActivity() {
         tarea.proyecto?.tareas?.forEach { subTarea ->
             val radioButton = RadioButton(this)
             radioButton.text = subTarea.nombreTarea
+            if (subTarea.estado.lowercase() == "completada") {
+                radioButton.paintFlags = radioButton.paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
+            }
+
             radioGroup.addView(radioButton)
         }
 
