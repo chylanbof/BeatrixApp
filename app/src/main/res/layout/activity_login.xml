@@ -7,16 +7,17 @@
     android:orientation="vertical"
     android:padding="24dp"
     android:gravity="center_horizontal"
-    android:background="@color/backgroundBeatrix">
+    android:background="@color/color_Beatrix">
 
     <ImageView
-        android:id="@+id/ivUsuario"
+        android:id="@+id/ivLogo"
+        android:background="@drawable/rounded_shape"
         android:layout_width="140dp"
         android:layout_height="140dp"
-        android:src="@drawable/usuario"
         android:layout_marginTop="100dp"
+        android:padding="2dp"
         android:scaleType="centerCrop"
-        android:padding="2dp" />
+        android:src="@drawable/logo_beatrix" />
 
     <EditText
         android:id="@+id/etUsername"
@@ -42,8 +43,10 @@
         android:id="@+id/btnEntrar"
         android:layout_width="120dp"
         android:layout_height="50dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="65dp"
         android:text="Entrar"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/white"
         android:textSize="18sp" />
 
 </LinearLayout>
