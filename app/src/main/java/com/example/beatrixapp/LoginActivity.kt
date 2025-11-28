@@ -29,12 +29,13 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
+        // Cargar JSON
         try {
             projectsJsonArray = loadProjectJson()
-            Log.d("LOGIN", "JSON 加载成功，总项目数: ${projectsJsonArray.length()}")
+            Log.d("LOGIN", "JSON cargado correctamente. Total proyectos: ${projectsJsonArray.length()}")
         } catch (e: Exception) {
-            Toast.makeText(this, "Error cargando JSON", Toast.LENGTH_LONG).show()
-            Log.e("LOGIN", "JSON 加载失败", e)
+            Toast.makeText(this, "Error al cargar el archivo JSON", Toast.LENGTH_LONG).show()
+            Log.e("LOGIN", "Error al cargar JSON", e)
             return
         }
 
@@ -47,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
             val password = etPassword.text.toString().trim()
 
             if (username.isEmpty()) {
-                Toast.makeText(this, "Por favor ingrese usuario", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Por favor, introduzca el nombre de usuario", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (password.isEmpty()) {
@@ -56,11 +57,11 @@ class LoginActivity : AppCompatActivity() {
             }
 
             if (checkLogin(username, password)) {
-                Toast.makeText(this, "Login correcto", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             } else {
-                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Nombre de usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -71,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
         val content = reader.readText()
         reader.close()
 
-        Log.d("LOGIN", "JSON 内容前 200 字符: ${content.take(200)}")
+        Log.d("LOGIN", "Contenido JSON (primeros 200 caracteres): ${content.take(200)}")
 
         return JSONArray(content)
     }
@@ -92,7 +93,7 @@ class LoginActivity : AppCompatActivity() {
                     val nombreUsuario = user.optString("nombreUsuario", "")
                     val contrasena = user.optString("contraseña", "")
 
-                    Log.d("LOGIN", "检查用户: $nombreUsuario / $contrasena")
+                    Log.d("LOGIN", "Comprobando usuario: $nombreUsuario / $contrasena")
 
                     if (username == nombreUsuario && password == contrasena) {
                         return true
