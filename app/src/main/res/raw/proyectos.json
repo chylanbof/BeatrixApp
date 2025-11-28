@@ -46,7 +46,7 @@
           {
             "nombreApellidos": null,
             "nombreUsuario": "eruiz",
-            "contrase\u00F1a": null,
+            "contrase\u00F1a": "111",
             "email": "elena.ruiz@ejemplo.com",
             "telefono": null,
             "rol": null
@@ -54,7 +54,7 @@
           {
             "nombreApellidos": null,
             "nombreUsuario": "mgomez",
-            "contrase\u00F1a": null,
+            "contrase\u00F1a": "789",
             "email": "marcos.g@ejemplo.com",
             "telefono": null,
             "rol": null
