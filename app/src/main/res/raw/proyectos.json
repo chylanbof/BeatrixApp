@@ -1,7 +1,7 @@
 [
   {
-    "NombreProyecto": "Lanzamiento App M\u00F3vil",
-    "Tareas": [
+    "nombreProyecto": "Lanzamiento App M\u00F3vil",
+    "tareas": [
       {
         "nombreTarea": "Dise\u00F1o UI/UX (Figma)",
         "descripcion": "Crear los mockups y prototipos de alta fidelidad en Figma.",
@@ -12,7 +12,7 @@
           {
             "nombreApellidos": null,
             "nombreUsuario": "afernandez",
-            "contrase\u00F1a": null,
+            "contrasena": null,
             "email": "ana.fernandez@ejemplo.com",
             "telefono": null,
             "rol": null
@@ -29,7 +29,7 @@
           {
             "nombreApellidos": null,
             "nombreUsuario": "mgomez",
-            "contrase\u00F1a": null,
+            "contrasena": null,
             "email": "marcos.g@ejemplo.com",
             "telefono": null,
             "rol": null
@@ -46,7 +46,7 @@
           {
             "nombreApellidos": null,
             "nombreUsuario": "eruiz",
-            "contrase\u00F1a": "111",
+            "contrasena": "111",
             "email": "elena.ruiz@ejemplo.com",
             "telefono": null,
             "rol": null
@@ -54,7 +54,7 @@
           {
             "nombreApellidos": null,
             "nombreUsuario": "mgomez",
-            "contrase\u00F1a": "789",
+            "contrasena": "789",
             "email": "marcos.g@ejemplo.com",
             "telefono": null,
             "rol": null
@@ -71,7 +71,7 @@
           {
             "nombreApellidos": null,
             "nombreUsuario": "afernandez",
-            "contrase\u00F1a": null,
+            "contrasena": null,
             "email": null,
             "telefono": null,
             "rol": null
@@ -79,7 +79,7 @@
           {
             "nombreApellidos": null,
             "nombreUsuario": "mgomez",
-            "contrase\u00F1a": null,
+            "contrasena": null,
             "email": null,
             "telefono": null,
             "rol": null
@@ -89,11 +89,11 @@
     ],
     "fechaEntrega": "2025-11-01T00:00:00",
     "fechaInicio": "2025-11-30T00:00:00",
-    "UsuariosAsignados": []
+    "usuariosAsignados": []
   },
   {
-    "NombreProyecto": "Migraci\u00F3n a la Nube (AWS)",
-    "Tareas": [
+    "nombreProyecto": "Migraci\u00F3n a la Nube (AWS)",
+    "tareas": [
       {
         "nombreTarea": "Auditor\u00EDa de infraestructura",
         "descripcion": "Revisar todos los servicios y bases de datos actuales.",
@@ -104,7 +104,7 @@
           {
             "nombreApellidos": null,
             "nombreUsuario": "csantana",
-            "contrase\u00F1a": null,
+            "contrasena": null,
             "email": "c.santana@ejemplo.com",
             "telefono": null,
             "rol": null
@@ -121,7 +121,7 @@
           {
             "nombreApellidos": null,
             "nombreUsuario": "csantana",
-            "contrase\u00F1a": null,
+            "contrasena": null,
             "email": "c.santana@ejemplo.com",
             "telefono": null,
             "rol": null
@@ -131,6 +131,6 @@
     ],
     "fechaEntrega": "2025-12-25T09:00:00",
     "fechaInicio": "2025-12-01T09:00:00",
-    "UsuariosAsignados": []
+    "usuariosAsignados": []
   }
 ]

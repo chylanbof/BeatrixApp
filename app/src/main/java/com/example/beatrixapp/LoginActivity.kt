@@ -70,9 +70,8 @@ class LoginActivity : AppCompatActivity() {
         val inputStream = resources.openRawResource(R.raw.proyectos)
         val reader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
         val content = reader.readText()
-        reader.close()
 
-        Log.d("LOGIN", "Contenido JSON (primeros 200 caracteres): ${content.take(200)}")
+        reader.close()
 
         return JSONArray(content)
     }
@@ -92,8 +91,6 @@ class LoginActivity : AppCompatActivity() {
 
                     val nombreUsuario = user.optString("nombreUsuario", "")
                     val contrasena = user.optString("contraseña", "")
-
-                    Log.d("LOGIN", "Comprobando usuario: $nombreUsuario / $contrasena")
 
                     if (username == nombreUsuario && password == contrasena) {
                         return true
