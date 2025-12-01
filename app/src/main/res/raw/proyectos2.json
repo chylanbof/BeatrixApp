@@ -1,0 +1,218 @@
+[
+  {
+    "NombreProyecto": "new project",
+    "DescripcionProyecto": "dasdsd",
+    "Tareas": [],
+    "fechaEntrega": "2025-11-20T19:17:24.4021956+01:00",
+    "fechaInicio": "2025-11-20T19:17:24.4081868+01:00",
+    "UsuariosAsignados": [
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "afernandez",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      }
+    ]
+  },
+  {
+    "NombreProyecto": "proyecto de prueba2",
+    "DescripcionProyecto": "prueba5",
+    "Tareas": [],
+    "fechaEntrega": "2025-11-20T19:21:16.4866751+01:00",
+    "fechaInicio": "2025-11-20T19:21:16.4907535+01:00",
+    "UsuariosAsignados": [
+      {
+        "nombreApellidos": "Carlos Santana",
+        "nombreUsuario": "csantana",
+        "contrasena": "Carlos.Santana#1",
+        "email": "c.santana@ejemplo.com",
+        "telefono": "\u002B13055551234",
+        "rol": "Visitante"
+      }
+    ]
+  },
+  {
+    "NombreProyecto": "Nuevo proyecto",
+    "DescripcionProyecto": "nuevo proyecto de prueba",
+    "Tareas": [
+      {
+        "nombreTarea": "Nueva Tarea ",
+        "descripcion": "Nueva Tarea de prueba para finalizar el proyecto",
+        "fechaInicio": "2025-11-30T14:38:07.195",
+        "fechaEntrega": "2025-12-05T14:38:07.189",
+        "estado": "En Progreso",
+        "usuariosAsignados": [
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "marcos",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
+          },
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "admin",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
+          }
+        ],
+        "SubTareas": [
+          {
+            "NombreSubTarea": "Sub Tarea 1",
+            "DescripcionSubTarea": "Nueva subtarea del nuevo proyecto ",
+            "FechaInicioSubtarea": "2025-11-30T14:39:01.359",
+            "FechaEntregaSubtarea": "2025-12-11T14:39:01.354",
+            "EstadoSubTarea": "En espera",
+            "UsuariosAsignadosSubtarea": [
+              {
+                "nombreApellidos": null,
+                "nombreUsuario": "qq",
+                "contrasena": null,
+                "email": null,
+                "telefono": null,
+                "rol": null
+              },
+              {
+                "nombreApellidos": null,
+                "nombreUsuario": "admin",
+                "contrasena": null,
+                "email": null,
+                "telefono": null,
+                "rol": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "nombreTarea": "Segunda nueva Tarea",
+        "descripcion": "segunda nueva tarea para la prueva final del proyecto",
+        "fechaInicio": "2025-11-30T14:47:44.5267296+01:00",
+        "fechaEntrega": "2025-12-03T14:47:44.52",
+        "estado": "En Pausa",
+        "usuariosAsignados": [
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "csantana",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
+          },
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "mgomez",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
+          }
+        ],
+        "SubTareas": [
+          {
+            "NombreSubTarea": "Subtareas",
+            "DescripcionSubTarea": "Nuevas subtareas",
+            "FechaInicioSubtarea": "2025-11-30T14:48:40.18134+01:00",
+            "FechaEntregaSubtarea": "2025-12-12T14:48:40.175",
+            "EstadoSubTarea": "Revisi\u00F3n",
+            "UsuariosAsignadosSubtarea": [
+              {
+                "nombreApellidos": null,
+                "nombreUsuario": "qq",
+                "contrasena": null,
+                "email": null,
+                "telefono": null,
+                "rol": null
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "fechaEntrega": "2025-12-04T14:29:27.999",
+    "fechaInicio": "2025-11-30T14:29:28.0042144+01:00",
+    "UsuariosAsignados": [
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "mgomez",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      },
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "marcos",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      },
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "qq",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      }
+    ]
+  },
+  {
+    "NombreProyecto": "nuevo proyecto 4",
+    "DescripcionProyecto": "nuevo proyecto 4 para pruebas",
+    "Tareas": [
+      {
+        "nombreTarea": "nueva tarea 4",
+        "descripcion": "nueva tareas del proyecto 4",
+        "fechaInicio": "2025-12-01T18:42:44.2748117+01:00",
+        "fechaEntrega": "2025-12-26T18:42:44.272",
+        "estado": "Pendiente",
+        "usuariosAsignados": [
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "qq",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
+          },
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "afernandez",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
+          }
+        ],
+        "SubTareas": []
+      }
+    ],
+    "fechaEntrega": "2025-12-18T18:42:18.646",
+    "fechaInicio": "2025-12-01T18:42:18.6505555+01:00",
+    "UsuariosAsignados": [
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "afernandez",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      },
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "qq",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      }
+    ]
+  }
+]

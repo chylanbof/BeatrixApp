@@ -4,5 +4,6 @@ data class Proyecto (
     val nombreProyecto: String,
     val tareas: List<Tarea>,
     val fechaInicio: String,
-    val fechaEntrega: String //hola
+    val fechaEntrega: String,
+    val descripcionProyecto: String = ""
                     )

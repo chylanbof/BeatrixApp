@@ -10,6 +10,7 @@ import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.beatrixapp.model.Proyecto
+import com.example.beatrixapp.model.SubTarea
 import com.example.beatrixapp.model.Tarea
 import com.example.beatrixapp.model.Usuario
 import org.json.JSONArray
@@ -28,6 +29,13 @@ class Proyectos2Activity : AppCompatActivity() {
 
     private lateinit var txtDescripcionTarea: TextView
 
+    private lateinit var btnSiguienteProyecto: View
+
+    private lateinit var proyectos: List<Proyecto>
+
+    private lateinit var layoutSubtareas: LinearLayout
+    private var indexProyectoActual = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,19 +52,37 @@ class Proyectos2Activity : AppCompatActivity() {
         lineaDescripcion2 = findViewById(R.id.lineaDescripcion2)
         txtDescripcionTarea = findViewById(R.id.txtDescripcionTarea)
 
+        btnSiguienteProyecto = findViewById(R.id.btnSiguienteProyecto)
+
+        layoutSubtareas = findViewById(R.id.layoutSubtareas)
+
 
         // JSON de ejemplo (puede venir de archivo o API)
-        val inputStream = resources.openRawResource(R.raw.proyectos)
+        val inputStream = resources.openRawResource(R.raw.proyectos2)
         val jsonString = inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
-        val proyectos = parseProyectos(JSONArray(jsonString))
+        proyectos = parseProyectos(JSONArray(jsonString))
+
+        mostrarProyectoActual()
 
         // Mostrar primer proyecto y primera tarea
-        if (proyectos.isNotEmpty()) {
-            val proyecto = proyectos[0]
-            cargarProyecto(proyecto)
-            if (proyecto.tareas.isNotEmpty()) {
-                mostrarTarea(proyecto.tareas[0])
+        btnSiguienteProyecto.setOnClickListener {
+            indexProyectoActual++
+
+            if (indexProyectoActual >= proyectos.size) {
+                indexProyectoActual = 0  // 🔄 vuelve al primero
             }
+
+            mostrarProyectoActual()
+        }
+    }
+
+    private fun mostrarProyectoActual() {
+        val proyecto = proyectos[indexProyectoActual]
+
+        cargarProyecto(proyecto)
+
+        if (proyecto.tareas.isNotEmpty()) {
+            mostrarTarea(proyecto.tareas[0]) // siempre muestra la primera tarea
         }
     }
 
@@ -74,6 +100,7 @@ class Proyectos2Activity : AppCompatActivity() {
             val tareasArray = obj.getJSONArray("Tareas")
             val tareas = mutableListOf<Tarea>()
 
+
             // Parseo de tareas
             for (j in 0 until tareasArray.length()) {
                 val t = tareasArray.getJSONObject(j)
@@ -85,14 +112,46 @@ class Proyectos2Activity : AppCompatActivity() {
 
                 val usuariosArray = t.getJSONArray("usuariosAsignados")
                 val usuarios = mutableListOf<Usuario>()
+
+                val subtareasList = mutableListOf<SubTarea>()
+                val subtareasArray = t.optJSONArray("SubTareas")
+
+                if (subtareasArray != null) {
+                    for (s in 0 until subtareasArray.length()) {
+                        val sub = subtareasArray.getJSONObject(s)
+
+                        val nombreSub = sub.getString("NombreSubTarea")
+                        val descSub = sub.getString("DescripcionSubTarea")
+                        val fechaIniSub = sub.getString("FechaInicioSubtarea").substring(0, 10)
+                        val fechaFinSub = sub.getString("FechaEntregaSubtarea").substring(0, 10)
+                        val estadoSub = sub.getString("EstadoSubTarea")
+
+                        subtareasList.add(
+                            SubTarea(
+                                nombreSub, descSub, fechaIniSub, fechaFinSub, estadoSub
+                                    )
+                                         )
+                    }
+                }
+
                 for (k in 0 until usuariosArray.length()) {
                     val u = usuariosArray.getJSONObject(k)
                     val nombreUsuario = u.getString("nombreUsuario")
                     val email = u.optString("email", "")
                     usuarios.add(Usuario(nombreUsuario, email, R.drawable.avatarejemplo))
                 }
+                tareas.add(
+                    Tarea(
+                        nombreTarea,
+                        descripcion,
+                        fechaInicio,
+                        fechaEntrega,
+                        estado,
+                        usuarios,
+                        subtareasList
+                         )
+                          )
 
-                tareas.add(Tarea(nombreTarea, descripcion, fechaInicio, fechaEntrega, estado, usuarios))
             }
 
             // 📌 Crear Proyecto con fechas
@@ -143,10 +202,48 @@ class Proyectos2Activity : AppCompatActivity() {
             val hayDescripcion = tareaSeleccionada.descripcion.isNotEmpty()
             lineaDescripcion1.visibility = if (hayDescripcion) View.VISIBLE else View.GONE
             lineaDescripcion2.visibility = if (hayDescripcion) View.VISIBLE else View.GONE
+
+            // -------------------------
+            // 🔹 MOSTRAR SUBTAREAS
+            // -------------------------
+            layoutSubtareas.removeAllViews()
+
+            if (tareaSeleccionada.subtareas != null && tareaSeleccionada.subtareas.isNotEmpty()) {
+                tareaSeleccionada.subtareas.forEach { sub ->
+                    val subLayout = LinearLayout(this@Proyectos2Activity)
+                    subLayout.orientation = LinearLayout.VERTICAL
+                    subLayout.setPadding(8, 8, 8, 8)
+
+                    val txtSubtarea = TextView(this@Proyectos2Activity)
+                    txtSubtarea.text = "• ${sub.nombreSubTarea}"
+                    txtSubtarea.textSize = 16f
+                    txtSubtarea.setTextColor(Color.BLACK)
+
+                    val txtEstado = TextView(this@Proyectos2Activity)
+                    txtEstado.text = "Estado: ${sub.estadoSubTarea}"
+                    txtEstado.textSize = 14f
+                    txtEstado.setTextColor(Color.DKGRAY)
+
+                    val txtFechas = TextView(this@Proyectos2Activity)
+                    txtFechas.text = "${sub.fechaInicioSubtarea} → ${sub.fechaEntregaSubtarea}"
+                    txtFechas.textSize = 14f
+                    txtFechas.setTextColor(Color.GRAY)
+
+                    subLayout.addView(txtSubtarea)
+                    subLayout.addView(txtEstado)
+                    subLayout.addView(txtFechas)
+
+                    layoutSubtareas.addView(subLayout)
+                }
+            } else {
+                val txtNoSubtareas = TextView(this@Proyectos2Activity)
+                txtNoSubtareas.text = "No hay subtareas"
+                txtNoSubtareas.setTextColor(Color.GRAY)
+                layoutSubtareas.addView(txtNoSubtareas)
+            }
         }
 
-
-        // Limpiar layout y crear RadioGroup
+        // Limpiar layout y crear RadioGroup para seleccionar tareas
         layoutCheckboxTareas.removeAllViews()
         val radioGroup = RadioGroup(this)
         radioGroup.orientation = RadioGroup.VERTICAL
@@ -157,7 +254,6 @@ class Proyectos2Activity : AppCompatActivity() {
             if (subTarea.estado.lowercase() == "completada") {
                 radioButton.paintFlags = radioButton.paintFlags or android.graphics.Paint.STRIKE_THRU_TEXT_FLAG
             }
-
             radioGroup.addView(radioButton)
         }
 
@@ -174,5 +270,6 @@ class Proyectos2Activity : AppCompatActivity() {
         // Inicializamos con la tarea que se estaba mostrando
         actualizarVista(tarea)
     }
+
 }
 
