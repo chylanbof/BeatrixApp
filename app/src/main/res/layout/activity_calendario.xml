@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:padding="16dp">
+
+    <!-- Calendario en CardView -->
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_calendario"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_alignParentTop="true"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp">
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="8dp"/>
+    </androidx.cardview.widget.CardView>
+
+    <!-- ScrollView para proyectos y reuniones -->
+    <ScrollView
+        android:id="@+id/scroll_contenido"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/card_calendario"
+        android:layout_above="@id/boton_bottom"
+        android:layout_marginTop="16dp">
+
+        <LinearLayout
+            android:id="@+id/container_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="16dp">
+            <!-- Aquí se insertarán los layouts de proyecto y reunión -->
+        </LinearLayout>
+
+    </ScrollView>
+
+
+    <!-- Barra inferior reutilizable -->
+    <include
+        android:id="@+id/boton_bottom"
+        layout="@layout/boton_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>
