@@ -3,7 +3,7 @@ package com.example.beatrixapp.model
 data class SubTarea(
     val nombreSubTarea: String,
     val descripcionSubTarea: String,
-    val fechaInicioSubtarea: String,
-    val fechaEntregaSubtarea: String,
+    var fechaInicioSubtarea: String,
+    var fechaEntregaSubtarea: String,
     val estadoSubTarea: String
                    )
