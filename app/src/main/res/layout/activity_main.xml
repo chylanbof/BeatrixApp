@@ -43,41 +43,11 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@+id/ProyectoActual"
+                android:id="@+id/contenedorProyectos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginBottom="20dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Proyectos actuales"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <!-- 这里不要写死任务内容，动态添加 item_tarea.xml -->
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ProyectoCercano"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Proyectos cercanos"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-
-                <!-- 这里也不要写死任务内容，动态添加 item_tarea.xml -->
-
-            </LinearLayout>
+                android:gravity="center_horizontal" />
 
         </LinearLayout>
     </ScrollView>

@@ -58,10 +58,10 @@ class LoginActivity : AppCompatActivity() {
 
             if (checkLogin(username, password)) {
                 Toast.makeText(this, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity::class.java))
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("USERNAME", username)
+                startActivity(intent)
                 finish()
-            } else {
-                Toast.makeText(this, "Nombre de usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -70,9 +70,7 @@ class LoginActivity : AppCompatActivity() {
         val inputStream = resources.openRawResource(R.raw.proyectos)
         val reader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
         val content = reader.readText()
-
         reader.close()
-
         return JSONArray(content)
     }
 
@@ -80,20 +78,39 @@ class LoginActivity : AppCompatActivity() {
 
         for (p in 0 until projectsJsonArray.length()) {
             val project = projectsJsonArray.getJSONObject(p)
-            val tareas = project.optJSONArray("Tareas") ?: continue
+            val tareas = project.optJSONArray("tareas") ?: continue
 
             for (t in 0 until tareas.length()) {
                 val tarea = tareas.getJSONObject(t)
+
+                // usuariosAsignados en camelCase
                 val usuarios = tarea.optJSONArray("usuariosAsignados") ?: continue
 
                 for (u in 0 until usuarios.length()) {
                     val user: JSONObject = usuarios.getJSONObject(u)
 
                     val nombreUsuario = user.optString("nombreUsuario", "")
-                    val contrasena = user.optString("contraseña", "")
+                    val contrasena = user.optString("contrasena", "")
 
                     if (username == nombreUsuario && password == contrasena) {
                         return true
+                    }
+                }
+
+                // Comprobar también subTareas
+                val subTareas = tarea.optJSONArray("subTareas")
+                if (subTareas != null) {
+                    for (s in 0 until subTareas.length()) {
+                        val subTarea = subTareas.getJSONObject(s)
+                        val usuariosSub = subTarea.optJSONArray("usuariosAsignadosSubtarea") ?: continue
+                        for (su in 0 until usuariosSub.length()) {
+                            val userSub = usuariosSub.getJSONObject(su)
+                            val nombreUsuario = userSub.optString("nombreUsuario", "")
+                            val contrasena = userSub.optString("contrasena", "")
+                            if (username == nombreUsuario && password == contrasena) {
+                                return true
+                            }
+                        }
                     }
                 }
             }

@@ -5,7 +5,7 @@ data class Tarea(
     val descripcion: String,
     val fechaInicio: String,
     val fechaEntrega: String,
-    val estado: String,
+    var estado: String = "Pendiente",
     val usuariosAsignados: List<Usuario>,
-    var proyecto: Proyecto? = null
-                )
+    val subTareas: List<Tarea> = emptyList()
+)
