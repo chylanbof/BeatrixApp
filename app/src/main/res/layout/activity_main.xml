@@ -42,7 +42,6 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:id="@id/ProyectoActual"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
@@ -205,5 +204,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="" />
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
