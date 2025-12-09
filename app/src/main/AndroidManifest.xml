@@ -13,7 +13,7 @@
         android:theme="@style/Theme.BeatrixApp">
 
         <activity
-            android:name=".CalendarioActivity"
+            android:name=".ProyectosActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
