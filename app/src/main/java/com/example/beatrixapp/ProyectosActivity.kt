@@ -2,94 +2,111 @@ package com.example.beatrixapp
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 class ProyectosActivity : AppCompatActivity() {
 
-    // Clase para guardar la info del PROYECTO
+    // Modelo de datos (Data Class)
     data class ProyectoUI(val nombre: String, val infoExtra: String)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_proyectos)
 
+        // 1. Obtenemos la lista completa del JSON
         val listaProyectos = obtenerProyectosDesdeJSON()
-        actualizarTarjetas(listaProyectos)
+
+        // 2. Configuramos el RecyclerView
+        configurarRecyclerView(listaProyectos)
+    }
+
+    private fun configurarRecyclerView(proyectos: List<ProyectoUI>) {
+        val recycler = findViewById<RecyclerView>(R.id.recyclerProyectos)
+
+        // Esto le dice que se comporte como una lista vertical
+        recycler.layoutManager = LinearLayoutManager(this)
+
+        // Creamos una instancia de TU adaptador interno y se la asignamos
+        val adapter = ProyectosAdapter(proyectos)
+        recycler.adapter = adapter
     }
 
     private fun obtenerProyectosDesdeJSON(): List<ProyectoUI> {
         val proyectosEncontrados = mutableListOf<ProyectoUI>()
 
         try {
-            // 1. Abrimos el archivo raw/proyectos.json
             val inputStream = resources.openRawResource(R.raw.proyectos)
             val reader = BufferedReader(InputStreamReader(inputStream))
             val jsonString = reader.use { it.readText() }
 
             val jsonArray = JSONArray(jsonString)
 
-            // 2. Recorremos SOLO los proyectos (Nivel 1)
             for (i in 0 until jsonArray.length()) {
                 val proyectoObj = jsonArray.getJSONObject(i)
 
-                // Extraemos el nombre del proyecto
                 val nombreProyecto = proyectoObj.getString("NombreProyecto")
-
-                // Extraemos el array de tareas solo para contarlas
                 val tareasArray = proyectoObj.getJSONArray("Tareas")
                 val cantidadTareas = tareasArray.length()
 
-                // Como tu JSON tiene fechas "0001-01-01" en el proyecto,
-                // mejor mostramos cuántas tareas tiene como subtítulo.
                 val info = "$cantidadTareas Tareas activas"
-
                 proyectosEncontrados.add(ProyectoUI(nombreProyecto, info))
             }
 
         } catch (e: Exception) {
-            Log.e("ProyectosActivity", "Error: ${e.message}")
+            Log.e("ProyectosActivity", "Error al leer JSON: ${e.message}")
         }
 
         return proyectosEncontrados
     }
 
-    private fun actualizarTarjetas(proyectos: List<ProyectoUI>) {
-        // --- TARJETA 1 ---
-        if (proyectos.size > 0) {
-            findViewById<TextView>(R.id.text_title1).text = proyectos[0].nombre
-            findViewById<TextView>(R.id.text_date1).text = proyectos[0].infoExtra
-        } else {
-            findViewById<CardView>(R.id.card1).visibility = View.GONE
+    // ==========================================
+    //      AQUÍ EMPIEZA EL ADAPTADOR INTERNO
+    // ==========================================
+
+    // Usamos 'inner class' para que pueda acceder al contexto de la Activity si fuera necesario
+    inner class ProyectosAdapter(private val lista: List<ProyectoUI>) :
+        RecyclerView.Adapter<ProyectosAdapter.ProyectoViewHolder>() {
+
+        // --- VIEWHOLDER (Maneja las vistas de CADA ítem) ---
+        inner class ProyectoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            val tvNombre: TextView = itemView.findViewById(R.id.tvNombreProyecto)
+            val tvInfo: TextView = itemView.findViewById(R.id.tvFechaInfo)
         }
 
-        // --- TARJETA 2 ---
-        if (proyectos.size > 1) {
-            findViewById<TextView>(R.id.text_title2).text = proyectos[1].nombre
-            findViewById<TextView>(R.id.text_date2).text = proyectos[1].infoExtra
-        } else {
-            findViewById<CardView>(R.id.card2).visibility = View.GONE
+        // 1. Crea el diseño visual (infla el XML item_proyecto)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProyectoViewHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_proyecto, parent, false)
+            return ProyectoViewHolder(view)
         }
 
-        // --- TARJETA 3 ---
-        if (proyectos.size > 2) {
-            findViewById<TextView>(R.id.text_title3).text = proyectos[2].nombre
-            findViewById<TextView>(R.id.text_date3).text = proyectos[2].infoExtra
-        } else {
-            findViewById<CardView>(R.id.card3).visibility = View.GONE
+        // 2. Pone los datos en el diseño
+        override fun onBindViewHolder(holder: ProyectoViewHolder, position: Int) {
+            val proyecto = lista[position]
+
+            holder.tvNombre.text = proyecto.nombre
+            holder.tvInfo.text = proyecto.infoExtra
+
+            // Aquí podrías añadir un onClickListener en el futuro
+            /*
+            holder.itemView.setOnClickListener {
+                // Código al pulsar la tarjeta
+            }
+            */
         }
 
-        // --- TARJETA 4 ---
-        if (proyectos.size > 3) {
-            findViewById<TextView>(R.id.text_title4).text = proyectos[3].nombre
-            findViewById<TextView>(R.id.text_date4).text = proyectos[3].infoExtra
-        } else {
-            findViewById<CardView>(R.id.card4).visibility = View.GONE
+        // 3. Dice cuántos elementos hay
+        override fun getItemCount(): Int {
+            return lista.size
         }
     }
 }
