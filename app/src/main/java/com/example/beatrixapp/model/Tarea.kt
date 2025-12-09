@@ -6,5 +6,6 @@ data class Tarea(
     val fechaInicio: String,
     val fechaEntrega: String,
     val estado: String,
-    val usuariosAsignados: List<Usuario>
+    val usuariosAsignados: List<Usuario>,
+    var proyecto: Proyecto? = null
                 )

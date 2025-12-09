@@ -3,5 +3,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="color_Beatrix">#29BFCD</color>
-
+    <color name="backgroundBeatrix">#FFFFFF</color>
 </resources>
