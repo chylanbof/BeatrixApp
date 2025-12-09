@@ -25,9 +25,18 @@
         android:id="@+id/tvDescripcionProyecto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Descripción breve del proyecto"
+        android:text="Descripción del proyecto"
         android:textSize="14sp"
         android:textColor="#666666"
         android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/tvTareasProyecto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tareas del proyecto"
+        android:textSize="14sp"
+        android:textColor="#888888"
+        android:layout_marginTop="6dp"/>
 
 </LinearLayout>

@@ -1,39 +1,5 @@
 [
   {
-    "NombreProyecto": "new project",
-    "DescripcionProyecto": "dasdsd",
-    "Tareas": [],
-    "fechaEntrega": "2025-11-20T19:17:24.4021956+01:00",
-    "fechaInicio": "2025-11-20T19:17:24.4081868+01:00",
-    "UsuariosAsignados": [
-      {
-        "nombreApellidos": null,
-        "nombreUsuario": "afernandez",
-        "contrasena": null,
-        "email": null,
-        "telefono": null,
-        "rol": null
-      }
-    ]
-  },
-  {
-    "NombreProyecto": "proyecto de prueba2",
-    "DescripcionProyecto": "prueba5",
-    "Tareas": [],
-    "fechaEntrega": "2025-11-20T19:21:16.4866751+01:00",
-    "fechaInicio": "2025-11-20T19:21:16.4907535+01:00",
-    "UsuariosAsignados": [
-      {
-        "nombreApellidos": "Carlos Santana",
-        "nombreUsuario": "csantana",
-        "contrasena": "Carlos.Santana#1",
-        "email": "c.santana@ejemplo.com",
-        "telefono": "\u002B13055551234",
-        "rol": "Visitante"
-      }
-    ]
-  },
-  {
     "NombreProyecto": "Nuevo proyecto",
     "DescripcionProyecto": "nuevo proyecto de prueba",
     "Tareas": [
@@ -156,6 +122,243 @@
       {
         "nombreApellidos": null,
         "nombreUsuario": "qq",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      }
+    ]
+  },
+  {
+    "NombreProyecto": "nuevo proyecto 4",
+    "DescripcionProyecto": "nuevo proyecto 4 para pruebas",
+    "Tareas": [
+      {
+        "nombreTarea": "nueva tarea 4",
+        "descripcion": "nueva tareas del proyecto 4",
+        "fechaInicio": "2025-12-01T18:42:44.2748117+01:00",
+        "fechaEntrega": "2025-12-26T18:42:44.272",
+        "estado": "Pendiente",
+        "usuariosAsignados": [
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "qq",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
+          },
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "afernandez",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
+          }
+        ],
+        "SubTareas": []
+      },
+      {
+        "nombreTarea": "Tareas nueva 2",
+        "descripcion": "Nuevas tareas para los proyectos ",
+        "fechaInicio": "2025-12-11T20:14:08.652",
+        "fechaEntrega": "2025-12-19T20:14:08.65",
+        "estado": "En Pausa",
+        "usuariosAsignados": [
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "afernandez",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
+          },
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "admin",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
+          }
+        ],
+        "SubTareas": [
+          {
+            "NombreSubTarea": "Subdivion de tareas",
+            "DescripcionSubTarea": "nueva subdivision de tareas",
+            "FechaInicioSubtarea": "2025-12-01T20:14:44.4996839+01:00",
+            "FechaEntregaSubtarea": "2025-12-01T20:14:44.497137+01:00",
+            "EstadoSubTarea": "En proceso",
+            "UsuariosAsignadosSubtarea": [
+              {
+                "nombreApellidos": null,
+                "nombreUsuario": "afernandez",
+                "contrasena": null,
+                "email": null,
+                "telefono": null,
+                "rol": null
+              },
+              {
+                "nombreApellidos": null,
+                "nombreUsuario": "mgomez",
+                "contrasena": null,
+                "email": null,
+                "telefono": null,
+                "rol": null
+              },
+              {
+                "nombreApellidos": null,
+                "nombreUsuario": "eruiz",
+                "contrasena": null,
+                "email": null,
+                "telefono": null,
+                "rol": null
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "fechaEntrega": "2025-12-18T18:42:18.646",
+    "fechaInicio": "2025-12-01T18:42:18.6505555+01:00",
+    "UsuariosAsignados": [
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "afernandez",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      },
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "qq",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      }
+    ]
+  },
+  {
+    "NombreProyecto": "Proyecto Tareas Mobil",
+    "DescripcionProyecto": "Proyecto de crear nuevas tareas moviles",
+    "Tareas": [],
+    "fechaEntrega": "2025-12-12T20:11:20.241",
+    "fechaInicio": "2025-12-01T20:11:20.244",
+    "UsuariosAsignados": [
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "afernandez",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      },
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "admin",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      }
+    ]
+  },
+  {
+    "NombreProyecto": "Nuevas plantillas de juegos",
+    "DescripcionProyecto": "Nuevas plantillas para juegos nuevos de ordenador",
+    "Tareas": [],
+    "fechaEntrega": "2025-12-26T20:11:48.86",
+    "fechaInicio": "2025-12-15T20:11:48.862",
+    "UsuariosAsignados": [
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "csantana",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      },
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "marcos",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      }
+    ]
+  },
+  {
+    "NombreProyecto": "API nueva ",
+    "DescripcionProyecto": "Nueva Api para los juegos ",
+    "Tareas": [],
+    "fechaEntrega": "2025-12-24T20:12:23.39",
+    "fechaInicio": "2025-12-24T20:12:23.393",
+    "UsuariosAsignados": [
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "csantana",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      },
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "mgomez",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      }
+    ]
+  },
+  {
+    "NombreProyecto": "Pantallas de espera",
+    "DescripcionProyecto": "Pantallas para empresas",
+    "Tareas": [],
+    "fechaEntrega": "2026-01-02T20:12:52.703",
+    "fechaInicio": "2025-12-24T20:12:52.707",
+    "UsuariosAsignados": [
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "csantana",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      },
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "admin",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      }
+    ]
+  },
+  {
+    "NombreProyecto": "Nuevo formato de letra",
+    "DescripcionProyecto": "Nuevo formato de letra para proximas apis",
+    "Tareas": [],
+    "fechaEntrega": "2026-01-14T20:13:28.155",
+    "fechaInicio": "2025-12-25T20:13:28.159",
+    "UsuariosAsignados": [
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "marcos",
+        "contrasena": null,
+        "email": null,
+        "telefono": null,
+        "rol": null
+      },
+      {
+        "nombreApellidos": null,
+        "nombreUsuario": "admin",
         "contrasena": null,
         "email": null,
         "telefono": null,
