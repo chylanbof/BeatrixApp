@@ -85,7 +85,7 @@ class ProyectosActivity : AppCompatActivity() {
         // 1. Crea el diseño visual (infla el XML item_proyecto)
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProyectoViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.item_proyecto, parent, false)
+                .inflate(R.layout.card_proyectos, parent, false)
             return ProyectoViewHolder(view)
         }
 
