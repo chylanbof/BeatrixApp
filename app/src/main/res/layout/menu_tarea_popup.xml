@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/popup_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/opCambiarFecha"
+        android:padding="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cambiar fecha"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/opCambiarDescripcion"
+        android:padding="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cambiar descripcion"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/opCambiarEstado"
+        android:padding="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cambiar estado"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:id="@+id/opGenerarResumen"
+        android:padding="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Generar resumen"
+        android:textSize="16sp"/>
+</LinearLayout>
