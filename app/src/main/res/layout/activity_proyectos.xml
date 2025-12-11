@@ -179,30 +179,27 @@
             android:layout_height="40dp"
             android:layout_weight="1"
             android:src="@drawable/ic_home"
-            android:tint="#3D3D3D" />
+             />
 
         <ImageView
             android:id="@+id/nav_folder"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_folder"
-            android:tint="#3D3D3D" />
+             />
 
         <ImageView
             android:id="@+id/nav_calendar"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_calendar"
-            android:tint="#3D3D3D" />
+            />
 
         <ImageView
             android:id="@+id/nav_circle"
             android:layout_width="0dp"
             android:layout_height="60dp"
             android:layout_weight="1"
-            android:src="@drawable/ic_user"
             android:tintMode="multiply" />
 
     </LinearLayout>

@@ -16,7 +16,7 @@
         android:scaleType="centerInside" />
 
     <ImageView
-        android:id="@+id/btn_calendario"
+        android:id="@+id/btn_proyecto"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
@@ -25,13 +25,23 @@
         android:scaleType="centerInside" />
 
     <ImageView
-        android:id="@+id/btn_perfil"
+        android:id="@+id/btn_calendario"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:padding="8dp"
         android:src="@drawable/calendario"
         android:scaleType="centerInside" />
+
+    <ImageView
+        android:id="@+id/btn_perfil"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:src="@drawable/perfil"
+        android:scaleType="centerInside" />
+
 
 </LinearLayout>
 
