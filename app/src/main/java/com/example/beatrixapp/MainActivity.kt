@@ -218,11 +218,11 @@ class MainActivity : AppCompatActivity() {
             intent.putExtra("PROYECTO_FECHAINICIO", proyecto.fechaInicio)
             intent.putExtra("PROYECTO_FECHAENTREGA", proyecto.fechaEntrega)
             intent.putExtra("PROYECTO_ESTADO", proyecto.estado)
-            startActivity(intent)
+           startActivity(intent)
 
-        }
+       }
 
-        contenedor.addView(proyectoView)
-    }
+      contenedor.addView(proyectoView)
+   }
 
 }
