@@ -1,5 +1,6 @@
 package com.example.beatrixapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -96,12 +97,15 @@ class ProyectosActivity : AppCompatActivity() {
             holder.tvNombre.text = proyecto.nombre
             holder.tvInfo.text = proyecto.infoExtra
 
-            // Aquí podrías añadir un onClickListener en el futuro
-            /*
+            // CLICK EN LA TARJETA
             holder.itemView.setOnClickListener {
-                // Código al pulsar la tarjeta
+                val intent = Intent(this@ProyectosActivity, Proyectos2Activity::class.java)
+
+                // Si quieres pasar datos del proyecto:
+                intent.putExtra("nombreProyecto", proyecto.nombre)
+
+                startActivity(intent)
             }
-            */
         }
 
         // 3. Dice cuántos elementos hay
