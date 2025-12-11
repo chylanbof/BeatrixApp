@@ -9,7 +9,6 @@
     android:layout_marginBottom="8dp"
     android:gravity="center_vertical">
 
-    <!-- 左边：名称和时间 -->
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -35,7 +34,7 @@
             android:layout_marginTop="4dp"/>
     </LinearLayout>
 
-    <!-- 右边：estado Spinner -->
+
     <Spinner
         android:id="@+id/spinnerEstado"
         android:layout_width="wrap_content"
