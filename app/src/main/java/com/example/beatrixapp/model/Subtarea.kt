@@ -6,16 +6,16 @@ data class Subtarea(
     @SerializedName("NombreSubTarea")
     val nombreSubtarea: String,
 
-    @SerializedName("DescripcionSubtarea")
+    @SerializedName("DescripcionSubTarea")
     val descripcionSubTarea: String,
 
     @SerializedName("FechaInicioSubtarea")
     val fechaInicioSubtarea: String,
 
-    @SerializedName("EstadosSubtarea")
+    @SerializedName("FechaEntregaSubtarea")
     val fechaEntregaSubtarea: String,
 
-    @SerializedName("EstadoSubtarea")
+    @SerializedName("EstadoSubTarea")
     val estadoSubtarea: String,
 
     @SerializedName("UsuariosAsignadosSubtarea")

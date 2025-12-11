@@ -17,6 +17,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.example.beatrixapp.model.Reunion
 import com.example.beatrixapp.model.Subtarea
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
 
 class CalendarioActivity : AppCompatActivity() {
 
@@ -151,44 +153,26 @@ class CalendarioActivity : AppCompatActivity() {
         }
     }
 
-    fun mostrarDetalleProyecto(proyecto: Proyecto){
+    fun mostrarDetalleProyecto(proyecto: Proyecto) {
         val dialogView = layoutInflater.inflate(R.layout.dialog_detalle_proyecto, null)
         val builder = AlertDialog.Builder(this)
             .setView(dialogView)
-            .setPositiveButton("Cerrar"){dialog, _ -> dialog.dismiss()}
+            .setPositiveButton("Cerrar") { dialog, _ -> dialog.dismiss() }
 
-        // Referencias a textViews dentro del dialog
+        // Referencias
         val tvNombre = dialogView.findViewById<TextView>(R.id.tvNombreProyectoDetalle)
         val tvDescripcion = dialogView.findViewById<TextView>(R.id.tvDescripcionProyectoDetalle)
-        val tvTareas = dialogView.findViewById<TextView>(R.id.tvTareasProyectoDetalle)
+        val recyclerTareas = dialogView.findViewById<RecyclerView>(R.id.recyclerTareas)
 
         tvNombre.text = proyecto.nombreProyecto
         tvDescripcion.text = proyecto.descripcionProyecto ?: "Sin descripción"
 
-        // Generar el texto con las tareas y subtareas
-        val detallesTareas = proyecto.tareas.orEmpty().joinToString("\n\n") { tarea ->
-            val subTareas = tarea.subtarea.orEmpty().joinToString("\n") { sub ->
-                "    • ${sub.nombreSubtarea}: ${sub.descripcionSubTarea} (${sub.estadoSubtarea})"
-            }
-            "- ${tarea.nombreTarea}: ${tarea.descripcion} [${tarea.estado}]\n  Inicio: ${tarea.fechaInicio} / Entrega: ${tarea.fechaEntrega}" +
-                    if (subTareas.isNotEmpty()) "\n  Subtareas:\n$subTareas" else ""
-        }
-
-        tvTareas.text = detallesTareas.ifEmpty { "Sin tareas" }
+        // Configurar RecyclerView
+        recyclerTareas.layoutManager = LinearLayoutManager(this)
+        recyclerTareas.adapter = TareaAdapter(proyecto.tareas.orEmpty())
 
         // Mostrar el dialog
         builder.show()
-    }
-
-    fun formatearFecha(fecha:String): String{
-        return try {
-            val inputFormat = java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS", java.util.Locale.getDefault())
-            val outputFormat = java.text.SimpleDateFormat("dd MMM yyyy HH:mm", java.util.Locale.getDefault())
-            val date = inputFormat.parse(fecha)
-            outputFormat.format(date!!)
-        } catch (e: Exception) {
-            fecha // si falla, devolvemos tal cual
-        }
     }
 
 }

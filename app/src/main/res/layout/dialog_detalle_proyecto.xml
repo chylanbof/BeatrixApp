@@ -31,17 +31,12 @@
             android:textColor="#666666"
             android:layout_marginBottom="12dp"/>
 
-        <!-- Lista de tareas y subtareas -->
-        <TextView
-            android:id="@+id/tvTareasProyectoDetalle"
+        <!-- RecyclerView para tareas y subtareas -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerTareas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tareas y subtareas"
-            android:textSize="14sp"
-            android:textColor="#444444"/>
+            android:nestedScrollingEnabled="false"/>
+
     </LinearLayout>
-
 </ScrollView>
-
-
-

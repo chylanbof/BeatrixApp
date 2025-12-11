@@ -8,7 +8,7 @@
         "descripcion": "Nueva Tarea de prueba para finalizar el proyecto",
         "fechaInicio": "2025-11-30T14:38:07.195",
         "fechaEntrega": "2025-12-05T14:38:07.189",
-        "estado": "En Progreso",
+        "estado": "En Proceso",
         "usuariosAsignados": [
           {
             "nombreApellidos": null,
@@ -33,7 +33,7 @@
             "DescripcionSubTarea": "Nueva subtarea del nuevo proyecto ",
             "FechaInicioSubtarea": "2025-11-30T14:39:01.359",
             "FechaEntregaSubtarea": "2025-12-11T14:39:01.354",
-            "EstadoSubTarea": "En espera",
+            "EstadoSubTarea": "En Espera",
             "UsuariosAsignadosSubtarea": [
               {
                 "nombreApellidos": null,
@@ -60,7 +60,7 @@
         "descripcion": "segunda nueva tarea para la prueva final del proyecto",
         "fechaInicio": "2025-11-30T14:47:44.5267296+01:00",
         "fechaEntrega": "2025-12-03T14:47:44.52",
-        "estado": "En Pausa",
+        "estado": "En Espera",
         "usuariosAsignados": [
           {
             "nombreApellidos": null,
@@ -164,7 +164,7 @@
         "descripcion": "Nuevas tareas para los proyectos ",
         "fechaInicio": "2025-12-11T20:14:08.652",
         "fechaEntrega": "2025-12-19T20:14:08.65",
-        "estado": "En Pausa",
+        "estado": "En Espera",
         "usuariosAsignados": [
           {
             "nombreApellidos": null,
