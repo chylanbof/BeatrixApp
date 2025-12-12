@@ -103,6 +103,7 @@ class ProyectosActivity : AppCompatActivity() {
 
                 // Si quieres pasar datos del proyecto:
                 intent.putExtra("nombreProyecto", proyecto.nombre)
+                intent.putExtra("infoProyecto", proyecto.infoExtra)
 
                 startActivity(intent)
             }

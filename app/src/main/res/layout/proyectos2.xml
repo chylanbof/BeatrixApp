@@ -36,25 +36,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-
-
-
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp">
 
-
-
-            <!-- 🔴 FECHAS + USUARIOS IMPLICADOS -->
+            <!-- 🔴 FECHAS -->
             <LinearLayout
+                android:id="@+id/layoutFechasUsuarios"
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:layout_height="wrap_content">
 
-                <ImageView
+
+            <ImageView
                     android:src="@drawable/warning"
                     android:layout_width="24dp"
                     android:layout_height="24dp" />
@@ -66,19 +63,12 @@
                     android:layout_height="wrap_content"
                     android:text="9 nov - 10 nov, 16:00" />
 
-                <TextView
+                <Space
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:text="Usuarios implicados" />
+                    android:layout_weight="1"/>
 
-                <!-- ⭐ avatar genérico -->
-                <ImageView
-                    android:src="@drawable/avatarejemplo"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="8dp" />
+
             </LinearLayout>
 
             <!-- 🔵 LÍNEAS NEGRAS = DESCRIPCIÓN -->
@@ -104,13 +94,12 @@
                 android:textSize="16sp"
                 android:layout_marginTop="8dp"/>
 
-            <!-- 🔵 LISTA DE TAREAS (CHECKBOX) -->
-            <LinearLayout
-                android:id="@+id/layoutCheckboxTareas"
+            <!-- 🔵 LISTA DE TAREAS -->
+            <RadioGroup
+                android:id="@+id/layoutRadioTareas"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp" />
+                android:layout_height="wrap_content" />
 
             <LinearLayout
                 android:id="@+id/layoutSubtareas"
@@ -119,14 +108,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp" />
 
-            <!-- 🟣 CÍRCULO GRIS PARA FOTO CUSTOM -->
-            <ImageView
-                android:id="@+id/imgFotoUsuario"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="16dp"
-                android:src="@drawable/circle_gray"
-                android:layout_gravity="center" />
+            <!-- ❌ Eliminado el círculo gris (imgFotoUsuario) -->
 
             <!-- 📅 MINI CALENDARIO DINÁMICO -->
             <LinearLayout
@@ -163,18 +145,7 @@
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:layout_margin="20dp"
-                android:layout_marginEnd="200dp"
-                android:layout_marginBottom="348dp"
                 android:src="@drawable/ajustes" />
-
-            <Button
-                android:id="@+id/btnSiguienteProyecto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Siguiente proyecto"
-                android:layout_margin="12dp"
-                app:layout_constraintTop_toBottomOf="@id/txtNombreProyecto"
-                app:layout_constraintEnd_toEndOf="parent" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
