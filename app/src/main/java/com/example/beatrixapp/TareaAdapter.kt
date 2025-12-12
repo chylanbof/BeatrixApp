@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
+
+
 class TareaAdapter(private val tareas: List<Tarea>) : RecyclerView.Adapter<TareaAdapter.TareaViewHolder>() {
 
     class TareaViewHolder(val view: View) : RecyclerView.ViewHolder(view) {

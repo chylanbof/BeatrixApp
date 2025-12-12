@@ -14,6 +14,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
+import androidx.core.content.ContextCompat.startActivity
 
 class LoginActivity : AppCompatActivity() {
 
@@ -58,6 +59,10 @@ class LoginActivity : AppCompatActivity() {
 
             if (checkLogin(username, password)) {
                 Toast.makeText(this, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
+
+                val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+                prefs.edit().putString("loggedUser",username).apply()
+
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("USERNAME", username)
                 startActivity(intent)

@@ -25,12 +25,21 @@ class CalendarioActivity : AppCompatActivity() {
     private lateinit var listaProyectos: List<Proyecto>
     private lateinit var  listaReunion: List<Reunion>
 
-    private lateinit var  ListaSubtareas: List<Subtarea>
-
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendario)
+
+        val loggedUser = "mgomez"
+        //Recuperar el usuario Logueado
+       /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val loggedUser = prefs.getString("loggerUser", null)*/
+
+        //Si no hay usuario no muestra nada
+        if (loggedUser == null){
+            finish()
+            return
+        }
 
         // Referencias de vistas
         val calendarView = findViewById<CalendarView>(R.id.calendarView)
@@ -89,10 +98,30 @@ class CalendarioActivity : AppCompatActivity() {
 
     // Muestra proyectos del json
     fun mostrarProyectos(proyectos: List<Proyecto>, container: LinearLayout) {
+        val loggedUser = "mgomez"
+
+       /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val loggedUser = prefs.getString("loggerUser", null)?: return
+*/
         val inflater = layoutInflater
 
+        // Filtrar proyectos donde el usuario tenga alguna tarea o subtarea asignada
+        val proyectosFiltrados = proyectos.filter { proyecto ->
+            proyecto.tareas.orEmpty().any { tarea ->
+                // Usuario en la tarea
+                val enTarea = tarea.usuariosAsignados?.any { it.nombreUsuario == loggedUser } == true
+                // Usuario en alguna subtarea
+                val enSubtarea = tarea.subtarea?.any { subtarea ->
+                    subtarea.usuariosAsignadosSubTarea?.any { it.nombreUsuario == loggedUser } == true
+                } == true
 
-        for (proyecto in proyectos) {
+                enTarea || enSubtarea
+            }
+        }
+
+        for (proyecto in proyectosFiltrados) {
+
+
             val view = inflater.inflate(R.layout.item_proyecto, container, false)
 
             val tvNombre = view.findViewById<TextView>(R.id.tvNombreProyecto)
@@ -100,15 +129,26 @@ class CalendarioActivity : AppCompatActivity() {
             val tvTareas = view.findViewById<TextView>(R.id.tvTareasProyecto)
 
             tvNombre.text = proyecto.nombreProyecto
-            tvDescripcionProyect.text = proyecto.descripcionProyecto ?: "Sin descripcón"
+            tvDescripcionProyect.text = proyecto.descripcionProyecto
 
-            // Mostrar nombre de tareas
-            val nombresTareas = proyecto.tareas.orEmpty().map {
-                it.nombreTarea ?: "sin Tareas"
+            // Filtrar tareas visibles para el usuario
+            val tareasUsuario = proyecto.tareas.orEmpty().mapNotNull { tarea ->
+                val subtareasUsuario = tarea.subtarea.filter { subtarea ->
+                    subtarea.usuariosAsignadosSubTarea.any { it.nombreUsuario == loggedUser }
+                }.orEmpty()
+
+                val usuarioEnTarea = tarea.usuariosAsignados.any { it.nombreUsuario == loggedUser }
+
+                if (!usuarioEnTarea && subtareasUsuario.isEmpty()) return@mapNotNull null
+
+                // Copiar tarea con solo las subtareas visibles para el usuario
+                tarea.copy(subtarea = subtareasUsuario)
             }
 
-            tvTareas.text = if (nombresTareas.isNotEmpty()){
-                nombresTareas.joinToString("\n")
+            val nombreTareas = tareasUsuario.map {it.nombreTarea}
+
+            tvTareas.text = if (nombreTareas.isNotEmpty()){
+                nombreTareas.joinToString("\n")
             }else{
                 "Sin Tareas"
             }
@@ -127,6 +167,7 @@ class CalendarioActivity : AppCompatActivity() {
         val inflater = layoutInflater
 
         for (reunion in reunion){
+
             val view = inflater.inflate(R.layout.item_reunion, container, false)
 
             val tvNombreReunion = view.findViewById<TextView>(R.id.tvNombreReunion)
@@ -154,6 +195,13 @@ class CalendarioActivity : AppCompatActivity() {
     }
 
     fun mostrarDetalleProyecto(proyecto: Proyecto) {
+
+        val loggedUser = "mgomez"
+
+       /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val loggedUser = prefs.getString("loggerUser", null)?: return
+*/
+
         val dialogView = layoutInflater.inflate(R.layout.dialog_detalle_proyecto, null)
         val builder = AlertDialog.Builder(this)
             .setView(dialogView)
@@ -165,16 +213,43 @@ class CalendarioActivity : AppCompatActivity() {
         val recyclerTareas = dialogView.findViewById<RecyclerView>(R.id.recyclerTareas)
 
         tvNombre.text = proyecto.nombreProyecto
-        tvDescripcion.text = proyecto.descripcionProyecto ?: "Sin descripción"
+        tvDescripcion.text = proyecto.descripcionProyecto
+
+        // Filtrar Tareas y subtareas del usuario
+        val tareasFiltradas = proyecto.tareas.orEmpty().mapNotNull { tarea ->
+
+            // Subtareas del usuario
+            val subFiltradas = tarea.subtarea.filter { subtarea ->
+                subtarea.usuariosAsignadosSubTarea.any { it.nombreUsuario == loggedUser }
+            }.orEmpty()
+
+            val usuarioEnTarea = tarea.usuariosAsignados.any { it.nombreUsuario == loggedUser }
+
+            when {
+                usuarioEnTarea -> {
+                    // Usuario pertenece a la tarea: devolvemos tarea con subtareas filtradas
+                    tarea.copy(subtarea = subFiltradas)
+                }
+                subFiltradas.isNotEmpty() -> {
+                    // Usuario solo en subtareas: mostramos tarea y subtareas visibles
+                    tarea.copy(
+                        nombreTarea = tarea.nombreTarea,
+                        descripcion = tarea.descripcion,
+                        subtarea = subFiltradas
+                              )
+                }
+                else -> null
+            }
+        }
 
         // Configurar RecyclerView
         recyclerTareas.layoutManager = LinearLayoutManager(this)
-        recyclerTareas.adapter = TareaAdapter(proyecto.tareas.orEmpty())
+        recyclerTareas.adapter = TareaAdapter(tareasFiltradas)
 
         // Mostrar el dialog
         builder.show()
-    }
 
+    }
 }
 
 
