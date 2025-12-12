@@ -10,29 +10,31 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import org.json.JSONArray
-import org.json.JSONObject
+import com.example.beatrixapp.model.Proyecto
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var projectsJsonArray: JSONArray
+    private lateinit var proyectosList: List<Proyecto>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_login)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.mainLoginActivity)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        // Cargar JSON
+        // cargar JSON
         try {
-            projectsJsonArray = loadProjectJson()
-            Log.d("LOGIN", "JSON cargado correctamente. Total proyectos: ${projectsJsonArray.length()}")
+            proyectosList = loadProjectJson()
+            Log.d("LOGIN", "JSON cargado correctamente. Total proyectos: ${proyectosList.size}")
         } catch (e: Exception) {
             Toast.makeText(this, "Error al cargar el archivo JSON", Toast.LENGTH_LONG).show()
             Log.e("LOGIN", "Error al cargar JSON", e)
@@ -62,54 +64,40 @@ class LoginActivity : AppCompatActivity() {
                 intent.putExtra("USERNAME", username)
                 startActivity(intent)
                 finish()
+            } else {
+                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun loadProjectJson(): JSONArray {
+    private fun loadProjectJson(): List<Proyecto> {
         val inputStream = resources.openRawResource(R.raw.proyectos)
         val reader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
         val content = reader.readText()
         reader.close()
-        return JSONArray(content)
+        val listType = object : TypeToken<List<Proyecto>>() {}.type
+        return Gson().fromJson(content, listType)
     }
 
     private fun checkLogin(username: String, password: String): Boolean {
+        for (proyecto in proyectosList) {
+            for (tarea in proyecto.tareas) {
 
-        for (p in 0 until projectsJsonArray.length()) {
-            val project = projectsJsonArray.getJSONObject(p)
-            val tareas = project.optJSONArray("tareas") ?: continue
-
-            for (t in 0 until tareas.length()) {
-                val tarea = tareas.getJSONObject(t)
-
-                // usuariosAsignados en camelCase
-                val usuarios = tarea.optJSONArray("usuariosAsignados") ?: continue
-
-                for (u in 0 until usuarios.length()) {
-                    val user: JSONObject = usuarios.getJSONObject(u)
-
-                    val nombreUsuario = user.optString("nombreUsuario", "")
-                    val contrasena = user.optString("contrasena", "")
-
-                    if (username == nombreUsuario && password == contrasena) {
+                for (user in tarea.usuariosAsignados) {
+                    val contrasena = user.contrasena ?: ""
+                    if (username.equals(user.nombreUsuario, ignoreCase = true)
+                        && (contrasena.isEmpty() || password == contrasena)) {
                         return true
                     }
                 }
 
-                // Comprobar también subTareas
-                val subTareas = tarea.optJSONArray("subTareas")
-                if (subTareas != null) {
-                    for (s in 0 until subTareas.length()) {
-                        val subTarea = subTareas.getJSONObject(s)
-                        val usuariosSub = subTarea.optJSONArray("usuariosAsignadosSubtarea") ?: continue
-                        for (su in 0 until usuariosSub.length()) {
-                            val userSub = usuariosSub.getJSONObject(su)
-                            val nombreUsuario = userSub.optString("nombreUsuario", "")
-                            val contrasena = userSub.optString("contrasena", "")
-                            if (username == nombreUsuario && password == contrasena) {
-                                return true
-                            }
+
+                for (subtarea in tarea.subtarea) {
+                    for (userSub in subtarea.usuariosAsignadosSubTarea) {
+                        val contrasenaSub = userSub.contrasena ?: ""
+                        if (username.equals(userSub.nombreUsuario, ignoreCase = true)
+                            && (contrasenaSub.isEmpty() || password == contrasenaSub)) {
+                            return true
                         }
                     }
                 }
@@ -117,4 +105,5 @@ class LoginActivity : AppCompatActivity() {
         }
         return false
     }
+
 }

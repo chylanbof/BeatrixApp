@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.beatrixapp.model.Proyecto
-import com.example.beatrixapp.model.Usuario
+// 注意：只需要导入您在 MainActivity 中直接引用的模型类
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -21,12 +21,15 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StyleSpan
 import android.graphics.Typeface
+import android.util.Log // 用于调试
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var contenedorProyectos: LinearLayout
     private lateinit var listaDeProyectos: MutableList<Proyecto>
+
     private val formatoFecha = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+
     private val estados = arrayOf("Pendiente", "En Progreso", "Completada")
     private val fileName = "proyectos.json"
 
@@ -47,24 +50,46 @@ class MainActivity : AppCompatActivity() {
 
         contenedorProyectos = findViewById(R.id.contenedorProyectos)
 
+        // asegurar si existe archivo json
         copiarProyectosARutaInterna(this)
 
         listaDeProyectos = leerProyectosDesdeArchivo(this).toMutableList()
 
-        listaDeProyectos.sortBy { formatoFecha.parse(it.fechaEntrega)!! }
+        try {
+            listaDeProyectos.sortBy {
+                val fullDateString = it.fechaEntrega
+                val dateString = fullDateString?.take(19)
+
+                if (dateString.isNullOrBlank()) {
+                    Date(0)
+                } else {
+                    try {
+                        formatoFecha.parse(dateString) ?: Date(0)
+                    } catch (e: Exception) {
+                        Log.e("MainActivity", "Error de formato de fecha: $dateString", e)
+                        Date(0)
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error sorting projects", e)
+        }
 
         for (proyecto in listaDeProyectos) {
             agregarProyecto(proyecto, contenedorProyectos, this)
         }
     }
-
     private fun copiarProyectosARutaInterna(context: Context) {
         val file = File(context.filesDir, fileName)
         if (!file.exists()) {
-            context.resources.openRawResource(R.raw.proyectos).use { input ->
-                file.outputStream().use { output ->
-                    input.copyTo(output)
+            try {
+                context.resources.openRawResource(R.raw.proyectos).use { input ->
+                    file.outputStream().use { output ->
+                        input.copyTo(output)
+                    }
                 }
+            } catch (e: Exception) {
+                Log.e("MainActivity", "Error al copiar el archivo R.raw.proyectos", e)
             }
         }
     }
@@ -79,88 +104,72 @@ class MainActivity : AppCompatActivity() {
 
         for (i in 0 until jsonArray.length()) {
             val proyectoObj = jsonArray.getJSONObject(i)
-            val nombreProyecto = proyectoObj.getString("nombreProyecto")
-            val descripcionProyecto = proyectoObj.getString("descripcionProyecto")
-            val fechaInicio = proyectoObj.getString("fechaInicio")
-            val fechaEntrega = proyectoObj.getString("fechaEntrega")
-            val estadoProyecto = proyectoObj.optString("estado", "Pendiente")
 
-            val usuariosProyectoList = mutableListOf<Usuario>()
-            val usuariosArrayProyecto = proyectoObj.optJSONArray("usuariosAsignados") ?: JSONArray()
-            for (p in 0 until usuariosArrayProyecto.length()) {
-                val usuarioObj = usuariosArrayProyecto.getJSONObject(p)
-                usuariosProyectoList.add(
-                    Usuario(
-                        nombreApellidos = usuarioObj.optString("nombreApellidos", null),
-                        nombreUsuario = usuarioObj.optString("nombreUsuario", ""),
-                        contrasena = usuarioObj.optString("contrasena", null),
-                        email = usuarioObj.optString("email", null),
-                        telefono = usuarioObj.optString("telefono", null),
-                        rol = usuarioObj.optString("rol", null)
-                    )
-                )
-            }
+            val nombreProyecto = proyectoObj.optString("NombreProyecto")
+            val descripcionProyecto = proyectoObj.optString("DescripcionProyecto")
+            val fechaInicio = proyectoObj.optString("fechaInicio")
+            val fechaEntrega = proyectoObj.optString("fechaEntrega")
+
+            val estadoProyecto = proyectoObj.optString("estado", "Pendiente")
 
             proyectos.add(
                 Proyecto(
-                    nombreProyecto = nombreProyecto,
+                    nombreProyecto = if (nombreProyecto.isNullOrEmpty()) null else nombreProyecto,
                     descripcionProyecto = descripcionProyecto,
                     tareas = emptyList(),
                     fechaInicio = fechaInicio,
                     fechaEntrega = fechaEntrega,
-                    usuariosAsignados = usuariosProyectoList,
+                    usuariosAsignados = emptyList(),
                     estado = estadoProyecto
                 )
             )
         }
-
         return proyectos
     }
 
     private fun guardarProyectos(context: Context) {
         val file = File(context.filesDir, fileName)
-        val jsonArray = JSONArray()
-        for (p in listaDeProyectos) {
-            val obj = JSONObject().apply {
-                put("nombreProyecto", p.nombreProyecto)
-                put("descripcionProyecto", p.descripcionProyecto)
-                put("fechaInicio", p.fechaInicio)
-                put("fechaEntrega", p.fechaEntrega)
-                put("estado", p.estado)
+        if (!file.exists()) return
 
-                val usuariosArray = JSONArray()
-                for (u in p.usuariosAsignados) {
-                    val uObj = JSONObject().apply {
-                        put("nombreApellidos", u.nombreApellidos)
-                        put("nombreUsuario", u.nombreUsuario)
-                        put("contrasena", u.contrasena)
-                        put("email", u.email)
-                        put("telefono", u.telefono)
-                        put("rol", u.rol)
+        try {
+            val jsonString = file.readText()
+            val jsonArray = JSONArray(jsonString)
+
+            for (proyectoMemoria in listaDeProyectos) {
+                for (i in 0 until jsonArray.length()) {
+                    val proyectoJson = jsonArray.getJSONObject(i)
+
+                    val nombreProyectoJson = proyectoJson.optString("NombreProyecto")
+                    if (nombreProyectoJson == proyectoMemoria.nombreProyecto) {
+                        proyectoJson.put("estado", proyectoMemoria.estado)
+                        break
                     }
-                    usuariosArray.put(uObj)
                 }
-                put("usuariosAsignados", usuariosArray)
             }
-            jsonArray.put(obj)
+
+            file.writeText(jsonArray.toString(2))
+        } catch (e: Exception) {
+            Log.e("MainActivity", "Error al guardar proyectos", e)
+            Toast.makeText(context, "Error al guardar proyectos", Toast.LENGTH_SHORT).show()
         }
-        file.writeText(jsonArray.toString())
     }
 
     private fun agregarProyecto(proyecto: Proyecto, contenedor: LinearLayout, context: Context) {
-        // 加载布局
         val proyectoView = layoutInflater.inflate(R.layout.item_contenido_proyecto, contenedor, false)
         val txtTiempo = proyectoView.findViewById<TextView>(R.id.txtTiempo)
         val txtNombreProyecto = proyectoView.findViewById<TextView>(R.id.txtNombreProyecto)
         val spinnerEstado = proyectoView.findViewById<Spinner>(R.id.spinnerEstado)
 
-        // coger los primeros 16 caracteres
-        val inicioValor = proyecto.fechaInicio.take(16)
-        val entregaValor = proyecto.fechaEntrega.take(16)
+        txtNombreProyecto.text = proyecto.nombreProyecto ?: "Proyecto Desconocido"
+
+        val inicioValor = proyecto.fechaInicio?.take(16) ?: "N/A"
+        val entregaValor = proyecto.fechaEntrega?.take(16) ?: "N/A"
+
         val inicioLabel = "Inicio: "
         val entregaLabel = "\nEntrega: "
         val textoCompleto = inicioLabel + inicioValor + entregaLabel + entregaValor
         val spannable = SpannableString(textoCompleto)
+
         spannable.setSpan(
             StyleSpan(Typeface.BOLD),
             0,
@@ -176,7 +185,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         txtTiempo.text = spannable
-        txtNombreProyecto.text = proyecto.nombreProyecto
 
         val adapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, estados)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -205,21 +213,20 @@ class MainActivity : AppCompatActivity() {
                         else -> Color.BLACK
                     }
                 )
-                guardarProyectos(context) // guardar los modificaciones
+                guardarProyectos(context)
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
 
-        // abrir el activity de proyecto, mostrar las tareas
         proyectoView.setOnClickListener {
             val intent = Intent(context, ProyectosActivity::class.java)
-            intent.putExtra("PROYECTO_NOMBRE", proyecto.nombreProyecto)
-            intent.putExtra("PROYECTO_DESCRIPCION", proyecto.descripcionProyecto)
-            intent.putExtra("PROYECTO_FECHAINICIO", proyecto.fechaInicio)
-            intent.putExtra("PROYECTO_FECHAENTREGA", proyecto.fechaEntrega)
+
+            intent.putExtra("PROYECTO_NOMBRE", proyecto.nombreProyecto ?: "")
+            intent.putExtra("PROYECTO_DESCRIPCION", proyecto.descripcionProyecto ?: "")
+            intent.putExtra("PROYECTO_FECHAINICIO", proyecto.fechaInicio ?: "")
+            intent.putExtra("PROYECTO_FECHAENTREGA", proyecto.fechaEntrega ?: "")
             intent.putExtra("PROYECTO_ESTADO", proyecto.estado)
             startActivity(intent)
-
         }
 
         contenedor.addView(proyectoView)

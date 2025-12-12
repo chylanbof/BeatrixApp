@@ -14,7 +14,7 @@ data class Tarea(
     @SerializedName("fechaEntrega")
     val fechaEntrega: String,
 
-    @SerializedName("estado")
+    @SerializedName("EstadoSubTarea")
     val estado: String,
 
     @SerializedName("usuariosAsignados")

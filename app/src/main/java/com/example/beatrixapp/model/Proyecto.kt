@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Proyecto (
     @SerializedName("NombreProyecto")
-    val nombreProyecto: String,
+    val nombreProyecto: String?,
 
     @SerializedName("DescripcionProyecto")
     val descripcionProyecto: String,
@@ -16,10 +16,11 @@ data class Proyecto (
     val fechaInicio: String,
 
     @SerializedName("fechaEntrega")
-    val fechaEntrega: String,
+    val fechaEntrega: String?,
 
     @SerializedName("UsuariosAsignados")
     val usuariosAsignados: List<Usuario>,
 
+    @SerializedName("estado")
     var estado: String="Pendiente"
                     )
