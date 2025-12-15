@@ -61,12 +61,19 @@
                     android:layout_marginStart="8dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="9 nov - 10 nov, 16:00" />
+                    android:text="9 nov - 10 nov, 16:00"
+                    android:textStyle="bold" />
 
                 <Space
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
+
+                <LinearLayout
+                    android:id="@+id/layoutUsuarios"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
 
 
             </LinearLayout>
@@ -86,13 +93,35 @@
                 android:layout_height="2dp"
                 android:layout_marginTop="8dp" />
 
-            <TextView
-                android:id="@+id/txtDescripcionTarea"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Descripción de la tarea"
-                android:textSize="16sp"
-                android:layout_marginTop="8dp"/>
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <!-- DESCRIPCIÓN -->
+                <TextView
+                    android:id="@+id/txtDescripcionTarea"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Descripción de la tarea"
+                    android:textSize="16sp" />
+
+                <!-- ESTADO -->
+                <TextView
+                    android:id="@+id/txtEstadoTarea"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="En progreso"
+                    android:textColor="@android:color/white"
+                    android:background="@drawable/rounded_orange"
+                    android:layout_marginStart="8dp" />
+
+            </LinearLayout>
+
 
             <!-- 🔵 LISTA DE TAREAS -->
             <RadioGroup
@@ -108,7 +137,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp" />
 
-            <!-- ❌ Eliminado el círculo gris (imgFotoUsuario) -->
 
             <!-- 📅 MINI CALENDARIO DINÁMICO -->
             <LinearLayout
@@ -123,22 +151,24 @@
                     android:id="@+id/txtMiniCalendario"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Calendario dinámico aquí"
+                    android:text="Fecha de tarea"
                     android:textSize="16sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtDescripcionTareaSeleccionada"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Descripción de la tarea"
+                    android:textSize="14sp"
+                    android:textColor="#444444"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:visibility="gone"/>
+
             </LinearLayout>
 
-            <!-- 🟠 ESTADO DE LA TAREA -->
-            <TextView
-                android:id="@+id/txtEstadoTarea"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="En progreso"
-                android:textColor="@android:color/white"
-                android:background="@drawable/rounded_orange"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center_horizontal" />
+
 
             <ImageView
                 android:id="@+id/btnSettings"

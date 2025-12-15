@@ -1,8 +1,10 @@
 package com.example.beatrixapp
 
+import android.app.AlertDialog
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -10,14 +12,32 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONArray
 import org.json.JSONObject
+import java.io.File
+import android.app.DatePickerDialog
+import java.util.Calendar
+
+
+
+
+
 
 class Proyectos2Activity : AppCompatActivity() {
+
+    private val ARCHIVO_JSON = "proyectos.json"
+
+    private lateinit var jsonArrayGlobal: JSONArray
+    private lateinit var proyectoActual: JSONObject
 
     private lateinit var tareasArrayGlobal: JSONArray
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.proyectos2)
+
+        jsonArrayGlobal = leerJson()
+
+
+
 
         val nombreProyecto = intent.getStringExtra("nombreProyecto")
         if (nombreProyecto == null) {
@@ -26,16 +46,13 @@ class Proyectos2Activity : AppCompatActivity() {
         }
 
         // 1. Cargar el JSON
-        val jsonString = resources.openRawResource(R.raw.proyectos)
-            .bufferedReader().use { it.readText() }
 
-        val jsonArray = JSONArray(jsonString)
 
         var proyectoObj: JSONObject? = null
 
         // 2. Buscar el proyecto cuyo nombre coincida
-        for (i in 0 until jsonArray.length()) {
-            val obj = jsonArray.getJSONObject(i)
+        for (i in 0 until jsonArrayGlobal.length()) {
+            val obj = jsonArrayGlobal.getJSONObject(i)
             if (obj.optString("NombreProyecto") == nombreProyecto) {
                 proyectoObj = obj
                 break
@@ -46,6 +63,8 @@ class Proyectos2Activity : AppCompatActivity() {
             finish()
             return
         }
+
+        proyectoActual = proyectoObj
 
         // 3. Rellenar datos en pantalla
         rellenarPantalla(proyectoObj)
@@ -62,20 +81,23 @@ class Proyectos2Activity : AppCompatActivity() {
             proyecto.optString("DescripcionProyecto", "")
 
         // 🟦 3. Fechas del proyecto (solo fecha)
-        val fechaIni = proyecto.optString("fechaInicio", "").let { if (it.isNotEmpty()) soloFecha(it) else "" }
-        val fechaFin = proyecto.optString("fechaEntrega", "").let { if (it.isNotEmpty()) soloFecha(it) else "" }
+        val fechaIni =
+            proyecto.optString("fechaInicio", "").let { if (it.isNotEmpty()) soloFecha(it) else "" }
+        val fechaFin = proyecto.optString("fechaEntrega", "")
+            .let { if (it.isNotEmpty()) soloFecha(it) else "" }
 
 
-            findViewById<TextView>(R.id.txtFechasTarea).text =
-            listOf(fechaIni, fechaFin)
-                .filter { it.isNotEmpty() }
-                .joinToString(" - ")
+        findViewById<TextView>(R.id.txtFechasTarea).text =
+            listOf(fechaIni, fechaFin).filter { it.isNotEmpty() }.joinToString(" - ")
 
         // 🟦 4. Usuarios implicados (cuento cuántos) — opcional
         val usuarios = proyecto.optJSONArray("UsuariosAsignados") ?: JSONArray()
         val countUsuarios = usuarios.length()
 
         val layoutFechas = findViewById<LinearLayout>(R.id.layoutFechasUsuarios)
+
+        val layoutUsuarios = findViewById<LinearLayout>(R.id.layoutUsuarios)
+        layoutUsuarios.removeAllViews()
 
         val txtUsuarios = TextView(this).apply {
             text = "Usuarios: $countUsuarios"
@@ -87,9 +109,9 @@ class Proyectos2Activity : AppCompatActivity() {
 
 
 
+
         val params = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.WRAP_CONTENT,
-            LinearLayout.LayoutParams.WRAP_CONTENT
+            LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
                                               )
         params.marginStart = 12
         params.gravity = android.view.Gravity.END
@@ -97,7 +119,7 @@ class Proyectos2Activity : AppCompatActivity() {
         txtUsuarios.layoutParams = params
         txtUsuarios.gravity = android.view.Gravity.END
 
-        layoutFechas.addView(txtUsuarios)
+        layoutUsuarios.addView(txtUsuarios)
 
 
         // 🟦 5. TAREAS CON RADIO BUTTONS
@@ -110,8 +132,10 @@ class Proyectos2Activity : AppCompatActivity() {
             val tarea = tareasArrayGlobal.getJSONObject(i)
 
             val rb = RadioButton(this)
-            rb.text = tarea.optString("nombreTarea", "Tarea ${i+1}") +
-                    "  •  " + tarea.optString("estado", "")
+            rb.text = tarea.optString(
+                "nombreTarea",
+                "Tarea ${i + 1}"
+                                     ) + "  •  " + tarea.optString("estado", "")
             rb.id = i   // identificador: índice de la tarea
             tareasLayout.addView(rb)
         }
@@ -123,10 +147,24 @@ class Proyectos2Activity : AppCompatActivity() {
                 val tarea = tareasArrayGlobal.getJSONObject(checkedId)
 
                 // 🔵 Actualizar calendario
-                val f1 = tarea.optString("fechaInicio", "").let { if (it.isNotEmpty()) soloFecha(it) else "" }
-                val f2 = tarea.optString("fechaEntrega", "").let { if (it.isNotEmpty()) soloFecha(it) else "" }
+                val f1 = tarea.optString("fechaInicio", "")
+                    .let { if (it.isNotEmpty()) soloFecha(it) else "" }
+                val f2 = tarea.optString("fechaEntrega", "")
+                    .let { if (it.isNotEmpty()) soloFecha(it) else "" }
                 findViewById<TextView>(R.id.txtMiniCalendario).text =
                     listOf(f1, f2).filter { it.isNotEmpty() }.joinToString(" - ")
+
+                val descripcion = tarea.optString("descripcion", "")
+
+                val txtDescripcionSeleccionada =
+                    findViewById<TextView>(R.id.txtDescripcionTareaSeleccionada)
+
+                if (descripcion.isNotEmpty()) {
+                    txtDescripcionSeleccionada.text = descripcion
+                    txtDescripcionSeleccionada.visibility = View.VISIBLE
+                } else {
+                    txtDescripcionSeleccionada.visibility = View.GONE
+                }
 
                 // 🔵 Mostrar SOLO subtareas de esta tarea
                 val subLayout = findViewById<LinearLayout>(R.id.layoutSubtareas)
@@ -165,10 +203,9 @@ class Proyectos2Activity : AppCompatActivity() {
 
         // 🟦 7. Estado (pongo el estado de la PRIMERA tarea, o "Sin tareas" si no hay)
         val txtEstado = findViewById<TextView>(R.id.txtEstadoTarea)
-        val estado = if (tareasArrayGlobal.length() > 0)
-            tareasArrayGlobal.getJSONObject(0).optString("estado", "Sin estado")
-        else
-            "Sin tareas"
+        val estado = if (tareasArrayGlobal.length() > 0) tareasArrayGlobal.getJSONObject(0)
+            .optString("estado", "Sin estado")
+        else "Sin tareas"
 
         txtEstado.text = estado
 
@@ -187,11 +224,8 @@ class Proyectos2Activity : AppCompatActivity() {
             val usuariosArray = proyecto.optJSONArray("UsuariosAsignados") ?: JSONArray()
 
             if (usuariosArray.length() == 0) {
-                androidx.appcompat.app.AlertDialog.Builder(this)
-                    .setTitle("Usuarios")
-                    .setMessage("No hay usuarios asignados.")
-                    .setPositiveButton("OK", null)
-                    .show()
+                androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Usuarios")
+                    .setMessage("No hay usuarios asignados.").setPositiveButton("OK", null).show()
                 return@setOnClickListener
             }
 
@@ -203,11 +237,30 @@ class Proyectos2Activity : AppCompatActivity() {
 
 
             // Mostrar diálogo
-            androidx.appcompat.app.AlertDialog.Builder(this)
-                .setTitle("Usuarios asignados")
-                .setItems(listaUsuarios, null)
-                .setPositiveButton("Cerrar", null)
-                .show()
+            androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Usuarios asignados")
+                .setItems(listaUsuarios, null).setPositiveButton("Cerrar", null).show()
+        }
+
+        findViewById<View>(R.id.btnSettings).setOnClickListener {
+
+            val opciones = arrayOf(
+                "Cambiar fecha",
+                "Cambiar descripción",
+                "Añadir tareas",
+                "Cambiar estado",
+                "Generar resumen"
+                                  )
+
+            androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Opciones del proyecto")
+                .setItems(opciones) { _, which ->
+                    when (which) {
+                        0 -> cambiarFecha()
+                        1 -> cambiarDescripcion()
+                        2 -> anadirTarea()
+                        3 -> cambiarEstado()
+                        4 -> generarResumen()
+                    }
+                }.setNegativeButton("Cancelar", null).show()
         }
 
 
@@ -229,4 +282,102 @@ class Proyectos2Activity : AppCompatActivity() {
         }
     }
 
+    private fun cambiarFecha() {
+
+        val opciones = arrayOf(
+            "Cambiar fecha del proyecto",
+            "Cambiar fecha de la tarea seleccionada"
+                              )
+
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Cambiar fecha")
+            .setItems(opciones) { _, which ->
+                when (which) {
+                    0 -> cambiarFechaProyecto()
+                    1 -> cambiarFechaTarea()
+                }
+            }.setNegativeButton("Cancelar", null).show()
+    }
+
+    private fun cambiarFechaProyecto() {
+        val opciones = arrayOf("Fecha inicio", "Fecha entrega")
+
+        AlertDialog.Builder(this)
+            .setTitle("¿Qué fecha quieres cambiar?")
+            .setItems(opciones) { _, which ->
+                mostrarDatePickerProyecto(if (which == 0) "fechaInicio" else "fechaEntrega")
+            }
+            .show()
+    }
+
+    private fun mostrarDatePickerProyecto(campo: String) {
+        val calendario = Calendar.getInstance()
+
+        DatePickerDialog(
+            this,
+            { _, year, month, day ->
+                val nuevaFecha = String.format(
+                    "%04d-%02d-%02dT00:00:00",
+                    year, month + 1, day
+                                              )
+
+                proyectoActual.put(campo, nuevaFecha)
+                guardarJson(jsonArrayGlobal)
+                rellenarPantalla(proyectoActual)
+
+                mostrarMensaje("Fecha actualizada correctamente")
+            },
+            calendario.get(Calendar.YEAR),
+            calendario.get(Calendar.MONTH),
+            calendario.get(Calendar.DAY_OF_MONTH)
+                        ).show()
+    }
+
+
+
+
+    private fun cambiarFechaTarea() {
+        mostrarMensaje("Adios")
+
+    }
+
+
+    private fun cambiarDescripcion() {
+        mostrarMensaje("Cambiar descripción")
+    }
+
+    private fun anadirTarea() {
+        mostrarMensaje("Añadir tareas")
+    }
+
+    private fun cambiarEstado() {
+        mostrarMensaje("Cambiar estado")
+    }
+
+    private fun generarResumen() {
+        mostrarMensaje("Generar resumen")
+    }
+
+    private fun mostrarMensaje(texto: String) {
+        androidx.appcompat.app.AlertDialog.Builder(this).setMessage(texto)
+            .setPositiveButton("OK", null).show()
+    }
+
+    private fun leerJson(): JSONArray {
+        val file = File(filesDir, ARCHIVO_JSON)
+
+        if (!file.exists()) {
+            val input = resources.openRawResource(R.raw.proyectos)
+            file.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+
+        val jsonString = file.readText()
+        return JSONArray(jsonString)
+    }
+
+    private fun guardarJson(jsonArray: JSONArray) {
+        val file = File(filesDir, ARCHIVO_JSON)
+        file.writeText(jsonArray.toString(2)) // bonito formateado
+    }
 }
