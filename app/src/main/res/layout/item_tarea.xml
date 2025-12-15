@@ -11,43 +11,48 @@
     <TextView
         android:id="@+id/tvNombreTarea"
         android:textStyle="bold"
-        android:textSize="16sp"
+        android:textSize="25sp"
         android:textColor="#333333"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/playfairdisplaysemibold"/>
 
     <TextView
         android:id="@+id/tvDescripcionTarea"
-        android:textSize="14sp"
+        android:textSize="20sp"
         android:textColor="#666666"
         android:layout_marginTop="2dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserratmedium"/>
 
     <TextView
         android:id="@+id/tvEstadoTarea"
-        android:textSize="12sp"
+        android:textSize="20sp"
         android:padding="4dp"
         android:layout_marginTop="4dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"/>
+        android:textColor="@color/black"
+        android:fontFamily="@font/montserratmedium"/>
 
     <TextView
         android:id="@+id/tvFechasTarea"
-        android:textSize="12sp"
+        android:textSize="20sp"
         android:textColor="#444444"
         android:layout_marginTop="2dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserratmedium"/>
 
     <TextView
         android:id="@+id/tvUsuariosTarea"
-        android:textSize="12sp"
+        android:textSize="20sp"
         android:textColor="#555555"
         android:layout_marginTop="2dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserratmedium"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerSubTareas"

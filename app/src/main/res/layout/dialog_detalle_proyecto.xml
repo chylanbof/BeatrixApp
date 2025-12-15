@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@drawable/borde_redondo_cards">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,10 +17,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Nombre del Proyecto"
-            android:textSize="18sp"
+            android:textSize="25sp"
             android:textStyle="bold"
             android:textColor="#333333"
-            android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/playfairdisplaysemibold"/>
 
         <!-- Descripción del proyecto -->
         <TextView
@@ -27,9 +29,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Descripción del proyecto"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textColor="#666666"
-            android:layout_marginBottom="12dp"/>
+            android:layout_marginBottom="12dp"
+            android:fontFamily="@font/montserratmedium"/>
 
         <!-- RecyclerView para tareas y subtareas -->
         <androidx.recyclerview.widget.RecyclerView
