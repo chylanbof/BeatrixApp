@@ -21,8 +21,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".Proyectos2Activity" />
-
-
+        <activity
+            android:name=".ResumenActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
