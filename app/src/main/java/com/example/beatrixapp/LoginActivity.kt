@@ -2,6 +2,7 @@ package com.example.beatrixapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -9,8 +10,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import androidx.core.content.ContextCompat.startActivity
 
-class LoginActivity: AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
+
+    private lateinit var projectsJsonArray: JSONArray
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,36 +30,96 @@ class LoginActivity: AppCompatActivity() {
             insets
         }
 
+        // Cargar JSON
+        try {
+            projectsJsonArray = loadProjectJson()
+            Log.d("LOGIN", "JSON cargado correctamente. Total proyectos: ${projectsJsonArray.length()}")
+        } catch (e: Exception) {
+            Toast.makeText(this, "Error al cargar el archivo JSON", Toast.LENGTH_LONG).show()
+            Log.e("LOGIN", "Error al cargar JSON", e)
+            return
+        }
+
         val btnEntrar = findViewById<Button>(R.id.btnEntrar)
         val etNombreUsuario = findViewById<EditText>(R.id.etUsername)
         val etPassword = findViewById<EditText>(R.id.etPassword)
 
-
-
-
-
         btnEntrar.setOnClickListener {
-            val nombreUsuario = etNombreUsuario.text.toString().trim()
-            val contrasena = etPassword.text.toString().trim()
+            val username = etNombreUsuario.text.toString().trim()
+            val password = etPassword.text.toString().trim()
 
-            if (nombreUsuario.isEmpty())
-            {
-                Toast.makeText(this, "Por favor, ingrese el nombre de usuario", Toast.LENGTH_SHORT).show()
+            if (username.isEmpty()) {
+                Toast.makeText(this, "Por favor, introduzca el nombre de usuario", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            if (contrasena.isEmpty())
-            {
-                Toast.makeText(this, "Por favor, la contraseña no puede ser null!", Toast.LENGTH_SHORT).show()
+            if (password.isEmpty()) {
+                Toast.makeText(this, "La contraseña no puede estar vacía", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
+            if (checkLogin(username, password)) {
+                Toast.makeText(this, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
 
+                val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+                prefs.edit().putString("loggedUser",username).apply()
 
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+                val intent = Intent(this, MainActivity::class.java)
+                intent.putExtra("USERNAME", username)
+                startActivity(intent)
+                finish()
+            }
         }
+    }
 
+    private fun loadProjectJson(): JSONArray {
+        val inputStream = resources.openRawResource(R.raw.proyectos)
+        val reader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
+        val content = reader.readText()
+        reader.close()
+        return JSONArray(content)
+    }
 
+    private fun checkLogin(username: String, password: String): Boolean {
 
+        for (p in 0 until projectsJsonArray.length()) {
+            val project = projectsJsonArray.getJSONObject(p)
+            val tareas = project.optJSONArray("tareas") ?: continue
+
+            for (t in 0 until tareas.length()) {
+                val tarea = tareas.getJSONObject(t)
+
+                // usuariosAsignados en camelCase
+                val usuarios = tarea.optJSONArray("usuariosAsignados") ?: continue
+
+                for (u in 0 until usuarios.length()) {
+                    val user: JSONObject = usuarios.getJSONObject(u)
+
+                    val nombreUsuario = user.optString("nombreUsuario", "")
+                    val contrasena = user.optString("contrasena", "")
+
+                    if (username == nombreUsuario && password == contrasena) {
+                        return true
+                    }
+                }
+
+                // Comprobar también subTareas
+                val subTareas = tarea.optJSONArray("subTareas")
+                if (subTareas != null) {
+                    for (s in 0 until subTareas.length()) {
+                        val subTarea = subTareas.getJSONObject(s)
+                        val usuariosSub = subTarea.optJSONArray("usuariosAsignadosSubtarea") ?: continue
+                        for (su in 0 until usuariosSub.length()) {
+                            val userSub = usuariosSub.getJSONObject(su)
+                            val nombreUsuario = userSub.optString("nombreUsuario", "")
+                            val contrasena = userSub.optString("contrasena", "")
+                            if (username == nombreUsuario && password == contrasena) {
+                                return true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false
     }
 }

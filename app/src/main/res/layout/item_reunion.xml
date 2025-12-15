@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="12dp"
-    android:background="#E8F0FE"
+    android:background="@drawable/borde_redondo_cards"
     android:elevation="2dp"
     android:layout_marginBottom="8dp"
     android:layout_marginTop="4dp"
@@ -17,25 +17,37 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre de la Reunión"
-        android:textSize="16sp"
+        android:textSize="25sp"
         android:textStyle="bold"
-        android:textColor="#1A73E8"/>
+        android:fontFamily="@font/playfairdisplaysemibold"/>
 
     <TextView
         android:id="@+id/tvHoraReunion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="10:00 AM - 11:00 AM"
-        android:textSize="14sp"
+        android:textSize="20sp"
         android:textColor="#333333"
-        android:layout_marginTop="2dp"/>
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/montserratmedium"/>
 
     <TextView
         android:id="@+id/tvDescripcionReunion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Descripción breve de la reunión"
-        android:textSize="14sp"
+        android:textSize="20sp"
         android:textColor="#666666"
-        android:layout_marginTop="2dp"/>
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/montserratmedium"/>
+
+    <TextView
+        android:id="@+id/tvUsuariosReunion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Usuarios"
+        android:textSize="20sp"
+        android:textColor="#666666"
+        android:layout_marginTop="2dp"
+        android:fontFamily="@font/montserratmedium"/>
 </LinearLayout>
