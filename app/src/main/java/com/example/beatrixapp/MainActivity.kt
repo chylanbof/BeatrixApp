@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.beatrixapp.model.Proyecto
-// 注意：只需要导入您在 MainActivity 中直接引用的模型类
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
@@ -21,7 +20,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.StyleSpan
 import android.graphics.Typeface
-import android.util.Log // 用于调试
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
 
@@ -80,78 +79,115 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun copiarProyectosARutaInterna(context: Context) {
-        val file = File(context.filesDir, fileName)
-        if (!file.exists()) {
+        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val isDataCopied = prefs.getBoolean("is_data_copied", false)
+
+        if (!isDataCopied) {
+            val file = File(context.filesDir, fileName)
             try {
                 context.resources.openRawResource(R.raw.proyectos).use { input ->
                     file.outputStream().use { output ->
                         input.copyTo(output)
                     }
                 }
+                prefs.edit().putBoolean("is_data_copied", true).apply()
+                Log.i("COPIAR", "SUCCESS: Initial data copied and flag set.")
             } catch (e: Exception) {
-                Log.e("MainActivity", "Error al copiar el archivo R.raw.proyectos", e)
+                Log.e("COPIAR", "Error al copiar el archivo R.raw.proyectos", e)
             }
+        } else {
+
+            Log.i("COPIAR", "SKIP: Data already copied, skipping initialization.")
         }
     }
-
     private fun leerProyectosDesdeArchivo(context: Context): List<Proyecto> {
         val proyectos = mutableListOf<Proyecto>()
         val file = File(context.filesDir, fileName)
-        if (!file.exists()) return proyectos
 
-        val jsonString = file.readText()
-        val jsonArray = JSONArray(jsonString)
-
-        for (i in 0 until jsonArray.length()) {
-            val proyectoObj = jsonArray.getJSONObject(i)
-
-            val nombreProyecto = proyectoObj.optString("NombreProyecto")
-            val descripcionProyecto = proyectoObj.optString("DescripcionProyecto")
-            val fechaInicio = proyectoObj.optString("fechaInicio")
-            val fechaEntrega = proyectoObj.optString("fechaEntrega")
-
-            val estadoProyecto = proyectoObj.optString("estado", "Pendiente")
-
-            proyectos.add(
-                Proyecto(
-                    nombreProyecto = if (nombreProyecto.isNullOrEmpty()) null else nombreProyecto,
-                    descripcionProyecto = descripcionProyecto,
-                    tareas = emptyList(),
-                    fechaInicio = fechaInicio,
-                    fechaEntrega = fechaEntrega,
-                    usuariosAsignados = emptyList(),
-                    estado = estadoProyecto
-                )
-            )
+        if (!file.exists()) {
+            Log.w("CARGAR", "WARNING: File $fileName not found. Returning empty list.")
+            return proyectos
         }
+
+        try {
+            // Leer el contenido del archivo de almacenamiento interno
+            val jsonString = file.readText()
+            val jsonArray = JSONArray(jsonString)
+
+            // analice los objetos del proyecto
+            for (i in 0 until jsonArray.length()) {
+                val proyectoObj = jsonArray.getJSONObject(i)
+
+                val nombreProyecto = proyectoObj.optString("NombreProyecto")
+                val descripcionProyecto = proyectoObj.optString("DescripcionProyecto")
+                val fechaInicio = proyectoObj.optString("fechaInicio")
+                val fechaEntrega = proyectoObj.optString("fechaEntrega")
+
+
+                val estadoProyecto = proyectoObj.optString("estado", "Pendiente")
+
+                proyectos.add(
+                    Proyecto(
+                        nombreProyecto = if (nombreProyecto.isNullOrEmpty()) null else nombreProyecto,
+                        descripcionProyecto = descripcionProyecto,
+                        tareas = emptyList(),
+                        fechaInicio = fechaInicio,
+                        fechaEntrega = fechaEntrega,
+                        usuariosAsignados = emptyList(),
+                        estado = estadoProyecto
+                    )
+                )
+            }
+
+            val primerProyectoEstado = proyectos.firstOrNull()?.estado ?: "N/A (No projects loaded)"
+            Log.i("CARGAR", "LOADED: Successfully loaded ${proyectos.size} projects. First project status: $primerProyectoEstado")
+
+        } catch (e: Exception) {
+            Log.e("CARGAR", "Error al leer proyectos desde archivo", e)
+            Toast.makeText(context, "Error al cargar proyectos.", Toast.LENGTH_LONG).show()
+        }
+
         return proyectos
     }
 
     private fun guardarProyectos(context: Context) {
         val file = File(context.filesDir, fileName)
-        if (!file.exists()) return
+
+        if (!file.exists()) {
+            Log.e("GUARDAR", "Error: File $fileName not found in internal storage.")
+            return
+        }
 
         try {
             val jsonString = file.readText()
             val jsonArray = JSONArray(jsonString)
 
             for (proyectoMemoria in listaDeProyectos) {
+
                 for (i in 0 until jsonArray.length()) {
                     val proyectoJson = jsonArray.getJSONObject(i)
 
                     val nombreProyectoJson = proyectoJson.optString("NombreProyecto")
+
                     if (nombreProyectoJson == proyectoMemoria.nombreProyecto) {
                         proyectoJson.put("estado", proyectoMemoria.estado)
+
+                        Log.d("GUARDAR", "SAVED: Project ${proyectoMemoria.nombreProyecto} status updated to ${proyectoMemoria.estado}")
+
                         break
                     }
                 }
             }
 
             file.writeText(jsonArray.toString(2))
+
+            Log.d("GUARDAR", "File written successfully. Path: ${file.absolutePath}")
+
         } catch (e: Exception) {
             Log.e("MainActivity", "Error al guardar proyectos", e)
             Toast.makeText(context, "Error al guardar proyectos", Toast.LENGTH_SHORT).show()
         }
+
     }
 
     private fun agregarProyecto(proyecto: Proyecto, contenedor: LinearLayout, context: Context) {
@@ -214,6 +250,8 @@ class MainActivity : AppCompatActivity() {
                     }
                 )
                 guardarProyectos(context)
+
+
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }

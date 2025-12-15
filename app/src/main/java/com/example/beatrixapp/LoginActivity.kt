@@ -79,6 +79,7 @@ class LoginActivity : AppCompatActivity() {
         return Gson().fromJson(content, listType)
     }
 
+
     private fun checkLogin(username: String, password: String): Boolean {
         for (proyecto in proyectosList) {
             for (tarea in proyecto.tareas) {
@@ -90,7 +91,6 @@ class LoginActivity : AppCompatActivity() {
                         return true
                     }
                 }
-
 
                 for (subtarea in tarea.subtarea) {
                     for (userSub in subtarea.usuariosAsignadosSubTarea) {
