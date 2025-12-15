@@ -22,25 +22,20 @@ class ProyectosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_proyectos)
 
-        // 1. Obtenemos la lista completa del JSON
-        val listaProyectos = obtenerProyectosDesdeJSON()
-
-        // 2. Configuramos el RecyclerView
+        val usuarioLogueado = "mgomez"
+        val listaProyectos = obtenerProyectosDesdeJSON(usuarioLogueado)
         configurarRecyclerView(listaProyectos)
     }
 
     private fun configurarRecyclerView(proyectos: List<ProyectoUI>) {
         val recycler = findViewById<RecyclerView>(R.id.recyclerProyectos)
-
-        // Esto le dice que se comporte como una lista vertical
         recycler.layoutManager = LinearLayoutManager(this)
-
-        // Creamos una instancia de TU adaptador interno y se la asignamos
         val adapter = ProyectosAdapter(proyectos)
         recycler.adapter = adapter
     }
 
-    private fun obtenerProyectosDesdeJSON(): List<ProyectoUI> {
+    // AHORA RECIBE EL NOMBRE DE USUARIO COMO PARÁMETRO
+    private fun obtenerProyectosDesdeJSON(usuarioBuscado: String): List<ProyectoUI> {
         val proyectosEncontrados = mutableListOf<ProyectoUI>()
 
         try {
@@ -53,12 +48,36 @@ class ProyectosActivity : AppCompatActivity() {
             for (i in 0 until jsonArray.length()) {
                 val proyectoObj = jsonArray.getJSONObject(i)
 
-                val nombreProyecto = proyectoObj.getString("NombreProyecto")
-                val tareasArray = proyectoObj.getJSONArray("Tareas")
-                val cantidadTareas = tareasArray.length()
+                // 1. Verificamos si el usuario está en el proyecto
+                var usuarioEstaEnProyecto = false
+                if (proyectoObj.has("UsuariosAsignados")) {
+                    val usuariosAsignadosArray = proyectoObj.getJSONArray("UsuariosAsignados")
+                    for (j in 0 until usuariosAsignadosArray.length()) {
+                        if (usuariosAsignadosArray.getJSONObject(j).getString("nombreUsuario") == usuarioBuscado) {
+                            usuarioEstaEnProyecto = true
+                            break
+                        }
+                    }
+                }
 
-                val info = "$cantidadTareas Tareas activas"
-                proyectosEncontrados.add(ProyectoUI(nombreProyecto, info))
+                // 2. Si está, añadimos el proyecto con la FECHA
+                if (usuarioEstaEnProyecto) {
+                    val nombreProyecto = proyectoObj.getString("NombreProyecto")
+
+                    // --- CAMBIO AQUÍ: LEEMOS LA FECHA DE ENTREGA ---
+                    val fechaRaw = proyectoObj.optString("fechaEntrega", "Sin fecha")
+
+                    // Limpiamos la fecha para quitar la hora (ej: "2025-12-04T14:..." -> "2025-12-04")
+                    val fechaLimpia = if (fechaRaw.contains("T")) {
+                        fechaRaw.split("T")[0]
+                    } else {
+                        fechaRaw
+                    }
+
+                    val info = "Entrega: $fechaLimpia"
+
+                    proyectosEncontrados.add(ProyectoUI(nombreProyecto, info))
+                }
             }
 
         } catch (e: Exception) {
@@ -69,42 +88,29 @@ class ProyectosActivity : AppCompatActivity() {
     }
 
     // ==========================================
-    //      AQUÍ EMPIEZA EL ADAPTADOR INTERNO
+    //      ADAPTADOR INTERNO (SIN CAMBIOS)
     // ==========================================
 
-    // Usamos 'inner class' para que pueda acceder al contexto de la Activity si fuera necesario
     inner class ProyectosAdapter(private val lista: List<ProyectoUI>) :
         RecyclerView.Adapter<ProyectosAdapter.ProyectoViewHolder>() {
 
-        // --- VIEWHOLDER (Maneja las vistas de CADA ítem) ---
         inner class ProyectoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val tvNombre: TextView = itemView.findViewById(R.id.tvNombreProyecto)
             val tvInfo: TextView = itemView.findViewById(R.id.tvFechaInfo)
         }
 
-        // 1. Crea el diseño visual (infla el XML item_proyecto)
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProyectoViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.card_proyectos, parent, false)
             return ProyectoViewHolder(view)
         }
 
-        // 2. Pone los datos en el diseño
         override fun onBindViewHolder(holder: ProyectoViewHolder, position: Int) {
             val proyecto = lista[position]
-
             holder.tvNombre.text = proyecto.nombre
             holder.tvInfo.text = proyecto.infoExtra
-
-            // Aquí podrías añadir un onClickListener en el futuro
-            /*
-            holder.itemView.setOnClickListener {
-                // Código al pulsar la tarjeta
-            }
-            */
         }
 
-        // 3. Dice cuántos elementos hay
         override fun getItemCount(): Int {
             return lista.size
         }

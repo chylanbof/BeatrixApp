@@ -25,6 +25,14 @@
             "email": null,
             "telefono": null,
             "rol": null
+          },
+          {
+            "nombreApellidos": null,
+            "nombreUsuario": "afernandez",
+            "contrasena": null,
+            "email": null,
+            "telefono": null,
+            "rol": null
           }
         ],
         "SubTareas": [
