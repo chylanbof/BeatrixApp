@@ -1,8 +1,16 @@
 package com.example.beatrixapp
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import org.json.JSONArray
 import org.json.JSONObject
@@ -11,15 +19,21 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.utils.ColorTemplate
+import java.io.File
+import java.io.FileOutputStream
 
 
-class ResumenActivity : AppCompatActivity() {
+class ResumenActivity : BaseActivity() {
 
     private val ARCHIVO_JSON = "proyectos.json"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.resumenactivity)
+
+        findViewById<Button>(R.id.btnDescargarPdf).setOnClickListener {
+            generarPdfResumen()
+        }
 
         val nombreProyecto = intent.getStringExtra("nombreProyecto") ?: return
 
@@ -164,6 +178,95 @@ class ResumenActivity : AppCompatActivity() {
         pieChart.setEntryLabelColor(Color.BLACK)
         pieChart.animateY(1000)
     }
+
+    private fun generarPdfResumen() {
+
+        val txtResumen = findViewById<TextView>(R.id.txtResumen)
+        val pieChart = findViewById<com.github.mikephil.charting.charts.PieChart>(R.id.pieChart)
+
+        val pdfDocument = PdfDocument()
+        val pageInfo = PdfDocument.PageInfo.Builder(595, 842, 1).create()
+        val page = pdfDocument.startPage(pageInfo)
+        val canvas = page.canvas
+
+        val paint = Paint()
+        paint.textSize = 14f
+        paint.isAntiAlias = true
+
+        // 📝 TEXTO
+        var y = 40f
+        txtResumen.text.toString().lines().forEach {
+            canvas.drawText(it, 40f, y, paint)
+            y += 24f
+        }
+
+        // 📊 GRÁFICO
+        pieChart.invalidate()
+        val bitmapOriginal = obtenerBitmapDeVista(pieChart)
+
+
+        val anchoPdf = 400
+        val altoPdf = 400
+
+        val bitmapEscalado = Bitmap.createScaledBitmap(
+            bitmapOriginal,
+            anchoPdf,
+            altoPdf,
+            true
+                                                      )
+
+        val left = (pageInfo.pageWidth - anchoPdf) / 2f  // centrado
+        val top = y + 20f
+
+        canvas.drawBitmap(bitmapEscalado, left, top, null)
+
+        pdfDocument.finishPage(page)
+
+        // 💾 GUARDAR
+        val fileName = "Resumen_${System.currentTimeMillis()}.pdf"
+        val file = File(getExternalFilesDir(null), fileName)
+
+        try {
+            pdfDocument.writeTo(FileOutputStream(file))
+            mostrarPdf(file)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(this, "Error al crear el PDF", Toast.LENGTH_SHORT).show()
+        } finally {
+            pdfDocument.close()
+        }
+    }
+
+
+    private fun mostrarPdf(file: File) {
+
+        val uri = androidx.core.content.FileProvider.getUriForFile(
+            this,
+            "$packageName.provider",
+            file
+                                                                  )
+
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, "application/pdf")
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
+
+        startActivity(Intent.createChooser(intent, "Abrir PDF con"))
+    }
+
+    private fun obtenerBitmapDeVista(view: View): Bitmap {
+        val bitmap = Bitmap.createBitmap(
+            view.width,
+            view.height,
+            Bitmap.Config.ARGB_8888
+                                        )
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
+
+
+
 
 
 

@@ -1,0 +1,34 @@
+[
+    {
+        "nombreApellidos": "Elena Ruiz",
+        "nombreUsuario": "eruiz",
+        "contraseña": "MiClaveSecreta!2025",
+        "email": "elena.ruiz@ejemplo.com",
+        "telefono": "+34600123456",
+        "rol": "Administrador"
+    },
+    {
+        "nombreApellidos": "Marcos Gomez",
+        "nombreUsuario": "mgomez",
+        "contrasena": "P@ssw0rd987",
+        "email": "marcos.g@ejemplo.com",
+        "telefono": "+525512345678",
+        "rol": "Editor"
+    },
+    {
+        "nombreApellidos": "Ana Fernandez",
+        "nombreUsuario": "afernandez",
+        "contrasena": "AnaFer.2024*",
+        "email": "ana.fernandez@ejemplo.com",
+        "telefono": "+5491112345678",
+        "rol": "Usuario"
+    },
+    {
+        "nombreApellidos": "Carlos Santana",
+        "nombreUsuario": "csantana",
+        "contrasena": "Carlos.Santana#1",
+        "email": "c.santana@ejemplo.com",
+        "telefono": "+13055551234",
+        "rol": "Visitante"
+    }
+]

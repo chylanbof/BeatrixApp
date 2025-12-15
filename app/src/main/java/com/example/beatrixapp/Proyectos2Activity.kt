@@ -14,6 +14,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import android.app.DatePickerDialog
+import com.example.beatrixapp.utils.LocaleHelper
 import java.util.Calendar
 
 
@@ -21,7 +22,7 @@ import java.util.Calendar
 
 
 
-class Proyectos2Activity : AppCompatActivity() {
+class Proyectos2Activity : BaseActivity() {
 
     private val ARCHIVO_JSON = "proyectos.json"
 
@@ -34,15 +35,18 @@ class Proyectos2Activity : AppCompatActivity() {
 
     private var tareaSeleccionadaIndex: Int = -1
 
-    private val estadosDisponibles = arrayOf(
-        "Pendiente",
-        "En Progreso",
-        "En Pausa",
-        "En Espera",
-        "Revisión",
-        "Completado",
-        "Cancelada"
-                                            )
+    private val estadosDisponibles by lazy {
+        arrayOf(
+            getString(R.string.estado_pendiente),
+            getString(R.string.estado_en_progreso),
+            getString(R.string.estado_en_pausa),
+            getString(R.string.estado_en_espera),
+            getString(R.string.estado_revision),
+            getString(R.string.estado_completado),
+            getString(R.string.estado_cancelada)
+               )
+    }
+
 
 
 
@@ -90,7 +94,11 @@ class Proyectos2Activity : AppCompatActivity() {
 
         // 🟦 1. Nombre
         findViewById<TextView>(R.id.txtNombreProyecto).text =
-            proyecto.optString("NombreProyecto", "Sin nombre")
+            proyecto.optString(
+                "NombreProyecto",
+                getString(R.string.sin_nombre)
+                              )
+
 
         // 🟦 2. Descripción
         findViewById<TextView>(R.id.txtDescripcionTarea).text =
@@ -116,7 +124,7 @@ class Proyectos2Activity : AppCompatActivity() {
         layoutUsuarios.removeAllViews()
 
         val txtUsuarios = TextView(this).apply {
-            text = "Usuarios: $countUsuarios"
+            text = getString(R.string.usuarios_numero, countUsuarios)
             textSize = 14f
             setTextColor(Color.WHITE)
             background = resources.getDrawable(R.drawable.users_badge, null)
@@ -286,11 +294,12 @@ class Proyectos2Activity : AppCompatActivity() {
         findViewById<View>(R.id.btnSettings).setOnClickListener {
 
             val opciones = arrayOf(
-                "Cambiar fecha",
-                "Cambiar descripción",
-                "Cambiar estado",
-                "Generar resumen"
+                getString(R.string.opcion_cambiar_fecha),
+                getString(R.string.opcion_cambiar_descripcion),
+                getString(R.string.opcion_cambiar_estado),
+                getString(R.string.opcion_generar_resumen)
                                   )
+
 
             androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Opciones del proyecto")
                 .setItems(opciones) { _, which ->
@@ -381,7 +390,7 @@ class Proyectos2Activity : AppCompatActivity() {
         val tareaIndex = tareasLayout.checkedRadioButtonId
 
         if (tareaIndex == -1) {
-            mostrarMensaje("Selecciona una tarea primero")
+            mostrarMensaje(getString(R.string.selecciona_tarea))
             return
         }
 
@@ -739,13 +748,18 @@ class Proyectos2Activity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle(titulo)
             .setView(input)
-            .setPositiveButton("Guardar") { _, _ ->
+            .setPositiveButton(getString(R.string.guardar)) { _, _ ->
                 val nuevaDescripcion = input.text.toString().trim()
                 onGuardar(nuevaDescripcion)
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.cancelar), null)
             .show()
     }
+
+    // private fun cambiarIdioma(codigo: String) { Esto se debe poner donde cambiemos el idioma de la app
+//        LocaleHelper.setLocale(this, codigo)
+//        recreate()
+//    }
 
 
 }
