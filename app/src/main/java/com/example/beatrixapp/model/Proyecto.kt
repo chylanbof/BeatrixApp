@@ -19,8 +19,5 @@ data class Proyecto (
     val fechaEntrega: String?,
 
     @SerializedName("UsuariosAsignados")
-    val usuariosAsignados: List<Usuario>,
-
-    @SerializedName("estado")
-    var estado: String="Pendiente"
+    val usuariosAsignados: List<Usuario>
                     )
