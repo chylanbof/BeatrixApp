@@ -1,0 +1,58 @@
+[
+  {
+    "nombreApellidos": "elena Ruiz",
+    "nombreUsuario": "eruiz",
+    "contrasena": "miclavesecreta!2025",
+    "email": "elena.ruiz@ejemplo.com",
+    "telefono": "\u002B34600123456",
+    "rol": "usuario"
+  },
+  {
+    "nombreApellidos": "Marcos Gomez",
+    "nombreUsuario": "mgomez",
+    "contrasena": "P@ssw0rd987",
+    "email": "marcos.g@ejemplo.com",
+    "telefono": "\u002B525512345678",
+    "rol": "Editor"
+  },
+  {
+    "nombreApellidos": "Ana Fernandez",
+    "nombreUsuario": "afernandez",
+    "contrasena": "AnaFer.2024*",
+    "email": "ana.fernandez@ejemplo.com",
+    "telefono": "\u002B5491112345678",
+    "rol": "Usuario"
+  },
+  {
+    "nombreApellidos": "Carlos Santana",
+    "nombreUsuario": "csantana",
+    "contrasena": "calaaaa",
+    "email": "ca@.com",
+    "telefono": "789456",
+    "rol": "Visitante"
+  },
+  {
+    "nombreApellidos": "qiaoqiao wu",
+    "nombreUsuario": "qq",
+    "contrasena": "",
+    "email": "qiaoqiao@gmail.com",
+    "telefono": "7894561",
+    "rol": "Administrador"
+  },
+  {
+    "nombreApellidos": "admin",
+    "nombreUsuario": "admin",
+    "contrasena": "admin1234",
+    "email": "admin@gmail.com",
+    "telefono": "7894561",
+    "rol": "Administrador"
+  },
+  {
+    "nombreApellidos": "marcos",
+    "nombreUsuario": "marcos",
+    "contrasena": "",
+    "email": "marcos@marcos.com",
+    "telefono": "789456",
+    "rol": "Administrador"
+  }
+]

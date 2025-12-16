@@ -1,6 +1,7 @@
 package com.example.beatrixapp
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.CalendarView
@@ -12,6 +13,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlin.math.log
 import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.ImageView
 import androidx.annotation.RawRes
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -19,18 +23,36 @@ import com.example.beatrixapp.model.Reunion
 import com.example.beatrixapp.model.Subtarea
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.beatrixapp.model.Usuario
+import android.graphics.Color
 
 class CalendarioActivity : AppCompatActivity() {
 
     private lateinit var listaProyectos: List<Proyecto>
     private lateinit var  listaReunion: List<Reunion>
 
-    private lateinit var  ListaSubtareas: List<Subtarea>
-
+    @SuppressLint("CutPasteId")
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendario)
+
+        val loggedUser = "afernandez"
+        //Recuperar el usuario Logueado
+       /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val loggedUser = prefs.getString("loggerUser", null)*/
+
+        //Si no hay usuario no muestra nada
+        if (loggedUser == null){
+            finish()
+            return
+        }
+
+        //parsear el nombre de usuario con el nombre original.
+        val jsonUsuarios = leerJSONDRaw(R.raw.usuarios) // Cargar JSON de usuarios
+        val gson = Gson()
+        val tipoListaUsuario = object : TypeToken<List<Usuario>>(){}.type
+        val listaUsuarios: List<Usuario> = gson.fromJson(jsonUsuarios, tipoListaUsuario)
 
         // Referencias de vistas
         val calendarView = findViewById<CalendarView>(R.id.calendarView)
@@ -66,9 +88,31 @@ class CalendarioActivity : AppCompatActivity() {
                 fecha == fechaSeleccionada
             }
 
-            mostrarReuniones(reunionDelDia, containerItems)
+            mostrarReuniones(reunionDelDia, containerItems, listaUsuarios)
 
         }
+
+        //Usar botones para enviar a otros activitys
+        val includeLayout = findViewById<View>(R.id.boton_bottom)
+
+        val botonHome = includeLayout.findViewById<ImageView>(R.id.btn_home)
+        botonHome.setOnClickListener {
+            val intentHome = Intent(this, MainActivity::class.java)
+            startActivity(intentHome)
+        }
+
+        val botonProyectos = includeLayout.findViewById<ImageView>(R.id.btn_proyecto)
+        botonProyectos.setOnClickListener {
+            val intentHome = Intent(this, MainActivity:: class.java)
+            startActivity(intentHome)
+        }
+
+        val botonUsuarios = includeLayout.findViewById<ImageView>(R.id.btn_home)
+        botonUsuarios.setOnClickListener {
+            val intentHome = Intent(this, ProyectosActivity:: class.java)
+            startActivity(intentHome)
+        }
+
     }
 
     private fun parsearProyectos(json: String): List<Proyecto> {
@@ -83,16 +127,38 @@ class CalendarioActivity : AppCompatActivity() {
         return gson.fromJson(json, tipoListaReunion)
     }
 
+
+
     fun leerJSONDRaw(@RawRes idArchivo: Int): String{
         return resources.openRawResource(idArchivo).bufferedReader().use {it.readText()}
     }
 
     // Muestra proyectos del json
     fun mostrarProyectos(proyectos: List<Proyecto>, container: LinearLayout) {
+        val loggedUser = "afernandez"
+
+       /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val loggedUser = prefs.getString("loggerUser", null)?: return
+*/
         val inflater = layoutInflater
 
+        // Filtrar proyectos donde el usuario tenga alguna tarea o subtarea asignada
+        val proyectosFiltrados = proyectos.filter { proyecto ->
+            proyecto.tareas.orEmpty().any { tarea ->
+                // Usuario en la tarea
+                val enTarea = tarea.usuariosAsignados?.any { it.nombreUsuario == loggedUser } == true
+                // Usuario en alguna subtarea
+                val enSubtarea = tarea.subtarea?.any { subtarea ->
+                    subtarea.usuariosAsignadosSubTarea?.any { it.nombreUsuario == loggedUser } == true
+                } == true
 
-        for (proyecto in proyectos) {
+                enTarea || enSubtarea
+            }
+        }
+
+        for (proyecto in proyectosFiltrados) {
+
+
             val view = inflater.inflate(R.layout.item_proyecto, container, false)
 
             val tvNombre = view.findViewById<TextView>(R.id.tvNombreProyecto)
@@ -100,15 +166,26 @@ class CalendarioActivity : AppCompatActivity() {
             val tvTareas = view.findViewById<TextView>(R.id.tvTareasProyecto)
 
             tvNombre.text = proyecto.nombreProyecto
-            tvDescripcionProyect.text = proyecto.descripcionProyecto ?: "Sin descripcón"
+            tvDescripcionProyect.text = proyecto.descripcionProyecto
 
-            // Mostrar nombre de tareas
-            val nombresTareas = proyecto.tareas.orEmpty().map {
-                it.nombreTarea ?: "sin Tareas"
+            // Filtrar tareas visibles para el usuario
+            val tareasUsuario = proyecto.tareas.orEmpty().mapNotNull { tarea ->
+                val subtareasUsuario = tarea.subtarea.filter { subtarea ->
+                    subtarea.usuariosAsignadosSubTarea.any { it.nombreUsuario == loggedUser }
+                }.orEmpty()
+
+                val usuarioEnTarea = tarea.usuariosAsignados.any { it.nombreUsuario == loggedUser }
+
+                if (!usuarioEnTarea && subtareasUsuario.isEmpty()) return@mapNotNull null
+
+                // Copiar tarea con solo las subtareas visibles para el usuario
+                tarea.copy(subtarea = subtareasUsuario)
             }
 
-            tvTareas.text = if (nombresTareas.isNotEmpty()){
-                nombresTareas.joinToString("\n")
+            val nombreTareas = tareasUsuario.map {it.nombreTarea}
+
+            tvTareas.text = if (nombreTareas.isNotEmpty()){
+                nombreTareas.joinToString("\n")
             }else{
                 "Sin Tareas"
             }
@@ -123,10 +200,25 @@ class CalendarioActivity : AppCompatActivity() {
 
     // Mostrar reuniones
     @SuppressLint("SetTextI18n")
-    fun mostrarReuniones(reunion: List<Reunion>, container: LinearLayout){
+    fun mostrarReuniones(reunion: List<Reunion>, container: LinearLayout, listaUsuarios: List<Usuario>){
+
+        val loggedUser = "afernandez"
+
+        /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val loggedUser = prefs.getString("loggerUser", null)?: return
+*/
+
         val inflater = layoutInflater
 
-        for (reunion in reunion){
+        val reunionesUsuario = reunion.filter { reunion ->
+            reunion.usuariosReuniones.any { nombreApellido ->
+                val usuario = listaUsuarios.find { it.nombreApellidos == nombreApellido }
+                usuario?.nombreUsuario == loggedUser
+            }
+        }
+
+        for (reunion in reunionesUsuario){
+
             val view = inflater.inflate(R.layout.item_reunion, container, false)
 
             val tvNombreReunion = view.findViewById<TextView>(R.id.tvNombreReunion)
@@ -154,10 +246,17 @@ class CalendarioActivity : AppCompatActivity() {
     }
 
     fun mostrarDetalleProyecto(proyecto: Proyecto) {
+
+        val loggedUser = "afernandez"
+
+       /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val loggedUser = prefs.getString("loggerUser", null)?: return
+*/
+
         val dialogView = layoutInflater.inflate(R.layout.dialog_detalle_proyecto, null)
         val builder = AlertDialog.Builder(this)
             .setView(dialogView)
-            .setPositiveButton("Cerrar") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton( "Cerrar" ) { dialog, _ -> dialog.dismiss() }
 
         // Referencias
         val tvNombre = dialogView.findViewById<TextView>(R.id.tvNombreProyectoDetalle)
@@ -165,16 +264,46 @@ class CalendarioActivity : AppCompatActivity() {
         val recyclerTareas = dialogView.findViewById<RecyclerView>(R.id.recyclerTareas)
 
         tvNombre.text = proyecto.nombreProyecto
-        tvDescripcion.text = proyecto.descripcionProyecto ?: "Sin descripción"
+        tvDescripcion.text = proyecto.descripcionProyecto
+
+        // Filtrar Tareas y subtareas del usuario
+        val tareasFiltradas = proyecto.tareas.orEmpty().mapNotNull { tarea ->
+
+            // Subtareas del usuario
+            val subFiltradas = tarea.subtarea.filter { subtarea ->
+                subtarea.usuariosAsignadosSubTarea.any { it.nombreUsuario == loggedUser }
+            }.orEmpty()
+
+            val usuarioEnTarea = tarea.usuariosAsignados.any { it.nombreUsuario == loggedUser }
+
+            when {
+                usuarioEnTarea -> {
+                    // Usuario pertenece a la tarea: devolvemos tarea con subtareas filtradas
+                    tarea.copy(subtarea = subFiltradas)
+                }
+                subFiltradas.isNotEmpty() -> {
+                    // Usuario solo en subtareas: mostramos tarea y subtareas visibles
+                    tarea.copy(
+                        nombreTarea = tarea.nombreTarea,
+                        descripcion = tarea.descripcion,
+                        subtarea = subFiltradas
+                              )
+                }
+                else -> null
+            }
+        }
 
         // Configurar RecyclerView
         recyclerTareas.layoutManager = LinearLayoutManager(this)
-        recyclerTareas.adapter = TareaAdapter(proyecto.tareas.orEmpty())
+        recyclerTareas.adapter = TareaAdapter(tareasFiltradas)
 
         // Mostrar el dialog
-        builder.show()
-    }
+        val dialog = builder.create()
+        dialog.show()
 
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.rgb(245,158,125))
+
+    }
 }
 
 

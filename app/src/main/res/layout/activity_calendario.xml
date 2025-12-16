@@ -4,28 +4,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
+    android:background="#29BFCD"
     android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Calendario"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:fontFamily="@font/playfairdisplaysemibold"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_calendario"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="350dp"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="53dp"
+        android:layout_marginTop="70dp"
         app:cardCornerRadius="16dp"
-        app:cardElevation="8dp">
+        app:cardElevation="8dp"
+        >
 
         <CalendarView
             android:id="@+id/calendarView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="8dp" />
+            android:layout_margin="8dp"
+            android:fontFamily="@font/montserratmedium"
+            android:dateTextAppearance="@style/CalendarText"
+            android:weekDayTextAppearance="@style/CalendarText"/>
+
     </androidx.cardview.widget.CardView>
 
     <ScrollView
         android:id="@+id/scroll_contenido"
-        android:layout_width="388dp"
+        android:layout_width="match_parent"
         android:layout_height="261dp"
         android:layout_above="@id/boton_bottom"
         android:layout_below="@id/card_calendario"
@@ -36,7 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="16dp" />
+            android:paddingBottom="16dp"
+            />
 
     </ScrollView>
 

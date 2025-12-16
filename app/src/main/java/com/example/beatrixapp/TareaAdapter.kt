@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 import android.graphics.Color
 import androidx.recyclerview.widget.LinearLayoutManager
+
+
 class TareaAdapter(private val tareas: List<Tarea>) : RecyclerView.Adapter<TareaAdapter.TareaViewHolder>() {
 
     class TareaViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -44,7 +46,7 @@ class TareaAdapter(private val tareas: List<Tarea>) : RecyclerView.Adapter<Tarea
                                                else -> Color.LTGRAY
                                            })
         holder.tvFechas.text = "Inicio: ${formatearFecha(tarea.fechaInicio)} / Entrega: ${formatearFecha(tarea.fechaEntrega)}"
-        holder.tvUsuarios.text = "Usuarios: ${tarea.usuariosAsignados.joinToString(", ") { it.nombreUsuario }}"
+        holder.tvUsuarios.text = "Usuarios: ${tarea.usuariosAsignados.joinToString(", ") { it.nombreUsuario.toString() }}"
 
         val subTareas = tarea.subtarea.orEmpty()
         holder.recyclerSubTareas.layoutManager = LinearLayoutManager(holder.view.context)
