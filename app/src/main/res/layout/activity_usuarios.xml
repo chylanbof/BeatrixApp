@@ -57,12 +57,12 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="105dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Nombre de Usuario:"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -84,12 +84,12 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="51dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Correo electronico:"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -110,12 +110,12 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="75dp"
+                        android:layout_width="133dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Numero de Telefono:"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp"
+                        android:textSize="20sp"
                         android:textStyle="bold" />
 
                     <TextView
@@ -136,13 +136,13 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="187dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
                         android:text="Contraseña:"
                         android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:layout_marginEnd="16dp"/>
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvContrasena"
@@ -156,11 +156,29 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="24dp">
+
+                <Button
+                    android:id="@+id/btnEditarPerfil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Editar Perfil"
+                    android:textColor="#26C6DA"
+                    android:backgroundTint="@android:color/white"
+                    android:textStyle="bold"
+                    android:paddingHorizontal="40dp"
+                    android:textAllCaps="false"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="62dp"
+                android:paddingTop="32dp"
                 android:paddingHorizontal="32dp">
 
                 <TextView
@@ -273,7 +291,7 @@
                     android:layout_height="wrap_content"
                     android:text="Estado de Tareas"
                     android:textColor="@android:color/white"
-                    android:textSize="18sp"
+                    android:textSize="20sp"
                     android:gravity="center"
                     android:layout_marginBottom="10dp"/>
 
@@ -306,6 +324,17 @@
             android:layout_height="70dp" />
     </LinearLayout>
 
-
+    <ImageButton
+        android:id="@+id/btnCambiarIdioma"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@android:color/transparent"
+        android:contentDescription="Cambiar idioma"
+        android:src="@drawable/bandera_esp"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
