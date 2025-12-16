@@ -1,27 +1,14 @@
 package com.example.beatrixapp.model
 
-import com.google.gson.annotations.SerializedName
+
 data class Tarea(
-    @SerializedName("nombreTarea")
     val nombreTarea: String,
-
-    @SerializedName("descripcion")
     val descripcion: String,
-
-    @SerializedName("fechaInicio")
-    val fechaInicio: String,
-
-    @SerializedName("fechaEntrega")
-    val fechaEntrega: String,
-
-    @SerializedName("EstadoSubTarea")
+    var fechaInicio: String,
+    var fechaEntrega: String,
     val estado: String,
-
-    @SerializedName("usuariosAsignados")
     val usuariosAsignados: List<Usuario>,
-
-    @SerializedName("SubTareas")
-    val subtarea: List<Subtarea>,
-
+    val subtareas: List<SubTarea> = emptyList()
+                ) {
     var proyecto: Proyecto? = null
-                )
+}
