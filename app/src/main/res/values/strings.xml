@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- proyectos2 activity -->
+
     <!-- 🔤 GENERALES -->
     <string name="app_name">BeatrixApp</string>
     <string name="ok">OK</string>
@@ -23,6 +25,7 @@
     <string name="que_fecha_cambiar">¿Qué fecha quieres cambiar?</string>
     <string name="cambiar_fecha_proyecto">Cambiar fecha del proyecto</string>
     <string name="cambiar_fecha_tarea">Cambiar fecha de la tarea seleccionada</string>
+
 
     <!-- 👥 USUARIOS -->
     <string name="usuarios">Usuarios</string>
@@ -92,6 +95,31 @@
     <string name="espanol">Español</string>
     <string name="ingles">Inglés</string>
     <string name="catalan">Catalán</string>
+
+    <!-- resumen activity -->
+
+
+    <!-- Botón -->
+    <string name="btn_descargar_pdf">Descargar PDF</string>
+
+    <!-- Resumen -->
+        <string name="resumen_proyecto">Proyecto: %1$s</string>
+        <string name="tareas_completadas">✔ Completadas: %1$d</string>
+        <string name="tareas_en_progreso">⏳ En progreso: %1$d</string>
+        <string name="tareas_canceladas">⛔ Canceladas: %1$d</string>
+        <string name="subtareas_completadas">Subtareas completadas: %1$d / %2$d</string>
+
+    <!-- PieChart -->
+        <string name="grafica_titulo">Estado de las tareas</string>
+        <string name="grafica_centro">Tareas</string>
+        <string name="grafica_completadas">Completadas</string>
+        <string name="grafica_en_progreso">En progreso</string>
+        <string name="grafica_canceladas">Canceladas</string>
+
+    <!-- Mensajes -->
+        <string name="error_pdf">Error al crear el PDF</string>
+        <string name="abrir_pdf_con">Abrir PDF con</string>
+
 
 
 

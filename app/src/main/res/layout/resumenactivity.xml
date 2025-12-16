@@ -64,7 +64,7 @@
             android:id="@+id/btnDescargarPdf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Descargar resumen en PDF"
+            android:text="@string/btn_descargar_pdf"
             android:layout_marginTop="16dp"
             android:backgroundTint="#26C6DA"
             android:textColor="@android:color/white"/>

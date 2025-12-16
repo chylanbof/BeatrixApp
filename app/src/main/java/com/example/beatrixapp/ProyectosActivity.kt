@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,15 @@ class ProyectosActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_proyectos)
+
+        val btnPerfil: ImageView = findViewById(R.id.btn_perfil)
+
+        // Configurar el OnClickListener
+        btnPerfil.setOnClickListener {
+            // Abre la actividad UsuarioActivity cuando se pulse el botón
+            val intent = Intent(this, UsuarioActivity::class.java)
+            startActivity(intent)
+        }
 
         // 1. Obtenemos la lista completa del JSON
         val listaProyectos = obtenerProyectosDesdeJSON()

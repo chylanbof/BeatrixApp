@@ -9,6 +9,7 @@ import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +31,18 @@ class ResumenActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.resumenactivity)
+
+        val botonBottom: View = findViewById(R.id.boton_bottom)
+
+        val btnHome: ImageView = botonBottom.findViewById(R.id.btn_home)
+        val btnProyecto: ImageView = botonBottom.findViewById(R.id.btn_proyecto)
+        val btnCalendario: ImageView = botonBottom.findViewById(R.id.btn_calendario)
+        val btnPerfil: ImageView = botonBottom.findViewById(R.id.btn_perfil)
+
+        btnHome.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
+        btnProyecto.setOnClickListener { startActivity(Intent(this, ProyectosActivity::class.java)) }
+        btnCalendario.setOnClickListener { startActivity(Intent(this, CalendarioActivity::class.java)) }
+        btnPerfil.setOnClickListener { startActivity(Intent(this, UsuarioActivity::class.java)) }
 
         findViewById<Button>(R.id.btnDescargarPdf).setOnClickListener {
             generarPdfResumen()
@@ -75,32 +88,27 @@ class ResumenActivity : BaseActivity() {
             }
         }
 
-        // 📝 Texto resumen
-        val resumenTexto = """
-            Proyecto: ${proyecto.optString("NombreProyecto")}
+        // 📝 Texto resumen usando strings.xml
+        val resumenTexto = buildString {
+            append(getString(R.string.resumen_proyecto, proyecto.optString("NombreProyecto")))
+            append("\n\n")
+            append(getString(R.string.tareas_completadas, completadas))
+            append("\n")
+            append(getString(R.string.tareas_en_progreso, enProgreso))
+            append("\n")
+            append(getString(R.string.tareas_canceladas, canceladas))
+            append("\n\n")
+            append(getString(R.string.subtareas_completadas, subtareasCompletadas, totalSubtareas))
+        }
 
-            Tareas:
-            ✔ Completadas: $completadas
-            ⏳ En progreso: $enProgreso
-            ⛔ Canceladas: $canceladas
-
-            Subtareas completadas:
-            $subtareasCompletadas / $totalSubtareas
-        """.trimIndent()
-
+        // Mostrar en TextView
         findViewById<TextView>(R.id.txtResumen).text = resumenTexto
 
         // 📊 Gráfico simple
-        pintarBarraProgreso(
-            subtareasCompletadas, totalSubtareas
-                           )
-
-        pintarGraficaEstados(
-            completadas,
-            enProgreso,
-            canceladas
-                            )
+        pintarBarraProgreso(subtareasCompletadas, totalSubtareas)
+        pintarGraficaEstados(completadas, enProgreso, canceladas)
     }
+
 
     private fun pintarBarraProgreso(completadas: Int, total: Int) {
 
@@ -155,11 +163,11 @@ class ResumenActivity : BaseActivity() {
 
         val entries = ArrayList<PieEntry>()
 
-        if (completadas > 0) entries.add(PieEntry(completadas.toFloat(), "Completadas"))
-        if (enProgreso > 0) entries.add(PieEntry(enProgreso.toFloat(), "En progreso"))
-        if (canceladas > 0) entries.add(PieEntry(canceladas.toFloat(), "Canceladas"))
+        if (completadas > 0) entries.add(PieEntry(completadas.toFloat(), getString(R.string.grafica_completadas)))
+        if (enProgreso > 0) entries.add(PieEntry(enProgreso.toFloat(), getString(R.string.grafica_en_progreso)))
+        if (canceladas > 0) entries.add(PieEntry(canceladas.toFloat(), getString(R.string.grafica_canceladas)))
 
-        val dataSet = PieDataSet(entries, "Estado de las tareas")
+        val dataSet = PieDataSet(entries, getString(R.string.grafica_titulo))
         dataSet.colors = listOf(
             Color.GREEN,
             Color.CYAN,
@@ -174,7 +182,7 @@ class ResumenActivity : BaseActivity() {
         pieChart.data = data
         pieChart.description.isEnabled = false
         pieChart.setUsePercentValues(true)
-        pieChart.centerText = "Tareas"
+        pieChart.centerText = getString(R.string.grafica_centro)
         pieChart.setEntryLabelColor(Color.BLACK)
         pieChart.animateY(1000)
     }
@@ -231,7 +239,7 @@ class ResumenActivity : BaseActivity() {
             mostrarPdf(file)
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(this, "Error al crear el PDF", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.error_pdf), Toast.LENGTH_SHORT).show()
         } finally {
             pdfDocument.close()
         }
@@ -251,7 +259,7 @@ class ResumenActivity : BaseActivity() {
             flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
         }
 
-        startActivity(Intent.createChooser(intent, "Abrir PDF con"))
+        startActivity(Intent.createChooser(intent, getString(R.string.abrir_pdf_con)))
     }
 
     private fun obtenerBitmapDeVista(view: View): Bitmap {

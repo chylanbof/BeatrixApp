@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- proyectos2 activity -->
+
+    <!-- 🔤 GENERAL -->
+    <string name="app_name">BeatrixApp</string>
+    <string name="ok">OK</string>
+    <string name="cancelar">Cancel</string>
+    <string name="guardar">Save</string>
+    <string name="cerrar">Close</string>
+
+    <!-- 📌 PROJECT -->
+    <string name="nombre_proyecto">Project Name</string>
+    <string name="sin_nombre">No Name</string>
+    <string name="descripcion_proyecto">Project Description</string>
+    <string name="opciones_proyecto">Project Options</string>
+
+    <!-- 📅 DATES -->
+    <string name="cambiar_fecha">Change Date</string>
+    <string name="fecha_inicio">Start Date</string>
+    <string name="fecha_entrega">Delivery Date</string>
+    <string name="fecha_actualizada">Date updated successfully</string>
+    <string name="fecha_tarea_actualizada">Task date updated successfully</string>
+    <string name="que_fecha_cambiar">Which date do you want to change?</string>
+    <string name="cambiar_fecha_proyecto">Change project date</string>
+    <string name="cambiar_fecha_tarea">Change selected task date</string>
+
+    <!-- 👥 USERS -->
+    <string name="usuarios">Users</string>
+    <string name="usuarios_asignados">Assigned users</string>
+    <string name="usuarios_numero">Users: %1$d</string>
+    <string name="no_usuarios">No users assigned.</string>
+    <string name="usuario_sin_nombre">User without name</string>
+
+    <!-- 📝 TASKS -->
+    <string name="tarea">Task</string>
+    <string name="descripcion_tarea">Task Description</string>
+    <string name="selecciona_tarea">Select a task first</string>
+    <string name="fecha_tarea">Task Date</string>
+    <string name="no_hay_subtareas">The task has no subtasks</string>
+    <string name="no_hay_tareas_resumen">No completed tasks to generate a summary</string>
+    <string name="tarea_numero">Task %1$d</string>
+
+    <!-- 🧩 SUBTASKS -->
+    <string name="subtarea">Subtask</string>
+    <string name="no_subtareas">The task has no subtasks</string>
+    <string name="seleccionar_subtarea">Select a subtask</string>
+    <string name="descripcion_subtarea">Subtask Description</string>
+    <string name="cambiar_estado_subtarea">Change subtask status</string>
+    <string name="subtarea_numero">Subtask %1$d</string>
+
+    <!-- ✏️ DESCRIPTIONS -->
+    <string name="cambiar_descripcion">Change Description</string>
+    <string name="cambiar_descripcion_proyecto">Change project description</string>
+    <string name="cambiar_descripcion_tarea">Change selected task description</string>
+    <string name="cambiar_descripcion_subtarea">Change subtask description</string>
+    <string name="editar_descripcion_proyecto">Edit project description</string>
+    <string name="editar_descripcion_tarea">Edit task description</string>
+    <string name="editar_descripcion_subtarea">Edit subtask description</string>
+
+    <!-- 🔄 STATUS -->
+    <string name="cambiar_estado">Change Status</string>
+    <string name="nuevo_estado_tarea">New task status</string>
+    <string name="nuevo_estado_subtarea">New subtask status</string>
+
+    <string name="estado_pendiente">Pending</string>
+    <string name="estado_en_progreso">In Progress</string>
+    <string name="estado_en_pausa">Paused</string>
+    <string name="estado_en_espera">On Hold</string>
+    <string name="estado_revision">Review</string>
+    <string name="estado_completado">Completed</string>
+    <string name="estado_cancelada">Canceled</string>
+    <string name="sin_estado">No Status</string>
+    <string name="cambiar_estado_titulo">Change Status</string>
+
+    <!-- ⚙️ SETTINGS MENU -->
+    <string name="opcion_cambiar_fecha">Change Date</string>
+    <string name="opcion_cambiar_descripcion">Change Description</string>
+    <string name="opcion_cambiar_estado">Change Status</string>
+    <string name="opcion_generar_resumen">Generate Summary</string>
+
+    <!-- 📊 SUMMARY -->
+    <string name="generar_resumen">Generate Summary</string>
+    <string name="no_resumen">No completed tasks to generate a summary</string>
+
+    <!-- 🌍 LANGUAGE -->
+    <string name="idioma">Language</string>
+    <string name="espanol">Spanish</string>
+    <string name="ingles">English</string>
+    <string name="catalan">Catalan</string>
+
+    <!-- resumen activity -->
+
+    <!-- Button -->
+    <string name="btn_descargar_pdf">Download PDF</string>
+
+    <!-- Summary -->
+    <string name="resumen_proyecto">Project: %1$s</string>
+    <string name="tareas_completadas">✔ Completed: %1$d</string>
+    <string name="tareas_en_progreso">⏳ In Progress: %1$d</string>
+    <string name="tareas_canceladas">⛔ Canceled: %1$d</string>
+    <string name="subtareas_completadas">Subtasks completed: %1$d / %2$d</string>
+
+    <!-- PieChart -->
+    <string name="grafica_titulo">Task Status</string>
+    <string name="grafica_centro">Tasks</string>
+    <string name="grafica_completadas">Completed</string>
+    <string name="grafica_en_progreso">In Progress</string>
+    <string name="grafica_canceladas">Canceled</string>
+
+    <!-- Messages -->
+    <string name="error_pdf">Error creating PDF</string>
+    <string name="abrir_pdf_con">Open PDF with</string>
+
+</resources>

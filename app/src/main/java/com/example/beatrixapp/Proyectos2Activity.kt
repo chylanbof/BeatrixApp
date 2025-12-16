@@ -14,6 +14,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.File
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.widget.ImageView
 import com.example.beatrixapp.utils.LocaleHelper
 import java.util.Calendar
 
@@ -64,6 +66,18 @@ class Proyectos2Activity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.proyectos2)
+
+        val botonBottom: View = findViewById(R.id.boton_bottom)
+
+        val btnHome: ImageView = botonBottom.findViewById(R.id.btn_home)
+        val btnProyecto: ImageView = botonBottom.findViewById(R.id.btn_proyecto)
+        val btnCalendario: ImageView = botonBottom.findViewById(R.id.btn_calendario)
+        val btnPerfil: ImageView = botonBottom.findViewById(R.id.btn_perfil)
+
+        btnHome.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
+        btnProyecto.setOnClickListener { startActivity(Intent(this, ProyectosActivity::class.java)) }
+        btnCalendario.setOnClickListener { startActivity(Intent(this, CalendarioActivity::class.java)) }
+        btnPerfil.setOnClickListener { startActivity(Intent(this, UsuarioActivity::class.java)) }
 
         jsonArrayGlobal = leerJson()
 
@@ -835,13 +849,5 @@ class Proyectos2Activity : BaseActivity() {
             .uppercase()
             .replace(" ", "_")
     }
-
-
-
-    // private fun cambiarIdioma(codigo: String) { Esto se debe poner donde cambiemos el idioma de la app
-//        LocaleHelper.setLocale(this, codigo)
-//        recreate()
-//    }
-
 
 }
