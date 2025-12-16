@@ -9,6 +9,7 @@ import android.text.Spanned
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -74,6 +75,27 @@ class MainActivity : AppCompatActivity() {
 
         for (proyecto in listaDeProyectos) {
             agregarProyecto(proyecto, contenedorProyectos, this)
+        }
+
+        //Usar botones para enviar a otros activitys
+        val includeLayout = findViewById<View>(R.id.boton_bottom)
+
+        val botonCalendario = includeLayout.findViewById<ImageView>(R.id.btn_calendario)
+        botonCalendario.setOnClickListener {
+            val intentCalendario = Intent(this, CalendarioActivity::class.java)
+            startActivity(intentCalendario)
+        }
+
+        val botonPerfil = includeLayout.findViewById<ImageView>(R.id.btn_perfil)
+        botonPerfil.setOnClickListener {
+            val intentPerfil = Intent(this, UsuarioActivity:: class.java)
+            startActivity(intentPerfil)
+        }
+
+        val botonProyecto = includeLayout.findViewById<ImageView>(R.id.btn_proyecto)
+        botonProyecto.setOnClickListener {
+            val intentProyecto= Intent(this, ProyectosActivity:: class.java)
+            startActivity(intentProyecto)
         }
     }
 
