@@ -1,9 +1,23 @@
 package com.example.beatrixapp.model
 
-data class SubTarea(
-    val nombreSubTarea: String,
+import com.google.gson.annotations.SerializedName
+
+data class Subtarea(
+    @SerializedName("NombreSubTarea")
+    val nombreSubtarea: String,
+
+    @SerializedName("DescripcionSubTarea")
     val descripcionSubTarea: String,
-    var fechaInicioSubtarea: String,
-    var fechaEntregaSubtarea: String,
-    val estadoSubTarea: String
+
+    @SerializedName("FechaInicioSubtarea")
+    val fechaInicioSubtarea: String,
+
+    @SerializedName("FechaEntregaSubtarea")
+    val fechaEntregaSubtarea: String,
+
+    @SerializedName("EstadoSubTarea")
+    val estadoSubtarea: String,
+
+    @SerializedName("UsuariosAsignadosSubtarea")
+    val usuariosAsignadosSubTarea: List<Usuario>
                    )
