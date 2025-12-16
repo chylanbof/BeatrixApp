@@ -26,6 +26,17 @@ class Proyectos2Activity : BaseActivity() {
 
     private val ARCHIVO_JSON = "proyectos.json"
 
+    private val estadosMap = mapOf(
+        "PENDIENTE" to "Pendiente",
+        "EN_PROGRESO" to "En progreso",
+        "EN_PAUSA" to "En pausa",
+        "EN_ESPERA" to "En espera",
+        "REVISION" to "Revision",
+        "COMPLETADO" to "Completado",
+        "CANCELADA" to "Cancelada"
+                                  )
+
+
     private lateinit var jsonArrayGlobal: JSONArray
     private lateinit var proyectoActual: JSONObject
     private lateinit var tareasArrayGlobal: JSONArray
@@ -155,23 +166,39 @@ class Proyectos2Activity : BaseActivity() {
         for (i in 0 until tareasArrayGlobal.length()) {
             val tarea = tareasArrayGlobal.getJSONObject(i)
 
-            val nombre = tarea.optString("nombreTarea", "Tarea ${i + 1}")
-            val estado = tarea.optString("estado", "Sin estado")
+            val nombre = tarea.optString(
+                "nombreTarea",
+                getString(R.string.tarea_numero, i + 1)
+                                        )
+
+            val estadoInterno = estadoInternoDesdeJson(tarea.optString("estado", ""))
+
+            val estadoTexto = when (estadoInterno) {
+                "PENDIENTE" -> getString(R.string.estado_pendiente)
+                "EN_PROGRESO" -> getString(R.string.estado_en_progreso)
+                "EN_PAUSA" -> getString(R.string.estado_en_pausa)
+                "EN_ESPERA" -> getString(R.string.estado_en_espera)
+                "REVISION" -> getString(R.string.estado_revision)
+                "COMPLETADO" -> getString(R.string.estado_completado)
+                "CANCELADA" -> getString(R.string.estado_cancelada)
+                else -> getString(R.string.sin_estado)
+            }
+
 
             val rb = RadioButton(this).apply {
                 id = i
-                text = "$nombre  •  $estado"
+                text = "$nombre  •  $estadoTexto"
                 textSize = 14f
                 setPadding(24, 16, 24, 16)
 
                 // 🎨 Color de fondo según estado
                 background = resources.getDrawable(R.drawable.rounded_orange, null)
                 backgroundTintList =
-                    ColorStateList.valueOf(fondoEstado(estado.lowercase()))
+                    ColorStateList.valueOf(fondoEstado(estadoInterno))
 
                 // 📝 Color del texto (amarillo necesita negro)
                 setTextColor(
-                    if (estado.equals("pendiente", true)) Color.BLACK
+                    if (estadoInterno == "PENDIENTE") Color.BLACK
                     else Color.WHITE
                             )
             }
@@ -260,7 +287,7 @@ class Proyectos2Activity : BaseActivity() {
             for (j in 0 until subtareas.length()) {
                 val sub = subtareas.getJSONObject(j)
                 val txt = TextView(this)
-                txt.text = "• ${sub.optString("NombreSubTarea", "Subtarea")}"
+                txt.text = "• ${sub.optString("NombreSubTarea", getString(R.string.subtarea))}"
                 subLayout.addView(txt)
             }
         }
@@ -274,21 +301,24 @@ class Proyectos2Activity : BaseActivity() {
             val usuariosArray = proyecto.optJSONArray("UsuariosAsignados") ?: JSONArray()
 
             if (usuariosArray.length() == 0) {
-                androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Usuarios")
-                    .setMessage("No hay usuarios asignados.").setPositiveButton("OK", null).show()
+                androidx.appcompat.app.AlertDialog.Builder(this).setTitle(getString(R.string.usuarios))
+                    .setMessage(getString(R.string.no_usuarios)).setPositiveButton(getString(R.string.ok), null).show()
                 return@setOnClickListener
             }
 
             // Convertir a lista legible
             val listaUsuarios = Array(usuariosArray.length()) { i ->
                 val usuarioObj = usuariosArray.getJSONObject(i)
-                usuarioObj.optString("nombreUsuario", "Usuario sin nombre")
+                usuarioObj.optString(
+                    "nombreUsuario",
+                    getString(R.string.usuario_sin_nombre)
+                                    )
             }
 
 
             // Mostrar diálogo
-            androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Usuarios asignados")
-                .setItems(listaUsuarios, null).setPositiveButton("Cerrar", null).show()
+            androidx.appcompat.app.AlertDialog.Builder(this).setTitle(getString(R.string.usuarios_asignados))
+                .setItems(listaUsuarios, null).setPositiveButton(getString(R.string.cerrar), null).show()
         }
 
         findViewById<View>(R.id.btnSettings).setOnClickListener {
@@ -301,7 +331,7 @@ class Proyectos2Activity : BaseActivity() {
                                   )
 
 
-            androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Opciones del proyecto")
+            androidx.appcompat.app.AlertDialog.Builder(this).setTitle(getString(R.string.opciones_proyecto))
                 .setItems(opciones) { _, which ->
                     when (which) {
                         0 -> cambiarFecha()
@@ -309,7 +339,7 @@ class Proyectos2Activity : BaseActivity() {
                         2 -> cambiarEstado()
                         3 -> generarResumen()
                     }
-                }.setNegativeButton("Cancelar", null).show()
+                }.setNegativeButton(getString(R.string.cancelar), null).show()
         }
 
 
@@ -320,13 +350,13 @@ class Proyectos2Activity : BaseActivity() {
     }
 
     private fun fondoEstado(estado: String): Int {
-        return when (estado.lowercase()) {
-            "pendiente" -> Color.YELLOW
-            "en progreso" -> Color.rgb(81, 190, 207)
-            "en espera" -> Color.rgb(39, 238, 245)
-            "revisión" -> Color.MAGENTA
-            "completado" -> Color.GREEN
-            "cancelada" -> Color.RED
+        return when (estado) {
+            "PENDIENTE" -> Color.YELLOW
+            "EN_PROGRESO" -> Color.rgb(81, 190, 207)
+            "EN_ESPERA" -> Color.rgb(39, 238, 245)
+            "REVISION" -> Color.MAGENTA
+            "COMPLETADO" -> Color.GREEN
+            "CANCELADA" -> Color.RED
             else -> Color.LTGRAY
         }
     }
@@ -334,24 +364,27 @@ class Proyectos2Activity : BaseActivity() {
     private fun cambiarFecha() {
 
         val opciones = arrayOf(
-            "Cambiar fecha del proyecto",
-            "Cambiar fecha de la tarea seleccionada"
+            getString(R.string.cambiar_fecha_proyecto),
+            getString(R.string.cambiar_fecha_tarea)
                               )
 
-        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Cambiar fecha")
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle(getString(R.string.cambiar_fecha))
             .setItems(opciones) { _, which ->
                 when (which) {
                     0 -> cambiarFechaProyecto()
                     1 -> cambiarFechaTarea()
                 }
-            }.setNegativeButton("Cancelar", null).show()
+            }.setNegativeButton(getString(R.string.cancelar), null).show()
     }
 
     private fun cambiarFechaProyecto() {
-        val opciones = arrayOf("Fecha inicio", "Fecha entrega")
+        val opciones = arrayOf(
+            getString(R.string.fecha_inicio),
+            getString(R.string.fecha_entrega)
+                              )
 
         AlertDialog.Builder(this)
-            .setTitle("¿Qué fecha quieres cambiar?")
+            .setTitle(getString(R.string.que_fecha_cambiar))
             .setItems(opciones) { _, which ->
                 mostrarDatePickerProyecto(if (which == 0) "fechaInicio" else "fechaEntrega")
             }
@@ -373,7 +406,7 @@ class Proyectos2Activity : BaseActivity() {
                 guardarJson(jsonArrayGlobal)
                 rellenarPantalla(proyectoActual)
 
-                mostrarMensaje("Fecha actualizada correctamente")
+                mostrarMensaje(getString(R.string.fecha_actualizada))
             },
             calendario.get(Calendar.YEAR),
             calendario.get(Calendar.MONTH),
@@ -396,10 +429,13 @@ class Proyectos2Activity : BaseActivity() {
 
         val tarea = tareasArrayGlobal.getJSONObject(tareaIndex)
 
-        val opciones = arrayOf("Fecha inicio", "Fecha entrega")
+        val opciones = arrayOf(
+            getString(R.string.fecha_inicio),
+            getString(R.string.fecha_entrega)
+                              )
 
         AlertDialog.Builder(this)
-            .setTitle("¿Qué fecha quieres cambiar?")
+            .setTitle(getString(R.string.que_fecha_cambiar))
             .setItems(opciones) { _, which ->
                 val campo = if (which == 0) "fechaInicio" else "fechaEntrega"
                 mostrarDatePickerTarea(tarea, campo)
@@ -425,7 +461,7 @@ class Proyectos2Activity : BaseActivity() {
                 guardarJson(jsonArrayGlobal)
                 rellenarPantalla(proyectoActual)
 
-                mostrarMensaje("Fecha de la tarea actualizada correctamente")
+                mostrarMensaje(getString(R.string.fecha_tarea_actualizada))
             },
             calendario.get(Calendar.YEAR),
             calendario.get(Calendar.MONTH),
@@ -435,26 +471,28 @@ class Proyectos2Activity : BaseActivity() {
 
     private fun cambiarDescripcion() {
         val opciones = arrayOf(
-            "Cambiar descripción del proyecto",
-            "Cambiar descripción de la tarea seleccionada",
-            "Cambiar descripción de una subtarea"
+            getString(R.string.cambiar_descripcion_proyecto),
+            getString(R.string.cambiar_descripcion_tarea),
+            getString(R.string.cambiar_descripcion_subtarea)
                               )
 
-        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Cambiar fecha")
+
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle(getString(R.string.cambiar_descripcion))
             .setItems(opciones) { _, which ->
                 when (which) {
                     0 -> cambiarDescripcionProyecto()
                     1 -> cambiarDescripcionTarea()
                     2 -> cambiarDescripcionSubtarea()
                 }
-            }.setNegativeButton("Cancelar", null).show()
+            }.setNegativeButton(getString(R.string.cancelar), null).show()
     }
 
     private fun cambiarDescripcionProyecto() {
         val descripcionActual = proyectoActual.optString("DescripcionProyecto", "")
 
         mostrarDialogoEditarDescripcion(
-            "Editar descripción del proyecto",
+            getString(R.string.editar_descripcion_proyecto)
+            ,
             descripcionActual
                                        ) { nuevaDescripcion ->
             proyectoActual.put("DescripcionProyecto", nuevaDescripcion)
@@ -468,7 +506,7 @@ class Proyectos2Activity : BaseActivity() {
 
         if (tareaSeleccionadaIndex == -1 ||
             tareaSeleccionadaIndex >= tareasArrayGlobal.length()) {
-            mostrarMensaje("Selecciona una tarea primero")
+            mostrarMensaje(getString(R.string.selecciona_tarea))
             return
         }
 
@@ -476,7 +514,7 @@ class Proyectos2Activity : BaseActivity() {
         val descripcionActual = tarea.optString("descripcion", "")
 
         mostrarDialogoEditarDescripcion(
-            "Editar descripción de la tarea",
+            getString(R.string.editar_descripcion_tarea),
             descripcionActual
                                        ) { nuevaDescripcion ->
             tarea.put("descripcion", nuevaDescripcion)
@@ -489,7 +527,7 @@ class Proyectos2Activity : BaseActivity() {
     private fun cambiarDescripcionSubtarea() {
 
         if (tareaSeleccionadaIndex == -1) {
-            mostrarMensaje("Selecciona una tarea primero")
+            mostrarMensaje(getString(R.string.selecciona_tarea))
             return
         }
 
@@ -497,17 +535,18 @@ class Proyectos2Activity : BaseActivity() {
         val subtareas = tarea.optJSONArray("SubTareas") ?: JSONArray()
 
         if (subtareas.length() == 0) {
-            mostrarMensaje("La tarea no tiene subtareas")
+            mostrarMensaje(getString(R.string.no_subtareas))
             return
         }
 
         val nombres = Array(subtareas.length()) { i ->
             subtareas.getJSONObject(i)
-                .optString("NombreSubTarea", "Subtarea ${i + 1}")
+                .optString("NombreSubTarea", getString(R.string.subtarea_numero, i + 1)
+                          )
         }
 
         AlertDialog.Builder(this)
-            .setTitle("Selecciona una subtarea")
+            .setTitle(getString(R.string.seleccionar_subtarea))
             .setItems(nombres) { _, indexSubtarea ->
 
                 val subtarea = subtareas.getJSONObject(indexSubtarea)
@@ -515,7 +554,7 @@ class Proyectos2Activity : BaseActivity() {
                     subtarea.optString("DescripcionSubTarea", "")
 
                 mostrarDialogoEditarDescripcion(
-                    "Editar descripción de la subtarea",
+                    getString(R.string.editar_descripcion_subtarea),
                     descripcionActual
                                                ) { nuevaDescripcion ->
                     subtarea.put("DescripcionSubTarea", nuevaDescripcion)
@@ -523,53 +562,68 @@ class Proyectos2Activity : BaseActivity() {
                     rellenarPantalla(proyectoActual)
                 }
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.cancelar), null)
             .show()
     }
 
     private fun cambiarEstado() {
         val opciones = arrayOf(
-            "Cambiar estado de la tarea seleccionada",
-            "Cambiar estado de una subtarea"
+            getString(R.string.cambiar_estado),
+            getString(R.string.cambiar_estado_subtarea)
                               )
 
-        androidx.appcompat.app.AlertDialog.Builder(this).setTitle("Cambiar fecha")
+
+        androidx.appcompat.app.AlertDialog.Builder(this).setTitle(getString(R.string.cambiar_estado_titulo))
+
             .setItems(opciones) { _, which ->
                 when (which) {
                     0 -> cambiarEstadoTarea()
                     1 -> cambiarEstadoSubtarea()
                 }
-            }.setNegativeButton("Cancelar", null).show()
+            }.setNegativeButton(getString(R.string.cancelar), null).show()
     }
+
+    private val estadosInternos = arrayOf(
+        "PENDIENTE",
+        "EN_PROGRESO",
+        "EN_PAUSA",
+        "EN_ESPERA",
+        "REVISION",
+        "COMPLETADO",
+        "CANCELADA"
+                                         )
 
     private fun cambiarEstadoTarea() {
 
         if (tareaSeleccionadaIndex == -1 ||
             tareaSeleccionadaIndex >= tareasArrayGlobal.length()) {
-            mostrarMensaje("Selecciona una tarea primero")
+            mostrarMensaje(getString(R.string.selecciona_tarea))
             return
         }
 
         val tarea = tareasArrayGlobal.getJSONObject(tareaSeleccionadaIndex)
 
         AlertDialog.Builder(this)
-            .setTitle("Nuevo estado de la tarea")
-            .setItems(estadosDisponibles) { _, index ->
-                val nuevoEstado = estadosDisponibles[index]
+            .setTitle(getString(R.string.nuevo_estado_tarea))
 
+
+            .setItems(estadosDisponibles) { _, index ->
+                val claveInterna = estadosInternos[index]
+                val nuevoEstado = estadosMap[claveInterna] ?: claveInterna
                 tarea.put("estado", nuevoEstado)
+
 
                 guardarJson(jsonArrayGlobal)
                 rellenarPantalla(proyectoActual)
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.cancelar), null)
             .show()
     }
 
     private fun cambiarEstadoSubtarea() {
 
         if (tareaSeleccionadaIndex == -1) {
-            mostrarMensaje("Selecciona una tarea primero")
+            mostrarMensaje(getString(R.string.selecciona_tarea))
             return
         }
 
@@ -577,35 +631,42 @@ class Proyectos2Activity : BaseActivity() {
         val subtareas = tarea.optJSONArray("SubTareas") ?: JSONArray()
 
         if (subtareas.length() == 0) {
-            mostrarMensaje("La tarea no tiene subtareas")
+            mostrarMensaje(getString(R.string.no_subtareas))
             return
         }
 
         val nombres = Array(subtareas.length()) { i ->
             subtareas.getJSONObject(i)
-                .optString("NombreSubTarea", "Subtarea ${i + 1}")
+                .optString(
+                    "NombreSubTarea",
+                    getString(R.string.subtarea_numero, i + 1)
+                          )
         }
 
+
         AlertDialog.Builder(this)
-            .setTitle("Selecciona una subtarea")
+            .setTitle(getString(R.string.seleccionar_subtarea))
             .setItems(nombres) { _, indexSubtarea ->
 
                 val subtarea = subtareas.getJSONObject(indexSubtarea)
 
                 AlertDialog.Builder(this)
-                    .setTitle("Nuevo estado de la subtarea")
+                    .setTitle(getString(R.string.nuevo_estado_subtarea))
                     .setItems(estadosDisponibles) { _, indexEstado ->
 
-                        val nuevoEstado = estadosDisponibles[indexEstado]
+                        val nuevoEstadoInterno = estadosInternos[indexEstado]
+                        val nuevoEstado = estadosMap[nuevoEstadoInterno] ?: nuevoEstadoInterno
                         subtarea.put("EstadoSubTarea", nuevoEstado)
+
+
 
                         guardarJson(jsonArrayGlobal)
                         rellenarPantalla(proyectoActual)
                     }
-                    .setNegativeButton("Cancelar", null)
+                    .setNegativeButton(getString(R.string.cancelar), null)
                     .show()
             }
-            .setNegativeButton("Cancelar", null)
+            .setNegativeButton(getString(R.string.cancelar), null)
             .show()
     }
 
@@ -618,16 +679,15 @@ class Proyectos2Activity : BaseActivity() {
             val estado = tareasArrayGlobal
                 .getJSONObject(i)
                 .optString("estado", "")
-                .lowercase()
 
-            if (estado == "completado") {
+            if (estado == "COMPLETADO") {
                 hayCompletadas = true
                 break
             }
         }
 
         if (!hayCompletadas) {
-            mostrarMensaje("No hay tareas finalizadas para generar un resumen")
+            mostrarMensaje(getString(R.string.no_hay_tareas_resumen))
             return
         }
 
@@ -639,7 +699,7 @@ class Proyectos2Activity : BaseActivity() {
 
     private fun mostrarMensaje(texto: String) {
         androidx.appcompat.app.AlertDialog.Builder(this).setMessage(texto)
-            .setPositiveButton("OK", null).show()
+            .setPositiveButton(getString(R.string.ok), null).show()
     }
 
     private fun leerJson(): JSONArray {
@@ -691,7 +751,7 @@ class Proyectos2Activity : BaseActivity() {
 
             // 🔹 Nombre subtarea
             val txtNombre = TextView(this).apply {
-                text = "• ${sub.optString("NombreSubTarea", "Subtarea")}"
+                text = "• ${sub.optString("NombreSubTarea", getString(R.string.subtarea))}"
                 textSize = 15f
                 setTextColor(Color.BLACK)
                 layoutParams = LinearLayout.LayoutParams(
@@ -702,17 +762,31 @@ class Proyectos2Activity : BaseActivity() {
             }
 
             // 🔹 Estado subtarea (CLAVE CORRECTA)
-            val estado = sub.optString("EstadoSubTarea", "Sin estado")
+            val estado = sub.optString(
+                "EstadoSubTarea",
+                getString(R.string.sin_estado)
+                                      )
 
-            val txtEstado = TextView(this).apply {
-                text = estado
-                textSize = 12f
-                setPadding(14, 6, 14, 6)
-                setTextColor(Color.WHITE)
-                background = resources.getDrawable(R.drawable.rounded_orange, null)
-                backgroundTintList =
-                    ColorStateList.valueOf(fondoEstado(estado.lowercase()))
-            }
+
+            val estadoInterno = estadoInternoDesdeJson(sub.optString("EstadoSubTarea", ""))
+
+                val txtEstado = TextView(this).apply {
+                    text = when (estadoInterno) {
+                        "PENDIENTE" -> getString(R.string.estado_pendiente)
+                        "EN_PROGRESO" -> getString(R.string.estado_en_progreso)
+                        "EN_PAUSA" -> getString(R.string.estado_en_pausa)
+                        "EN_ESPERA" -> getString(R.string.estado_en_espera)
+                        "REVISION" -> getString(R.string.estado_revision)
+                        "COMPLETADO" -> getString(R.string.estado_completado)
+                        "CANCELADA" -> getString(R.string.estado_cancelada)
+                        else -> getString(R.string.sin_estado)
+                    }
+                    textSize = 12f
+                    setPadding(14, 6, 14, 6)
+                    setTextColor(Color.WHITE)
+                    background = resources.getDrawable(R.drawable.rounded_orange, null)
+                    backgroundTintList = ColorStateList.valueOf(fondoEstado(estadoInterno))
+                }
 
             filaTitulo.addView(txtNombre)
             filaTitulo.addView(txtEstado)
@@ -755,6 +829,14 @@ class Proyectos2Activity : BaseActivity() {
             .setNegativeButton(getString(R.string.cancelar), null)
             .show()
     }
+
+    private fun estadoInternoDesdeJson(estadoJson: String): String {
+        return estadoJson.trim()
+            .uppercase()
+            .replace(" ", "_")
+    }
+
+
 
     // private fun cambiarIdioma(codigo: String) { Esto se debe poner donde cambiemos el idioma de la app
 //        LocaleHelper.setLocale(this, codigo)
