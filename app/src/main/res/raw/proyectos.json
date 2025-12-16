@@ -38,7 +38,7 @@
               {
                 "nombreApellidos": null,
                 "nombreUsuario": "qq",
-                "contrasena": null,
+                "contrasena": "789",
                 "email": null,
                 "telefono": null,
                 "rol": null
@@ -89,7 +89,7 @@
             "UsuariosAsignadosSubtarea": [
               {
                 "nombreApellidos": null,
-                "nombreUsuario": "qq",
+                "nombreUsuario": "asesqq",
                 "contrasena": null,
                 "email": null,
                 "telefono": null,
@@ -121,7 +121,7 @@
       },
       {
         "nombreApellidos": null,
-        "nombreUsuario": "qq",
+        "nombreUsuario": "qasf",
         "contrasena": null,
         "email": null,
         "telefono": null,
@@ -142,7 +142,7 @@
         "usuariosAsignados": [
           {
             "nombreApellidos": null,
-            "nombreUsuario": "qq",
+            "nombreUsuario": "qasafsf",
             "contrasena": null,
             "email": null,
             "telefono": null,
@@ -233,7 +233,7 @@
       },
       {
         "nombreApellidos": null,
-        "nombreUsuario": "qq",
+        "nombreUsuario": "122a",
         "contrasena": null,
         "email": null,
         "telefono": null,
