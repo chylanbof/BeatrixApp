@@ -3,41 +3,41 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="12dp"
+    android:orientation="vertical"
+    android:padding="16dp"
     android:background="@drawable/bg_item_proyecto"
-    android:layout_marginBottom="8dp"
-    android:gravity="center_vertical">
+    android:layout_marginBottom="12dp"
+    android:elevation="4dp"
+    android:clipToPadding="false">
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/txtNombreProyecto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nombre Proyecto"
-            android:textSize="18sp"
-            android:textColor="@color/black"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/txtTiempo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Inicio: 2025-11-30T14:38\nEntrega: 2025-12-04T14:29"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:layout_marginTop="4dp"/>
-    </LinearLayout>
-
-
-    <Spinner
-        android:id="@+id/spinnerEstado"
+    <!-- Nombre del proyecto -->
+    <TextView
+        android:id="@+id/txtNombreProyecto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:spinnerMode="dropdown"/>
+        android:text="Nombre Proyecto"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"/>
+
+    <!-- Descripción del proyecto -->
+    <TextView
+        android:id="@+id/txtDescripcionProyecto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Descripción del proyecto"
+        android:textColor="#555555"
+        android:textSize="14sp"
+        android:layout_marginTop="4dp"/>
+
+    <!-- Tiempo de inicio y entrega -->
+    <TextView
+        android:id="@+id/txtTiempo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Inicio: 2025-11-30T14:38\nEntrega: 2025-12-04T14:29"
+        android:textColor="#777777"
+        android:textSize="14sp"
+        android:layout_marginTop="6dp"/>
+
 </LinearLayout>
