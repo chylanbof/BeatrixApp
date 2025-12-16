@@ -1,3 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- proyectos2 activity -->
+
+    <!-- 🔤 GENERALES -->
     <string name="app_name">BeatrixApp</string>
+    <string name="ok">OK</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="guardar">Guardar</string>
+    <string name="cerrar">Cerrar</string>
+
+    <!-- 📌 PROYECTO -->
+    <string name="nombre_proyecto">Nombre del proyecto</string>
+    <string name="sin_nombre">Sin nombre</string>
+    <string name="descripcion_proyecto">Descripción del proyecto</string>
+    <string name="opciones_proyecto">Opciones del proyecto</string>
+
+    <!-- 📅 FECHAS -->
+    <string name="cambiar_fecha">Cambiar fecha</string>
+    <string name="fecha_inicio">Fecha inicio</string>
+    <string name="fecha_entrega">Fecha entrega</string>
+    <string name="fecha_actualizada">Fecha actualizada correctamente</string>
+    <string name="fecha_tarea_actualizada">Fecha de la tarea actualizada correctamente</string>
+    <string name="que_fecha_cambiar">¿Qué fecha quieres cambiar?</string>
+    <string name="cambiar_fecha_proyecto">Cambiar fecha del proyecto</string>
+    <string name="cambiar_fecha_tarea">Cambiar fecha de la tarea seleccionada</string>
+
+
+    <!-- 👥 USUARIOS -->
+    <string name="usuarios">Usuarios</string>
+    <string name="usuarios_asignados">Usuarios asignados</string>
+    <string name="usuarios_numero">Usuarios: %1$d</string>
+    <string name="no_usuarios">No hay usuarios asignados.</string>
+    <string name="usuario_sin_nombre">Usuario sin nombre</string>
+
+    <!-- 📝 TAREAS -->
+    <string name="tarea">Tarea</string>
+    <string name="descripcion_tarea">Descripción de la tarea</string>
+    <string name="selecciona_tarea">Selecciona una tarea primero</string>
+    <string name="fecha_tarea">Fecha de tarea</string>
+    <string name="no_hay_subtareas">La tarea no tiene subtareas</string>
+    <string name="no_hay_tareas_resumen">No hay tareas finalizadas para generar un resumen</string>
+    <string name="tarea_numero">Tarea %1$d</string>
+
+
+
+    <!-- 🧩 SUBTAREAS -->
+    <string name="subtarea">Subtarea</string>
+    <string name="no_subtareas">La tarea no tiene subtareas</string>
+    <string name="seleccionar_subtarea">Selecciona una subtarea</string>
+    <string name="descripcion_subtarea">Descripción de la subtarea</string>
+    <string name="cambiar_estado_subtarea">Cambiar estado de una subtarea</string>
+    <string name="subtarea_numero">Subtarea %1$d</string>
+
+
+
+    <!-- ✏️ DESCRIPCIONES -->
+    <string name="cambiar_descripcion">Cambiar descripción</string>
+    <string name="cambiar_descripcion_proyecto">Cambiar descripción del proyecto</string>
+    <string name="cambiar_descripcion_tarea">Cambiar descripción de la tarea seleccionada</string>
+    <string name="cambiar_descripcion_subtarea">Cambiar descripción de una subtarea</string>
+    <string name="editar_descripcion_proyecto">Editar descripción del proyecto</string>
+    <string name="editar_descripcion_tarea">Editar descripción de la tarea</string>
+    <string name="editar_descripcion_subtarea">Editar descripción de la subtarea</string>
+
+    <!-- 🔄 ESTADOS -->
+    <string name="cambiar_estado">Cambiar estado</string>
+    <string name="nuevo_estado_tarea">Nuevo estado de la tarea</string>
+    <string name="nuevo_estado_subtarea">Nuevo estado de la subtarea</string>
+
+    <string name="estado_pendiente">Pendiente</string>
+    <string name="estado_en_progreso">En progreso</string>
+    <string name="estado_en_pausa">En pausa</string>
+    <string name="estado_en_espera">En espera</string>
+    <string name="estado_revision">Revisión</string>
+    <string name="estado_completado">Completado</string>
+    <string name="estado_cancelada">Cancelada</string>
+    <string name="sin_estado">Sin estado</string>
+    <string name="cambiar_estado_titulo">Cambiar estado</string>
+
+
+    <!-- ⚙️ MENÚ AJUSTES -->
+    <string name="opcion_cambiar_fecha">Cambiar fecha</string>
+    <string name="opcion_cambiar_descripcion">Cambiar descripción</string>
+    <string name="opcion_cambiar_estado">Cambiar estado</string>
+    <string name="opcion_generar_resumen">Generar resumen</string>
+
+    <!-- 📊 RESUMEN -->
+    <string name="generar_resumen">Generar resumen</string>
+    <string name="no_resumen">No hay tareas finalizadas para generar un resumen</string>
+
+    <!-- 🌍 IDIOMA -->
+    <string name="idioma">Idioma</string>
+    <string name="espanol">Español</string>
+    <string name="ingles">Inglés</string>
+    <string name="catalan">Catalán</string>
+
+    <!-- resumen activity -->
+
+
+    <!-- Botón -->
+    <string name="btn_descargar_pdf">Descargar PDF</string>
+
+    <!-- Resumen -->
+        <string name="resumen_proyecto">Proyecto: %1$s</string>
+        <string name="tareas_completadas">✔ Completadas: %1$d</string>
+        <string name="tareas_en_progreso">⏳ En progreso: %1$d</string>
+        <string name="tareas_canceladas">⛔ Canceladas: %1$d</string>
+        <string name="subtareas_completadas">Subtareas completadas: %1$d / %2$d</string>
+
+    <!-- PieChart -->
+        <string name="grafica_titulo">Estado de las tareas</string>
+        <string name="grafica_centro">Tareas</string>
+        <string name="grafica_completadas">Completadas</string>
+        <string name="grafica_en_progreso">En progreso</string>
+        <string name="grafica_canceladas">Canceladas</string>
+
+    <!-- Mensajes -->
+        <string name="error_pdf">Error al crear el PDF</string>
+        <string name="abrir_pdf_con">Abrir PDF con</string>
+
+
+
+
+
 </resources>
