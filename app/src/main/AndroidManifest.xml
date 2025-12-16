@@ -13,13 +13,34 @@
         android:theme="@style/Theme.BeatrixApp">
 
         <activity
-            android:name=".ProyectosActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Proyectos2Activity" />
+        <activity
+            android:name=".ResumenActivity"
+            android:exported="false" />
+        <activity android:name=".UsuarioActivity">
+        </activity>
+        <activity android:name=".MainActivity">
+        </activity>
+        <activity android:name=".CalendarioActivity">
+        </activity>
+        <activity android:name=".ProyectosActivity">
+        </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths"/>
+        </provider>
 
     </application>
 

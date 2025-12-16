@@ -5,8 +5,11 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.beatrixapp.utils.LocaleHelper
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
@@ -16,12 +19,13 @@ import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class UsuarioActivity : AppCompatActivity() {
+class UsuarioActivity : BaseActivity() {
 
     // Variable global para simular la sesión.
     private var usuarioLogueado = "afernandez"
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        LocaleHelper.setLocale(this, LocaleHelper.getIdiomaGuardado(this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_usuarios)
 
@@ -39,6 +43,12 @@ class UsuarioActivity : AppCompatActivity() {
             intent.putExtra("USUARIO_KEY", usuarioLogueado)
             startActivity(intent)
         }
+
+        val btnCambiarIdioma = findViewById<ImageButton>(R.id.btnCambiarIdioma)
+        btnCambiarIdioma.setOnClickListener {
+            mostrarDialogoIdioma()
+        }
+
     }
 
     // Al volver de "Editar Perfil", recargamos los datos por si hubo cambios
@@ -262,4 +272,40 @@ class UsuarioActivity : AppCompatActivity() {
             return leerArchivoRaw(R.raw.proyectos) ?: "[]"
         }
     }
+
+    private fun mostrarDialogoIdioma() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_idioma, null)
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<LinearLayout>(R.id.btnEspañol).setOnClickListener {
+            LocaleHelper.setLocale(this, "es")
+            recreate()
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<LinearLayout>(R.id.btnCatalan).setOnClickListener {
+            LocaleHelper.setLocale(this, "ca")
+            recreate()
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<LinearLayout>(R.id.btnIngles).setOnClickListener {
+            LocaleHelper.setLocale(this, "en")
+            recreate()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+
+    private fun cambiarIdioma(codigo: String) {
+        LocaleHelper.setLocale(this, codigo)
+        recreate()
+    }
+
+
+
 }

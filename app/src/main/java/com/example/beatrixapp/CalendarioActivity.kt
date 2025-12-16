@@ -78,9 +78,14 @@ class CalendarioActivity : AppCompatActivity() {
             //Filtramos proyectos activos de esa fecha
             val proyectoDelDia = listaProyectos.filter { proyecto ->
                 val fechaInicio = proyecto.fechaInicio.substring(0,10)
-                val fechaEntrega = proyecto.fechaEntrega.substring(0,10)
-                fechaSeleccionada >= fechaInicio && fechaSeleccionada <= fechaEntrega
+                val fechaEntrega = proyecto.fechaEntrega?.substring(0,10)
+                if (fechaInicio != null && fechaEntrega != null) {
+                    fechaSeleccionada >= fechaInicio && fechaSeleccionada <= fechaEntrega
+                } else {
+                    false // si alguna fecha es null, no incluir
+                }
             }
+
             mostrarProyectos(proyectoDelDia, containerItems)
 
             val reunionDelDia = listaReunion.filter { reunion ->
