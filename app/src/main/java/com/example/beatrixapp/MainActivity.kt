@@ -52,29 +52,28 @@ class MainActivity : AppCompatActivity() {
         listaDeProyectos = leerProyectosDesdeArchivo(this).toMutableList()
 
         // Ordenar proyectos por fecha de entrega
-        try {
-            listaDeProyectos.sortBy {
-                val fullDateString = it.fechaEntrega
-                val dateString = fullDateString?.take(19)
+        listaDeProyectos.sortBy {
+            val fullDateString = it.fechaEntrega
+            val dateString = fullDateString?.take(19)
 
-                if (dateString.isNullOrBlank()) {
+            if (dateString.isNullOrBlank()) {
+                Date(0)
+            } else {
+                try {
+                    formatoFecha.parse(dateString) ?: Date(0)
+                } catch (e: Exception) {
+                    Log.e("MainActivity", "Error de formato de fecha: $dateString", e)
                     Date(0)
-                } else {
-                    try {
-                        formatoFecha.parse(dateString) ?: Date(0)
-                    } catch (e: Exception) {
-                        Log.e("MainActivity", "Error de formato de fecha: $dateString", e)
-                        Date(0)
-                    }
                 }
             }
-        } catch (e: Exception) {
-            Log.e("MainActivity", "Error sorting projects", e)
         }
+        // Sólo mostrar los 3 proyectos más recientes.
+        val proyectosMasCercanos = listaDeProyectos.take(3)
 
-        for (proyecto in listaDeProyectos) {
+        for (proyecto in proyectosMasCercanos) {
             agregarProyecto(proyecto, contenedorProyectos, this)
         }
+
     }
 
     private fun copiarProyectosARutaInterna(context: Context) {
