@@ -20,4 +20,4 @@ data class Subtarea(
 
     @SerializedName("UsuariosAsignadosSubtarea")
     val usuariosAsignadosSubTarea: List<Usuario>
-)
+                   )

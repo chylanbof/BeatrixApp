@@ -11,20 +11,12 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.beatrixapp.model.Proyecto
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import kotlin.math.log
-import android.util.Log
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import androidx.annotation.RawRes
 import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import com.example.beatrixapp.model.Reunion
-import com.example.beatrixapp.model.Subtarea
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.beatrixapp.model.Usuario
-import android.graphics.Color
 
 class CalendarioActivity : AppCompatActivity() {
 
@@ -37,10 +29,10 @@ class CalendarioActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_calendario)
 
-        val loggedUser = "afernandez"
+        //val loggedUser = "mgomez"
         //Recuperar el usuario Logueado
-       /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
-        val loggedUser = prefs.getString("loggerUser", null)*/
+        val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val loggedUser = prefs.getString("loggedUser", null)
 
         //Si no hay usuario no muestra nada
         if (loggedUser == null){
@@ -78,9 +70,14 @@ class CalendarioActivity : AppCompatActivity() {
             //Filtramos proyectos activos de esa fecha
             val proyectoDelDia = listaProyectos.filter { proyecto ->
                 val fechaInicio = proyecto.fechaInicio.substring(0,10)
-                val fechaEntrega = proyecto.fechaEntrega.substring(0,10)
-                fechaSeleccionada >= fechaInicio && fechaSeleccionada <= fechaEntrega
+                val fechaEntrega = proyecto.fechaEntrega?.substring(0,10)
+                if (fechaInicio != null && fechaEntrega != null) {
+                    fechaSeleccionada >= fechaInicio && fechaSeleccionada <= fechaEntrega
+                } else {
+                    false // si alguna fecha es null, no incluir
+                }
             }
+
             mostrarProyectos(proyectoDelDia, containerItems)
 
             val reunionDelDia = listaReunion.filter { reunion ->
@@ -103,11 +100,11 @@ class CalendarioActivity : AppCompatActivity() {
 
         val botonProyectos = includeLayout.findViewById<ImageView>(R.id.btn_proyecto)
         botonProyectos.setOnClickListener {
-            val intentHome = Intent(this, MainActivity:: class.java)
-            startActivity(intentHome)
+            val intentProyecto = Intent(this, Proyectos2Activity:: class.java)
+            startActivity(intentProyecto)
         }
 
-        val botonUsuarios = includeLayout.findViewById<ImageView>(R.id.btn_home)
+        val botonUsuarios = includeLayout.findViewById<ImageView>(R.id.btn_perfil)
         botonUsuarios.setOnClickListener {
             val intentHome = Intent(this, ProyectosActivity:: class.java)
             startActivity(intentHome)
@@ -134,31 +131,43 @@ class CalendarioActivity : AppCompatActivity() {
     }
 
     // Muestra proyectos del json
+    // Dentro de CalendarioActivity.kt
     fun mostrarProyectos(proyectos: List<Proyecto>, container: LinearLayout) {
-        val loggedUser = "afernandez"
 
-       /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
-        val loggedUser = prefs.getString("loggerUser", null)?: return
-*/
+        //val loggedUser = "mgomez"
+
+        val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val loggedUser = prefs.getString("loggedUser", null)
+
         val inflater = layoutInflater
 
-        // Filtrar proyectos donde el usuario tenga alguna tarea o subtarea asignada
+        // 1. FILTRADO: Determinar si el proyecto es VISIBLE para el usuario.
         val proyectosFiltrados = proyectos.filter { proyecto ->
-            proyecto.tareas.orEmpty().any { tarea ->
-                // Usuario en la tarea
-                val enTarea = tarea.usuariosAsignados?.any { it.nombreUsuario == loggedUser } == true
-                // Usuario en alguna subtarea
-                val enSubtarea = tarea.subtarea?.any { subtarea ->
-                    subtarea.usuariosAsignadosSubTarea?.any { it.nombreUsuario == loggedUser } == true
-                } == true
+
+            // --- CRITERIO DE VISIBILIDAD DE PROYECTO ---
+
+            // Criterio 1: Asignado directamente al Proyecto (en UsuariosAsignados del Proyecto)
+            val asignadoDirectamente = proyecto.usuariosAsignados.any { it.nombreUsuario == loggedUser }
+
+            // Criterio 2: Asignado a CUALQUIER Tarea O CUALQUIER Subtarea
+            val asignadoATareaOSubtarea = proyecto.tareas.any { tarea ->
+                // Condición A: Usuario asignado a la Tarea
+                val enTarea = tarea.usuariosAsignados.any { it.nombreUsuario == loggedUser }
+
+                // Condición B: Usuario asignado a alguna Subtarea de esta Tarea
+                val enSubtarea = tarea.subtarea.any { subtarea ->
+                    subtarea.usuariosAsignadosSubTarea.any { it.nombreUsuario == loggedUser }
+                }
 
                 enTarea || enSubtarea
             }
+
+            // El proyecto es visible si cumple Criterio 1 O Criterio 2
+            asignadoDirectamente || asignadoATareaOSubtarea
         }
 
+        // 2. Iterar sobre los proyectos VISIBLES
         for (proyecto in proyectosFiltrados) {
-
-
             val view = inflater.inflate(R.layout.item_proyecto, container, false)
 
             val tvNombre = view.findViewById<TextView>(R.id.tvNombreProyecto)
@@ -168,28 +177,33 @@ class CalendarioActivity : AppCompatActivity() {
             tvNombre.text = proyecto.nombreProyecto
             tvDescripcionProyect.text = proyecto.descripcionProyecto
 
-            // Filtrar tareas visibles para el usuario
-            val tareasUsuario = proyecto.tareas.orEmpty().mapNotNull { tarea ->
-                val subtareasUsuario = tarea.subtarea.filter { subtarea ->
+            // 3. GENERAR LISTA DE TAREAS/SUBTAREAS VISIBLES PARA EL TEXTO INICIAL (tvTareas)
+
+            // Creamos una lista de las Tareas donde el usuario está asignado (ya sea directamente o en subtarea)
+            val tareasVisibles = proyecto.tareas.filter { tarea ->
+                val enTarea = tarea.usuariosAsignados.any { it.nombreUsuario == loggedUser }
+                val enSubtarea = tarea.subtarea.any { subtarea ->
                     subtarea.usuariosAsignadosSubTarea.any { it.nombreUsuario == loggedUser }
-                }.orEmpty()
-
-                val usuarioEnTarea = tarea.usuariosAsignados.any { it.nombreUsuario == loggedUser }
-
-                if (!usuarioEnTarea && subtareasUsuario.isEmpty()) return@mapNotNull null
-
-                // Copiar tarea con solo las subtareas visibles para el usuario
-                tarea.copy(subtarea = subtareasUsuario)
+                }
+                enTarea || enSubtarea
             }
 
-            val nombreTareas = tareasUsuario.map {it.nombreTarea}
+            val nombreTareas = tareasVisibles.map { it.nombreTarea }
 
+            // Aquí manejamos el mensaje para los proyectos que no tienen tareas,
+            // pero son visibles por asignación directa (Criterio 1)
             tvTareas.text = if (nombreTareas.isNotEmpty()){
-                nombreTareas.joinToString("\n")
-            }else{
-                "Sin Tareas"
+                "Tareas asignadas: \n" + nombreTareas.joinToString("\n")
+            } else if (proyecto.tareas.isEmpty() && proyecto.usuariosAsignados.any { it.nombreUsuario == loggedUser }) {
+                // El usuario está asignado al proyecto, pero no hay tareas aún.
+                "Asignado al proyecto (sin tareas creadas)."
+            } else {
+                // Este caso es poco probable con la lógica de filtrado inicial, pero es un fallback
+                "Sin Tareas directas o subtareas asignadas."
             }
 
+
+            // 4. Implementación del Long-Click (Muestra el DetalleProyectoDialog)
             view.setOnLongClickListener {
                 mostrarDetalleProyecto(proyecto)
                 true
@@ -202,11 +216,10 @@ class CalendarioActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     fun mostrarReuniones(reunion: List<Reunion>, container: LinearLayout, listaUsuarios: List<Usuario>){
 
-        val loggedUser = "afernandez"
+       // val loggedUser = "mgomez"
 
-        /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+         val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
         val loggedUser = prefs.getString("loggerUser", null)?: return
-*/
 
         val inflater = layoutInflater
 
@@ -246,64 +259,13 @@ class CalendarioActivity : AppCompatActivity() {
     }
 
     fun mostrarDetalleProyecto(proyecto: Proyecto) {
+        val loggedUser = "mgomez"
 
-        val loggedUser = "afernandez"
-
-       /* val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
-        val loggedUser = prefs.getString("loggerUser", null)?: return
-*/
-
-        val dialogView = layoutInflater.inflate(R.layout.dialog_detalle_proyecto, null)
-        val builder = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .setPositiveButton( "Cerrar" ) { dialog, _ -> dialog.dismiss() }
-
-        // Referencias
-        val tvNombre = dialogView.findViewById<TextView>(R.id.tvNombreProyectoDetalle)
-        val tvDescripcion = dialogView.findViewById<TextView>(R.id.tvDescripcionProyectoDetalle)
-        val recyclerTareas = dialogView.findViewById<RecyclerView>(R.id.recyclerTareas)
-
-        tvNombre.text = proyecto.nombreProyecto
-        tvDescripcion.text = proyecto.descripcionProyecto
-
-        // Filtrar Tareas y subtareas del usuario
-        val tareasFiltradas = proyecto.tareas.orEmpty().mapNotNull { tarea ->
-
-            // Subtareas del usuario
-            val subFiltradas = tarea.subtarea.filter { subtarea ->
-                subtarea.usuariosAsignadosSubTarea.any { it.nombreUsuario == loggedUser }
-            }.orEmpty()
-
-            val usuarioEnTarea = tarea.usuariosAsignados.any { it.nombreUsuario == loggedUser }
-
-            when {
-                usuarioEnTarea -> {
-                    // Usuario pertenece a la tarea: devolvemos tarea con subtareas filtradas
-                    tarea.copy(subtarea = subFiltradas)
-                }
-                subFiltradas.isNotEmpty() -> {
-                    // Usuario solo en subtareas: mostramos tarea y subtareas visibles
-                    tarea.copy(
-                        nombreTarea = tarea.nombreTarea,
-                        descripcion = tarea.descripcion,
-                        subtarea = subFiltradas
-                              )
-                }
-                else -> null
-            }
-        }
-
-        // Configurar RecyclerView
-        recyclerTareas.layoutManager = LinearLayoutManager(this)
-        recyclerTareas.adapter = TareaAdapter(tareasFiltradas)
-
-        // Mostrar el dialog
-        val dialog = builder.create()
-        dialog.show()
-
-        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.rgb(245,158,125))
-
+        // Usar el DialogFragment. Toda la lógica de filtrado va DENTRO del diálogo.
+        val dialog = DetalleProyectoDialog(proyecto, loggedUser)
+        dialog.show(supportFragmentManager, "DetalleProyectoDialogTag")
     }
+
 }
 
 

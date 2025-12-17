@@ -24,7 +24,7 @@ import java.util.Calendar
 
 
 
-class Proyectos2Activity : BaseActivity() {
+class Proyectos2Activity :BaseActivity() {
 
     private val ARCHIVO_JSON = "proyectos.json"
 

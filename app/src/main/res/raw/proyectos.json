@@ -197,7 +197,7 @@
             "DescripcionSubTarea": "nueva subdivision de tareas",
             "FechaInicioSubtarea": "2025-12-01T20:14:44.4996839+01:00",
             "FechaEntregaSubtarea": "2025-12-01T20:14:44.497137+01:00",
-            "EstadoSubTarea": "En proceso",
+            "EstadoSubTarea": "En Proceso",
             "UsuariosAsignadosSubtarea": [
               {
                 "nombreApellidos": null,
@@ -291,7 +291,7 @@
       },
       {
         "nombreApellidos": null,
-        "nombreUsuario": "marcos",
+        "nombreUsuario": "mgomez",
         "contrasena": null,
         "email": null,
         "telefono": null,
@@ -341,7 +341,7 @@
       },
       {
         "nombreApellidos": null,
-        "nombreUsuario": "admin",
+        "nombreUsuario": "mgomez",
         "contrasena": null,
         "email": null,
         "telefono": null,
@@ -366,7 +366,7 @@
       },
       {
         "nombreApellidos": null,
-        "nombreUsuario": "admin",
+        "nombreUsuario": "mgomez",
         "contrasena": null,
         "email": null,
         "telefono": null,

@@ -10,7 +10,7 @@
         android:id="@+id/tvNombreSubtarea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#333333"
         android:fontFamily="@font/playfairdisplaysemibold"
@@ -20,7 +20,7 @@
         android:id="@+id/tvDescripcionSubTarea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="18dp"
         android:textColor="#666"
         android:fontFamily="@font/montserratmedium"
         />
@@ -29,7 +29,7 @@
         android:id="@+id/tvEstadoSubtarea"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="18dp"
         android:padding="4dp"
         android:layout_marginTop="2dp"
         android:textColor="@color/black"
@@ -43,7 +43,7 @@
         android:layout_marginTop="2dp"
         android:padding="4dp"
         android:textColor="@color/black"
-        android:textSize="20sp"
+        android:textSize="18dp"
         android:fontFamily="@font/montserratmedium"/>
 
 
