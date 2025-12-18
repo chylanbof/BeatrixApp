@@ -694,7 +694,7 @@ class Proyectos2Activity :BaseActivity() {
                 .getJSONObject(i)
                 .optString("estado", "")
 
-            if (estado == "COMPLETADO") {
+            if (estado == "Completado") {
                 hayCompletadas = true
                 break
             }
