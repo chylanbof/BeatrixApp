@@ -100,13 +100,13 @@ class CalendarioActivity : AppCompatActivity() {
 
         val botonProyectos = includeLayout.findViewById<ImageView>(R.id.btn_proyecto)
         botonProyectos.setOnClickListener {
-            val intentProyecto = Intent(this, Proyectos2Activity:: class.java)
+            val intentProyecto = Intent(this, ProyectosActivity:: class.java)
             startActivity(intentProyecto)
         }
 
         val botonUsuarios = includeLayout.findViewById<ImageView>(R.id.btn_perfil)
         botonUsuarios.setOnClickListener {
-            val intentHome = Intent(this, ProyectosActivity:: class.java)
+            val intentHome = Intent(this, UsuarioActivity:: class.java)
             startActivity(intentHome)
         }
 
@@ -219,7 +219,7 @@ class CalendarioActivity : AppCompatActivity() {
        // val loggedUser = "mgomez"
 
          val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
-        val loggedUser = prefs.getString("loggerUser", null)?: return
+        val loggedUser = prefs.getString("loggedUser", null)?: return
 
         val inflater = layoutInflater
 
@@ -259,7 +259,9 @@ class CalendarioActivity : AppCompatActivity() {
     }
 
     fun mostrarDetalleProyecto(proyecto: Proyecto) {
-        val loggedUser = "mgomez"
+
+        val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        val loggedUser = prefs.getString("loggedUser", null)?: return
 
         // Usar el DialogFragment. Toda la lógica de filtrado va DENTRO del diálogo.
         val dialog = DetalleProyectoDialog(proyecto, loggedUser)

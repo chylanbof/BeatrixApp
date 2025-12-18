@@ -120,8 +120,24 @@
         <string name="error_pdf">Error al crear el PDF</string>
         <string name="abrir_pdf_con">Abrir PDF con</string>
 
+    <!-- CALENDARIO / PROYECTOS -->
+    <string name="tareas_asignadas">Tareas asignadas:</string>
+    <string name="asignado_sin_tareas">Asignado al proyecto (sin tareas creadas).</string>
+    <string name="sin_tareas">Sin tareas directas o subtareas asignadas.</string>
+    <string name="calendario">Calendario</string>
 
+    <!-- 🤝 REUNIONES -->
+    <string name="sin_titulo">Sin título</string>
+    <string name="sin_participantes">Sin participantes</string>
 
+    <!-- Subtareas Adapter -->
+    <string name="sin_descripcion_subtarea">Sin descripción</string>   <!-- para tvDescripcion -->
+    <string name="usuarios_prefix">Usuarios: </string>                <!-- para tvUsuariosSub -->
 
+    <!-- TareaAdapter -->
+    <string name="inicio_fecha">Inicio: </string>            <!-- prefijo de fecha de inicio -->
+    <string name="entrega_fecha"> | Entrega: </string>      <!-- prefijo de fecha de entrega -->
+    <string name="estado_desconocido">Desconocido</string>  <!-- si estado es null -->
+    <string name="usuarios_asignados_prefix">Asignados: </string> <!-- prefijo de usuarios asignados -->
 
 </resources>

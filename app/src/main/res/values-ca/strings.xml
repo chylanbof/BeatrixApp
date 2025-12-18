@@ -112,6 +112,25 @@
     <string name="error_pdf">Error en crear el PDF</string>
     <string name="abrir_pdf_con">Obrir PDF amb</string>
 
+    <!-- 📅 CALENDARI / PROJECTES -->
+    <string name="tareas_asignadas">Tasques assignades:</string>
+    <string name="asignado_sin_tareas">Assignat al projecte (sense tasques creades).</string>
+    <string name="sin_tareas">Sense tasques directes o subtasques assignades.</string>
+    <string name="calendario">Calendari</string>
+
+    <!-- 🤝 REUNIONS -->
+    <string name="sin_titulo">Sense títol</string>
+    <string name="sin_participantes">Sense participants</string>
+
+    <!-- Subtareas Adapter -->
+    <string name="sin_descripcion_subtarea">Sense descripció</string>
+    <string name="usuarios_prefix">Usuaris: </string>
+
+    <!-- TareaAdapter -->
+    <string name="inicio_fecha">Inici: </string>
+    <string name="entrega_fecha"> | Lliurament: </string>
+    <string name="estado_desconocido">Desconegut</string>
+    <string name="usuarios_asignados_prefix">Assignats: </string>
 
 
 </resources>
