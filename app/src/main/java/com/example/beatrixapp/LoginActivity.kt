@@ -10,16 +10,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.beatrixapp.model.Proyecto
+import com.example.beatrixapp.model.Usuario
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.BufferedReader
 import java.io.InputStreamReader
-import androidx.core.content.ContextCompat.startActivity
 
 class LoginActivity : AppCompatActivity() {
 
-    private lateinit var proyectosList: List<Proyecto>
+    private lateinit var usuariosList: List<Usuario>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +31,12 @@ class LoginActivity : AppCompatActivity() {
             insets
         }
 
-        // cargar JSON
+        // Cargar JSON de usuarios
         try {
-            proyectosList = loadProjectJson()
-            Log.d("LOGIN", "JSON cargado correctamente. Total proyectos: ${proyectosList.size}")
+            usuariosList = loadUsersJson()
+            Log.d("LOGIN", "Usuarios cargados correctamente. Total: ${usuariosList.size}")
         } catch (e: Exception) {
-            Toast.makeText(this, "Error al cargar el archivo JSON", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, "Error al cargar el archivo de usuarios", Toast.LENGTH_LONG).show()
             Log.e("LOGIN", "Error al cargar JSON", e)
             return
         }
@@ -63,7 +62,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
 
                 val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
-                prefs.edit().putString("loggedUser",username).apply()
+                prefs.edit().putString("loggedUser", username).apply()
 
                 val intent = Intent(this, MainActivity::class.java)
                 intent.putExtra("USERNAME", username)
@@ -75,40 +74,23 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadProjectJson(): List<Proyecto> {
-        val inputStream = resources.openRawResource(R.raw.proyectos)
+    private fun loadUsersJson(): List<Usuario> {
+        val inputStream = resources.openRawResource(R.raw.usuarios) // archivo usuarios.json
         val reader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
         val content = reader.readText()
         reader.close()
-        val listType = object : TypeToken<List<Proyecto>>() {}.type
+        val listType = object : TypeToken<List<Usuario>>() {}.type
         return Gson().fromJson(content, listType)
     }
 
-
     private fun checkLogin(username: String, password: String): Boolean {
-        for (proyecto in proyectosList) {
-            for (tarea in proyecto.tareas) {
-
-                for (user in tarea.usuariosAsignados) {
-                    val contrasena = user.contrasena ?: ""
-                    if (username.equals(user.nombreUsuario, ignoreCase = true)
-                        && (contrasena.isEmpty() || password == contrasena)) {
-                        return true
-                    }
-                }
-
-                for (subtarea in tarea.subtarea) {
-                    for (userSub in subtarea.usuariosAsignadosSubTarea) {
-                        val contrasenaSub = userSub.contrasena ?: ""
-                        if (username.equals(userSub.nombreUsuario, ignoreCase = true)
-                            && (contrasenaSub.isEmpty() || password == contrasenaSub)) {
-                            return true
-                        }
-                    }
-                }
+        for (user in usuariosList) {
+            val contrasena = user.contrasena ?: ""
+            if (username.equals(user.nombreUsuario, ignoreCase = true)
+                && (contrasena.isEmpty() || password == contrasena)) {
+                return true
             }
         }
         return false
     }
-
 }

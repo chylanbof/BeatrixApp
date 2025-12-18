@@ -9,7 +9,6 @@ import android.text.Spanned
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        
+
         val username = intent.getStringExtra("USERNAME") ?: "Usuario"
         val tvWelcome = findViewById<TextView>(R.id.tvWelcome)
         tvWelcome.text = "Bienvenido, $username"
@@ -53,50 +52,28 @@ class MainActivity : AppCompatActivity() {
         listaDeProyectos = leerProyectosDesdeArchivo(this).toMutableList()
 
         // Ordenar proyectos por fecha de entrega
-        try {
-            listaDeProyectos.sortBy {
-                val fullDateString = it.fechaEntrega
-                val dateString = fullDateString?.take(19)
+        listaDeProyectos.sortBy {
+            val fullDateString = it.fechaEntrega
+            val dateString = fullDateString?.take(19)
 
-                if (dateString.isNullOrBlank()) {
+            if (dateString.isNullOrBlank()) {
+                Date(0)
+            } else {
+                try {
+                    formatoFecha.parse(dateString) ?: Date(0)
+                } catch (e: Exception) {
+                    Log.e("MainActivity", "Error de formato de fecha: $dateString", e)
                     Date(0)
-                } else {
-                    try {
-                        formatoFecha.parse(dateString) ?: Date(0)
-                    } catch (e: Exception) {
-                        Log.e("MainActivity", "Error de formato de fecha: $dateString", e)
-                        Date(0)
-                    }
                 }
             }
-        } catch (e: Exception) {
-            Log.e("MainActivity", "Error sorting projects", e)
         }
+        // Sólo mostrar los 3 proyectos más recientes.
+        val proyectosMasCercanos = listaDeProyectos.take(3)
 
-        for (proyecto in listaDeProyectos) {
+        for (proyecto in proyectosMasCercanos) {
             agregarProyecto(proyecto, contenedorProyectos, this)
         }
 
-        //Usar botones para enviar a otros activitys
-        val includeLayout = findViewById<View>(R.id.boton_bottom)
-
-        val botonCalendario = includeLayout.findViewById<ImageView>(R.id.btn_calendario)
-        botonCalendario.setOnClickListener {
-            val intentCalendario = Intent(this, CalendarioActivity::class.java)
-            startActivity(intentCalendario)
-        }
-
-        val botonPerfil = includeLayout.findViewById<ImageView>(R.id.btn_perfil)
-        botonPerfil.setOnClickListener {
-            val intentPerfil = Intent(this, UsuarioActivity:: class.java)
-            startActivity(intentPerfil)
-        }
-
-        val botonProyecto = includeLayout.findViewById<ImageView>(R.id.btn_proyecto)
-        botonProyecto.setOnClickListener {
-            val intentProyecto= Intent(this, ProyectosActivity:: class.java)
-            startActivity(intentProyecto)
-        }
     }
 
     private fun copiarProyectosARutaInterna(context: Context) {
