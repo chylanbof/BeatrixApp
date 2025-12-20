@@ -140,4 +140,20 @@
     <string name="estado_desconocido">Desconocido</string>  <!-- si estado es null -->
     <string name="usuarios_asignados_prefix">Asignados: </string> <!-- prefijo de usuarios asignados -->
 
+
+    <!-- Proyectos Activity -->
+
+    <string name="titulo_proyectos">TUS PROYECTOS</string>
+
+    <!-- Usuarios Activity -->
+
+    <string name="nombre_usuario">Nombre de Usuario</string>
+    <string name="correo_usuario">Correo electronico</string>
+    <string name="telefono_usuario">Numero de telefono</string>
+    <string name="contraseña_usuario">Contraseña</string>
+    <string name="estadisticas_usuario">Estadísticas</string>
+    <string name="estadotareas_usuario">Estado de Tareas</string>
+    <string name="proyectosasignados_usuario">Proyectos Asignados:</string>
+    <string name="tareasasignadas_usuario">Tareas Asignadas:</string>
+
 </resources>

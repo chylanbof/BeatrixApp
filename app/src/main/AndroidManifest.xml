@@ -13,7 +13,7 @@
         android:theme="@style/Theme.BeatrixApp">
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".ProyectosActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,7 +30,7 @@
         </activity>
         <activity android:name=".CalendarioActivity">
         </activity>
-        <activity android:name=".ProyectosActivity">
+        <activity android:name=".LoginActivity">
         </activity>
 
         <provider

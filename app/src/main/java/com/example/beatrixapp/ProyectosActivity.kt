@@ -17,7 +17,9 @@ import java.io.InputStreamReader
 
 class ProyectosActivity : AppCompatActivity() {
 
-    // Modelo de datos (Data Class)
+    // 1. El usuario que queremos filtrar
+    private val targetUsername = "mgomez"
+
     data class ProyectoUI(val nombre: String, val infoExtra: String)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,28 +27,19 @@ class ProyectosActivity : AppCompatActivity() {
         setContentView(R.layout.activity_proyectos)
 
         val btnPerfil: ImageView = findViewById(R.id.btn_perfil)
-
-        // Configurar el OnClickListener
         btnPerfil.setOnClickListener {
-            // Abre la actividad UsuarioActivity cuando se pulse el botón
             val intent = Intent(this, UsuarioActivity::class.java)
             startActivity(intent)
         }
 
-        // 1. Obtenemos la lista completa del JSON
+        // Cargamos los proyectos filtrados por el usuario asignado
         val listaProyectos = obtenerProyectosDesdeJSON()
-
-        // 2. Configuramos el RecyclerView
         configurarRecyclerView(listaProyectos)
     }
 
     private fun configurarRecyclerView(proyectos: List<ProyectoUI>) {
         val recycler = findViewById<RecyclerView>(R.id.recyclerProyectos)
-
-        // Esto le dice que se comporte como una lista vertical
         recycler.layoutManager = LinearLayoutManager(this)
-
-        // Creamos una instancia de TU adaptador interno y se la asignamos
         val adapter = ProyectosAdapter(proyectos)
         recycler.adapter = adapter
     }
@@ -56,20 +49,37 @@ class ProyectosActivity : AppCompatActivity() {
 
         try {
             val inputStream = resources.openRawResource(R.raw.proyectos)
-            val reader = BufferedReader(InputStreamReader(inputStream))
-            val jsonString = reader.use { it.readText() }
-
+            val jsonString = inputStream.bufferedReader().use { it.readText() }
             val jsonArray = JSONArray(jsonString)
 
+            // Recorremos cada Proyecto
             for (i in 0 until jsonArray.length()) {
                 val proyectoObj = jsonArray.getJSONObject(i)
 
-                val nombreProyecto = proyectoObj.getString("NombreProyecto")
-                val tareasArray = proyectoObj.getJSONArray("Tareas")
-                val cantidadTareas = tareasArray.length()
+                // 2. Obtenemos la lista de Usuarios Asignados a este proyecto
+                val usuariosAsignadosArray = proyectoObj.getJSONArray("UsuariosAsignados")
+                var usuarioEncontrado = false
 
-                val info = "$cantidadTareas Tareas activas"
-                proyectosEncontrados.add(ProyectoUI(nombreProyecto, info))
+                // 3. Buscamos dentro de la lista de usuarios si está "mgomez"
+                for (j in 0 until usuariosAsignadosArray.length()) {
+                    val usuarioObj = usuariosAsignadosArray.getJSONObject(j)
+                    val nombreUsuario = usuarioObj.optString("nombreUsuario", "")
+
+                    if (nombreUsuario == targetUsername) {
+                        usuarioEncontrado = true
+                        break // Si lo encontramos, dejamos de buscar en este proyecto
+                    }
+                }
+
+                // 4. Si el usuario está asignado, lo añadimos a la lista de la interfaz
+                if (usuarioEncontrado) {
+                    val nombreProyecto = proyectoObj.getString("NombreProyecto")
+                    val tareasArray = proyectoObj.getJSONArray("Tareas")
+                    val cantidadTareas = tareasArray.length()
+
+                    val info = "$cantidadTareas Tareas activas"
+                    proyectosEncontrados.add(ProyectoUI(nombreProyecto, info))
+                }
             }
 
         } catch (e: Exception) {
@@ -80,48 +90,36 @@ class ProyectosActivity : AppCompatActivity() {
     }
 
     // ==========================================
-    //      AQUÍ EMPIEZA EL ADAPTADOR INTERNO
+    //      ADAPTADOR INTERNO
     // ==========================================
 
-    // Usamos 'inner class' para que pueda acceder al contexto de la Activity si fuera necesario
     inner class ProyectosAdapter(private val lista: List<ProyectoUI>) :
         RecyclerView.Adapter<ProyectosAdapter.ProyectoViewHolder>() {
 
-        // --- VIEWHOLDER (Maneja las vistas de CADA ítem) ---
         inner class ProyectoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val tvNombre: TextView = itemView.findViewById(R.id.tvNombreProyecto)
             val tvInfo: TextView = itemView.findViewById(R.id.tvFechaInfo)
         }
 
-        // 1. Crea el diseño visual (infla el XML item_proyecto)
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProyectoViewHolder {
             val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.card_proyectos, parent, false)
             return ProyectoViewHolder(view)
         }
 
-        // 2. Pone los datos en el diseño
         override fun onBindViewHolder(holder: ProyectoViewHolder, position: Int) {
             val proyecto = lista[position]
-
             holder.tvNombre.text = proyecto.nombre
             holder.tvInfo.text = proyecto.infoExtra
 
-            // CLICK EN LA TARJETA
             holder.itemView.setOnClickListener {
                 val intent = Intent(this@ProyectosActivity, Proyectos2Activity::class.java)
-
-                // Si quieres pasar datos del proyecto:
                 intent.putExtra("nombreProyecto", proyecto.nombre)
                 intent.putExtra("infoProyecto", proyecto.infoExtra)
-
                 startActivity(intent)
             }
         }
 
-        // 3. Dice cuántos elementos hay
-        override fun getItemCount(): Int {
-            return lista.size
-        }
+        override fun getItemCount(): Int = lista.size
     }
 }

@@ -132,5 +132,20 @@
     <string name="estado_desconocido">Desconegut</string>
     <string name="usuarios_asignados_prefix">Assignats: </string>
 
+    <!-- Proyectos Activity -->
+
+    <string name="titulo_proyectos">ELS TEUS PROJECTES:</string>
+
+    <!-- Usuarios Activity -->
+
+    <string name="nombre_usuario">Nom d\'usuari</string>
+    <string name="correo_usuario">Correu electronic</string>
+    <string name="telefono_usuario">Numero de telefon</string>
+    <string name="contraseña_usuario">Contrasenya</string>
+    <string name="estadisticas_usuario">Estadístiques</string>
+    <string name="estadotareas_usuario">Estat de Tasques</string>
+    <string name="proyectosasignados_usuario">Projectes Asignats:</string>
+    <string name="tareasasignadas_usuario">Tasques Asignades:</string>
+
 
 </resources>
