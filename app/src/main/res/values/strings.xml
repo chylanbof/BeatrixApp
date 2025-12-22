@@ -120,8 +120,27 @@
         <string name="error_pdf">Error al crear el PDF</string>
         <string name="abrir_pdf_con">Abrir PDF con</string>
 
+    <!-- Bienvenido -->
+    <string name="bienvenido_usuario">Bienvenido, %1$s</string>
 
+    <!-- Proyecto -->
+    <string name="nombre_proyecto_text">%1$s</string>
+    <string name="descripcion_proyecto_text">%1$s</string>
+    <string name="tiempo_proyecto">Inicio: %1$s\nEntrega: %2$s</string>
 
+    <!-- Valores por defecto -->
+    <string name="sin_nombre_proyecto">Proyecto Desconocido</string>
+    <string name="sin_descripcion_proyecto">Sin descripción</string>
+
+    <string name="hint_username">Nombre de usuario</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_entrar">Entrar</string>
+
+    <string name="login_empty_username">Por favor, introduzca el nombre de usuario</string>
+    <string name="login_empty_password">La contraseña no puede estar vacía</string>
+    <string name="login_success">Inicio de sesión correcto</string>
+    <string name="login_failed">Usuario o contraseña incorrectos</string>
+    <string name="login_error_loading">Error al cargar el archivo de usuarios</string>
 
 
 </resources>

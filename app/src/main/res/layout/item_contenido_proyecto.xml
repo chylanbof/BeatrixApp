@@ -15,7 +15,7 @@
         android:id="@+id/txtNombreProyecto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre Proyecto"
+        android:text="@string/nombre_proyecto_text"
         android:textSize="18sp"
         android:textColor="@color/black"
         android:textStyle="bold"/>
@@ -25,7 +25,7 @@
         android:id="@+id/txtDescripcionProyecto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Descripción del proyecto"
+        android:text="@string/descripcion_proyecto_text"
         android:textColor="#555555"
         android:textSize="14sp"
         android:layout_marginTop="4dp"/>
@@ -35,7 +35,7 @@
         android:id="@+id/txtTiempo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Inicio: 2025-11-30T14:38\nEntrega: 2025-12-04T14:29"
+        android:text="@string/tiempo_proyecto"
         android:textColor="#777777"
         android:textSize="14sp"
         android:layout_marginTop="6dp"/>

@@ -113,4 +113,27 @@
     <string name="error_pdf">Error creating PDF</string>
     <string name="abrir_pdf_con">Open PDF with</string>
 
+
+
+    <!-- Bienvenido -->
+    <string name="bienvenido_usuario">Welcome, %1$s</string>
+
+    <!-- Project -->
+    <string name="nombre_proyecto_text">%1$s</string>
+    <string name="descripcion_proyecto_text">%1$s</string>
+    <string name="tiempo_proyecto">Start: %1$s\nEnd: %2$s</string>
+
+    <!-- Default values -->
+    <string name="sin_nombre_proyecto">Unknown Project</string>
+    <string name="sin_descripcion_proyecto">No description</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_entrar">Login</string>
+
+    <string name="login_empty_username">Please enter username</string>
+    <string name="login_empty_password">Password cannot be empty</string>
+    <string name="login_success">Login successful</string>
+    <string name="login_failed">Incorrect username or password</string>
+    <string name="login_error_loading">Error loading users file</string>
+
 </resources>
