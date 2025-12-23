@@ -34,6 +34,7 @@ class TareaAdapter(private val tareas: List<Tarea>) :
         // 1. Configurar datos de la tarea
         holder.tvNombre.text = tarea.nombreTarea
         holder.tvDescripcion.text = tarea.descripcion
+
         // Muestra solo la fecha (los primeros 10 caracteres)
         holder.tvFechas.text = "Inicio: ${tarea.fechaInicio.substring(0, 10)} | Entrega: ${tarea.fechaEntrega.substring(0, 10)}"
 

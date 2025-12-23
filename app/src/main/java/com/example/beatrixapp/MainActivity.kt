@@ -9,6 +9,7 @@ import android.text.Spanned
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -72,6 +73,16 @@ class MainActivity : AppCompatActivity() {
 
         for (proyecto in proyectosMasCercanos) {
             agregarProyecto(proyecto, contenedorProyectos, this)
+        }
+
+        //Usar botones para enviar a otros activitys LO HE PUESTO YO ANTHONY PARA QUE FUNCIONE EL BOTON DE CALENDARIO
+        val includeLayout = findViewById<View>(R.id.boton_bottom)
+
+        // ASI PUEDES USAR LOS BOTONES CON ESTE CODIGO QIA QIA, SOLO CAMBIA EL ID DEL BOTON
+        val botonCalendario = includeLayout.findViewById<ImageView>(R.id.btn_calendario)
+        botonCalendario.setOnClickListener {
+            val intentCalendario = Intent(this, CalendarioActivity::class.java)
+            startActivity(intentCalendario)
         }
 
     }
