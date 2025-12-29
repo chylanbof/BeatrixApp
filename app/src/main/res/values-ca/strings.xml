@@ -18,7 +18,7 @@
 
     <!-- 📅 DATES -->
     <string name="cambiar_fecha">Canviar data</string>
-    <string name="fecha_inicio">Data d\'inici</string>
+    <string name="fecha_inicio">Data dinici</string>
     <string name="fecha_entrega">Data de lliurament</string>
     <string name="fecha_actualizada">Data actualitzada correctament</string>
     <string name="fecha_tarea_actualizada">Data de la tasca actualitzada correctament</string>
@@ -132,20 +132,29 @@
     <string name="estado_desconocido">Desconegut</string>
     <string name="usuarios_asignados_prefix">Assignats: </string>
 
-    <!-- Proyectos Activity -->
+    <!-- Bienvenido -->
+    <string name="bienvenido_usuario">Benvingut, %1$s</string>
 
-    <string name="titulo_proyectos">ELS TEUS PROJECTES:</string>
 
-    <!-- Usuarios Activity -->
+    <!-- Projecte -->
+    <string name="nombre_proyecto_text">%1$s</string>
+    <string name="descripcion_proyecto_text">%1$s</string>
+    <string name="tiempo_proyecto">Inici: %1$s\nEntrega: %2$s</string>
 
-    <string name="nombre_usuario">Nom d\'usuari</string>
-    <string name="correo_usuario">Correu electronic</string>
-    <string name="telefono_usuario">Numero de telefon</string>
-    <string name="contraseña_usuario">Contrasenya</string>
-    <string name="estadisticas_usuario">Estadístiques</string>
-    <string name="estadotareas_usuario">Estat de Tasques</string>
-    <string name="proyectosasignados_usuario">Projectes Asignats:</string>
-    <string name="tareasasignadas_usuario">Tasques Asignades:</string>
+    <!-- Valors per defecte -->
+    <string name="sin_nombre_proyecto">Projecte Desconegut</string>
+    <string name="sin_descripcion_proyecto">Sense descripció</string>
+
+    <string name="hint_username">Nom d\'usuari</string>
+    <string name="hint_password">Contrasenya</string>
+    <string name="btn_entrar">Entrar</string>
+
+    <string name="login_empty_username">Si us plau, introdueix el nom d\'usuari</string>
+    <string name="login_empty_password">La contrasenya no pot estar buida</string>
+    <string name="login_success">Inici de sessió correcte</string>
+    <string name="login_failed">Usuari o contrasenya incorrectes</string>
+    <string name="login_error_loading">Error en carregar l\'arxiu d\'usuaris</string>
+
 
 
 </resources>

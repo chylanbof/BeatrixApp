@@ -36,7 +36,8 @@ class LoginActivity : AppCompatActivity() {
             usuariosList = loadUsersJson()
             Log.d("LOGIN", "Usuarios cargados correctamente. Total: ${usuariosList.size}")
         } catch (e: Exception) {
-            Toast.makeText(this, "Error al cargar el archivo de usuarios", Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, "Error al cargar el archivo de usuarios", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.login_error_loading), Toast.LENGTH_LONG).show()
             Log.e("LOGIN", "Error al cargar JSON", e)
             return
         }
@@ -50,17 +51,17 @@ class LoginActivity : AppCompatActivity() {
             val password = etPassword.text.toString().trim()
 
             if (username.isEmpty()) {
-                Toast.makeText(this, "Por favor, introduzca el nombre de usuario", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.login_empty_username), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
             if (password.isEmpty()) {
-                Toast.makeText(this, "La contraseña no puede estar vacía", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, "La contraseña no puede estar vacía", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.login_empty_password), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
             if (checkLogin(username, password)) {
-                Toast.makeText(this, "Inicio de sesión correcto", Toast.LENGTH_SHORT).show()
-
+                Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
                 val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
                 prefs.edit().putString("loggedUser", username).apply()
 
@@ -69,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             } else {
-                Toast.makeText(this, "Usuario o contraseña incorrectos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
             }
         }
     }
