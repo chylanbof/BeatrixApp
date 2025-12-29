@@ -38,6 +38,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="25dp"
                 android:text="@string/bienvenido_usuario"
+                android:fontFamily="@font/montserratregular"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold" />

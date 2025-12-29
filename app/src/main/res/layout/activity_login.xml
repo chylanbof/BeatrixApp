@@ -24,6 +24,7 @@
         android:layout_width="350dp"
         android:layout_height="55dp"
         android:hint="@string/hint_username"
+        android:fontFamily="@font/montserratregular"
         android:padding="12dp"
         android:layout_marginTop="60dp"
         android:background="@drawable/rounded_edittext"
@@ -36,6 +37,7 @@
         android:layout_marginTop="35dp"
         android:background="@drawable/rounded_edittext"
         android:hint="@string/hint_password"
+        android:fontFamily="@font/montserratregular"
         android:inputType="textPassword"
         android:padding="12dp" />
 
@@ -45,6 +47,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="65dp"
         android:text="@string/btn_entrar"
+        android:fontFamily="@font/montserratregular"
         android:textColor="@color/black"
         android:backgroundTint="@color/white"
         android:textSize="18sp" />

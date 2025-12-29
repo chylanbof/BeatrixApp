@@ -18,7 +18,9 @@
         android:text="@string/nombre_proyecto_text"
         android:textSize="18sp"
         android:textColor="@color/black"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        android:fontFamily="@font/playfairdisplayregular"
+        />
 
     <!-- Descripción del proyecto -->
     <TextView
@@ -26,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/descripcion_proyecto_text"
+        android:fontFamily="@font/montserratregular"
         android:textColor="#555555"
         android:textSize="14sp"
         android:layout_marginTop="4dp"/>
@@ -36,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tiempo_proyecto"
+        android:fontFamily="@font/montserratregular"
         android:textColor="#777777"
         android:textSize="14sp"
         android:layout_marginTop="6dp"/>

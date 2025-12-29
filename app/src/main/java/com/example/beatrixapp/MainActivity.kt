@@ -67,7 +67,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-
         val username = intent.getStringExtra("USERNAME") ?: "Usuario"
         val tvWelcome = findViewById<TextView>(R.id.tvWelcome)
         tvWelcome.text = "Bienvenido, $username"
