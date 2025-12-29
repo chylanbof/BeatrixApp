@@ -41,6 +41,33 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        //Usar botones para enviar a otros activitys
+        val includeLayout = findViewById<View>(R.id.boton_bottom)
+
+        val botonHome = includeLayout.findViewById<ImageView>(R.id.btn_home)
+        botonHome.setOnClickListener {
+            val intentHome = Intent(this, MainActivity::class.java)
+            startActivity(intentHome)
+        }
+
+        val botonProyectos = includeLayout.findViewById<ImageView>(R.id.btn_proyecto)
+        botonProyectos.setOnClickListener {
+            val intentProyecto = Intent(this, ProyectosActivity:: class.java)
+            startActivity(intentProyecto)
+        }
+
+        val botonUsuarios = includeLayout.findViewById<ImageView>(R.id.btn_perfil)
+        botonUsuarios.setOnClickListener {
+            val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+            val loggedUser = prefs.getString("loggedUser", null) ?: return@setOnClickListener
+
+            val intentUsuario = Intent(this, UsuarioActivity::class.java)
+            intentUsuario.putExtra("USERNAME", loggedUser) // Enviar el nombre de usuario que ha iniciado sesión
+            startActivity(intentUsuario)
+        }
+
+
+
         val username = intent.getStringExtra("USERNAME") ?: "Usuario"
         val tvWelcome = findViewById<TextView>(R.id.tvWelcome)
         tvWelcome.text = "Bienvenido, $username"
@@ -73,16 +100,6 @@ class MainActivity : AppCompatActivity() {
 
         for (proyecto in proyectosMasCercanos) {
             agregarProyecto(proyecto, contenedorProyectos, this)
-        }
-
-        //Usar botones para enviar a otros activitys LO HE PUESTO YO ANTHONY PARA QUE FUNCIONE EL BOTON DE CALENDARIO
-        val includeLayout = findViewById<View>(R.id.boton_bottom)
-
-        // ASI PUEDES USAR LOS BOTONES CON ESTE CODIGO QIA QIA, SOLO CAMBIA EL ID DEL BOTON
-        val botonCalendario = includeLayout.findViewById<ImageView>(R.id.btn_calendario)
-        botonCalendario.setOnClickListener {
-            val intentCalendario = Intent(this, CalendarioActivity::class.java)
-            startActivity(intentCalendario)
         }
 
     }

@@ -136,4 +136,25 @@
     <string name="login_failed">Incorrect username or password</string>
     <string name="login_error_loading">Error loading users file</string>
 
+
+    <!-- 📅 CALENDAR / PROJECTS -->
+    <string name="tareas_asignadas">Assigned tasks:</string>
+    <string name="asignado_sin_tareas">Assigned to the project (no tasks created).</string>
+    <string name="sin_tareas">No direct tasks or subtasks assigned.</string>
+    <string name="calendario">Calendar</string>
+
+    <!-- 🤝 MEETINGS -->
+    <string name="sin_titulo">Untitled</string>
+    <string name="sin_participantes">No participants</string>
+
+    <!-- Subtareas Adapter -->
+    <string name="sin_descripcion_subtarea">No description</string>
+    <string name="usuarios_prefix">Users: </string>
+
+    <!-- TareaAdapter -->
+    <string name="inicio_fecha">Start: </string>
+    <string name="entrega_fecha"> | Due: </string>
+    <string name="estado_desconocido">Unknown</string>
+    <string name="usuarios_asignados_prefix">Assigned: </string>
+
 </resources>
