@@ -110,6 +110,12 @@ class CalendarioActivity : AppCompatActivity() {
             startActivity(intentHome)
         }
 
+        val botonCalendario = includeLayout.findViewById<ImageView>(R.id.btn_calendario)
+        botonCalendario.setOnClickListener {
+            val intentCalendario = Intent(this, CalendarioActivity:: class.java)
+            startActivity(intentCalendario)
+        }
+
     }
 
     private fun parsearProyectos(json: String): List<Proyecto> {

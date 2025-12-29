@@ -156,5 +156,18 @@
     <string name="login_error_loading">Error en carregar l\'arxiu d\'usuaris</string>
 
 
+    <!-- Proyectos Activity -->
+    <string name="titulo_proyectos">ELS TEUS PROJECTES</string>
 
+    <!-- Usuarios Activity -->
+    <string name="nombre_usuario">Nom d usuari</string>
+    <string name="correo_usuario">Correu electrònic</string>
+    <string name="telefono_usuario">Número de telèfon</string>
+    <string name="contraseña_usuario">Contrasenya</string>
+    <string name="estadisticas_usuario">Estadístiques</string>
+    <string name="estadotareas_usuario">Estat de les tasques</string>
+    <string name="proyectosasignados_usuario">Projectes assignats:</string>
+    <string name="tareasasignadas_usuario">Tasques assignades:</string>
+
+    <string name="nuevo_proyecto">Nou Projecte</string>
 </resources>

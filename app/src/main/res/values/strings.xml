@@ -149,6 +149,7 @@
     <string name="asignado_sin_tareas">Asignado al proyecto (sin tareas creadas).</string>
     <string name="sin_tareas">Sin tareas directas o subtareas asignadas.</string>
     <string name="calendario">Calendario</string>
+
     <!-- 🤝 REUNIONES -->
     <string name="sin_titulo">Sin título</string>
     <string name="sin_participantes">Sin participantes</string>
@@ -179,5 +180,7 @@
     <string name="estadotareas_usuario">Estado de Tareas</string>
     <string name="proyectosasignados_usuario">Proyectos Asignados:</string>
     <string name="tareasasignadas_usuario">Tareas Asignadas:</string>
+
+    <string name="nuevo_proyecto">Nuevo proyecto</string>
 
 </resources>

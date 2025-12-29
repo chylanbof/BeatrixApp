@@ -56,6 +56,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(intentProyecto)
         }
 
+        val botonCalendario = includeLayout.findViewById<ImageView>(R.id.btn_calendario)
+        botonCalendario.setOnClickListener {
+            val intentCalendario = Intent(this, CalendarioActivity:: class.java)
+            startActivity(intentCalendario)
+        }
+
         val botonUsuarios = includeLayout.findViewById<ImageView>(R.id.btn_perfil)
         botonUsuarios.setOnClickListener {
             val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
@@ -65,6 +71,8 @@ class MainActivity : AppCompatActivity() {
             intentUsuario.putExtra("USERNAME", loggedUser) // Enviar el nombre de usuario que ha iniciado sesión
             startActivity(intentUsuario)
         }
+
+
 
 
         val username = intent.getStringExtra("USERNAME") ?: "Usuario"
