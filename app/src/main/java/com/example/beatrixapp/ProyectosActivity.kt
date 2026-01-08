@@ -24,7 +24,18 @@ class ProyectosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_proyectos)
 
-        val btnPerfil: ImageView = findViewById(R.id.btn_perfil)
+        val botonBottom: View = findViewById(R.id.boton_bottom)
+
+        val btnHome: ImageView = botonBottom.findViewById(R.id.btn_home)
+        val btnProyecto: ImageView = botonBottom.findViewById(R.id.btn_proyecto)
+        val btnCalendario: ImageView = botonBottom.findViewById(R.id.btn_calendario)
+        val btnPerfil: ImageView = botonBottom.findViewById(R.id.btn_perfil)
+
+        btnHome.setOnClickListener { startActivity(Intent(this, MainActivity::class.java)) }
+        btnProyecto.setOnClickListener { startActivity(Intent(this, ProyectosActivity::class.java)) }
+        btnCalendario.setOnClickListener { startActivity(Intent(this, CalendarioActivity::class.java)) }
+        btnPerfil.setOnClickListener { startActivity(Intent(this, UsuarioActivity::class.java)) }
+
 
         // Configurar el OnClickListener
         btnPerfil.setOnClickListener {

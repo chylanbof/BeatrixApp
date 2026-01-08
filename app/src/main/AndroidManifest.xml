@@ -13,7 +13,7 @@
         android:theme="@style/Theme.BeatrixApp">
 
         <activity
-            android:name=".LoginActivity"
+            android:name=".UsuarioActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,13 +24,15 @@
         <activity
             android:name=".ResumenActivity"
             android:exported="false" />
-        <activity android:name=".UsuarioActivity">
+        <activity android:name=".LoginActivity">
         </activity>
         <activity android:name=".MainActivity">
         </activity>
         <activity android:name=".CalendarioActivity">
         </activity>
         <activity android:name=".ProyectosActivity">
+        </activity>
+        <activity android:name=".EditarPerfilActivity">
         </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
