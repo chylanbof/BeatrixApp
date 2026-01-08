@@ -121,7 +121,7 @@
         <string name="abrir_pdf_con">Abrir PDF con</string>
 
     <!-- Bienvenido -->
-    <string name="bienvenido_usuario">Bienvenido, %1$s</string>
+    <string name="bienvenido_usuario">Bienvenido, </string>
 
     <!-- Proyecto -->
     <string name="nombre_proyecto_text">%1$s</string>
@@ -149,6 +149,7 @@
     <string name="asignado_sin_tareas">Asignado al proyecto (sin tareas creadas).</string>
     <string name="sin_tareas">Sin tareas directas o subtareas asignadas.</string>
     <string name="calendario">Calendario</string>
+    <string name="sin_tareas_sin_proyectos">No tienes tareas ni subtareas asignadas en este proyecto</string>
 
     <!-- 🤝 REUNIONES -->
     <string name="sin_titulo">Sin título</string>

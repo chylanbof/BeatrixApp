@@ -18,7 +18,7 @@ import android.widget.TextView
 import com.example.beatrixapp.model.Reunion
 import com.example.beatrixapp.model.Usuario
 
-class CalendarioActivity : AppCompatActivity() {
+class CalendarioActivity : BaseActivity() {
 
     private lateinit var listaProyectos: List<Proyecto>
     private lateinit var  listaReunion: List<Reunion>
@@ -199,13 +199,13 @@ class CalendarioActivity : AppCompatActivity() {
             // Aquí manejamos el mensaje para los proyectos que no tienen tareas,
             // pero son visibles por asignación directa (Criterio 1)
             tvTareas.text = if (nombreTareas.isNotEmpty()){
-                "Tareas asignadas: \n" + nombreTareas.joinToString("\n")
+                getString(R.string.tareas_asignadas) + nombreTareas.joinToString("\n")
             } else if (proyecto.tareas.isEmpty() && proyecto.usuariosAsignados.any { it.nombreUsuario == loggedUser }) {
                 // El usuario está asignado al proyecto, pero no hay tareas aún.
-                "Asignado al proyecto (sin tareas creadas)."
+                getString(R.string.asignado_sin_tareas)
             } else {
                 // Este caso es poco probable con la lógica de filtrado inicial, pero es un fallback
-                "Sin Tareas directas o subtareas asignadas."
+                getString(R.string.sin_tareas)
             }
 
 
@@ -245,7 +245,7 @@ class CalendarioActivity : AppCompatActivity() {
             val tvUsuarios = view.findViewById<TextView>(R.id.tvUsuariosReunion)
             val tvDescripcion = view.findViewById<TextView>(R.id.tvDescripcionReunion)
 
-            tvNombreReunion.text = reunion.titulo.ifEmpty { "Sin título" }
+            tvNombreReunion.text = reunion.titulo.ifEmpty { getString(R.string.sin_titulo) }
 
             val soloFecha = reunion.fechaHora.substring(0, 10)
             val hora = reunion.fechaHora.substring(11, 16)
@@ -255,7 +255,7 @@ class CalendarioActivity : AppCompatActivity() {
             tvUsuarios.text = if (reunion.usuariosReuniones.isNotEmpty()){
                 reunion.usuariosReuniones.joinToString(", ")
             } else{
-                "Sin participantes"
+                getString(R.string.sin_participantes)
             }
 
             tvDescripcion.text = reunion.descripcion.ifEmpty { "Sin descripción" }

@@ -13,7 +13,7 @@ import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import android.widget.ImageButton
 
-class EditarPerfilActivity : AppCompatActivity() {
+class EditarPerfilActivity : BaseActivity() {
 
     // Variables de la vista
     private lateinit var etNombreCompleto: EditText

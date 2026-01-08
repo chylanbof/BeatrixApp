@@ -116,7 +116,7 @@
 
 
     <!-- Bienvenido -->
-    <string name="bienvenido_usuario">Welcome, %1$s</string>
+    <string name="bienvenido_usuario">Welcome, </string>
 
     <!-- Project -->
     <string name="nombre_proyecto_text">%1$s</string>
@@ -142,6 +142,8 @@
     <string name="asignado_sin_tareas">Assigned to the project (no tasks created).</string>
     <string name="sin_tareas">No direct tasks or subtasks assigned.</string>
     <string name="calendario">Calendar</string>
+    <string name="sin_tareas_sin_proyectos">This project does not have any assigned task or subtasks</string>
+
 
     <!-- 🤝 MEETINGS -->
     <string name="sin_titulo">Untitled</string>

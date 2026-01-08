@@ -15,7 +15,7 @@ import org.json.JSONArray
 import java.io.BufferedReader
 import java.io.InputStreamReader
 
-class ProyectosActivity : AppCompatActivity() {
+class ProyectosActivity : BaseActivity() {
 
     // 1. CAMBIO: Variable de sesión dinámica (ya no es fija "mgomez")
     private var usuarioLogueado: String? = null

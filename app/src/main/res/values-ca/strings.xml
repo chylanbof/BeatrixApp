@@ -117,6 +117,8 @@
     <string name="asignado_sin_tareas">Assignat al projecte (sense tasques creades).</string>
     <string name="sin_tareas">Sense tasques directes o subtasques assignades.</string>
     <string name="calendario">Calendari</string>
+    <string name="sin_tareas_sin_proyectos">No té tasques i subtasques assignades en aquest project</string>
+
 
     <!-- 🤝 REUNIONS -->
     <string name="sin_titulo">Sense títol</string>
@@ -133,7 +135,7 @@
     <string name="usuarios_asignados_prefix">Assignats: </string>
 
     <!-- Bienvenido -->
-    <string name="bienvenido_usuario">Benvingut, %1$s</string>
+    <string name="bienvenido_usuario">Benvingut, </string>
 
 
     <!-- Projecte -->

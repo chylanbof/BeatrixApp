@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#26C6DA">
 
     <!-- 🔝 CONTENIDO SUPERIOR -->
     <LinearLayout
@@ -12,6 +13,7 @@
         android:orientation="vertical"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:textColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/boton_bottom"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,7 +23,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <Space
                 android:layout_width="0dp"
@@ -38,6 +41,7 @@
 
         <!-- TEXTO RESUMEN -->
         <TextView
+            android:textColor="@color/white"
             android:id="@+id/txtResumen"
             android:textSize="16sp"
             android:layout_marginTop="12dp"
@@ -46,6 +50,7 @@
 
         <!-- BARRA TEXTO -->
         <TextView
+            android:textColor="@color/white"
             android:id="@+id/txtBarra"
             android:textSize="20sp"
             android:layout_marginTop="16dp"
@@ -66,8 +71,8 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_descargar_pdf"
             android:layout_marginTop="16dp"
-            android:backgroundTint="#26C6DA"
-            android:textColor="@android:color/white"/>
+            android:backgroundTint="@color/white"
+            android:textColor="#26C6DA"/>
 
 
     </LinearLayout>

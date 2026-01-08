@@ -35,7 +35,7 @@ class DetalleProyectoDialog(private val proyecto: Proyecto, private val loggedUs
         val recyclerTareas = view.findViewById<RecyclerView>(R.id.recyclerTareas)
 
         // 1. Mostrar datos del proyecto
-        tvNombre.text = proyecto.nombreProyecto ?: "Proyecto sin Nombre"
+        tvNombre.text = proyecto.nombreProyecto ?: getString(R.string.sin_nombre_proyecto)
         tvDescripcion.text = proyecto.descripcionProyecto
 
         // 2. Filtrar y Transformar las tareas y subtareas
@@ -78,7 +78,7 @@ class DetalleProyectoDialog(private val proyecto: Proyecto, private val loggedUs
             val parentLayout = view.findViewById<LinearLayout>(R.id.dialog_content_layout) // Asume que tienes un LinearLayout con esta ID
 
             val tvMensajeVacio = TextView(context).apply {
-                text = "No tienes tareas ni subtareas asignadas en este proyecto."
+                text = getString(R.string.sin_tareas_sin_proyectos)
                 textSize = 16f
                 setPadding(0, 16, 0, 0)
             }

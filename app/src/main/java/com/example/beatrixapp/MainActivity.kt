@@ -1,5 +1,6 @@
 package com.example.beatrixapp
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Typeface
@@ -22,7 +23,7 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     private lateinit var contenedorProyectos: LinearLayout
     private lateinit var listaDeProyectos: MutableList<Proyecto>
@@ -30,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private val formatoFecha = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
     private val fileName = "proyectos.json"
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -77,7 +79,7 @@ class MainActivity : AppCompatActivity() {
 
         val username = intent.getStringExtra("USERNAME") ?: "Usuario"
         val tvWelcome = findViewById<TextView>(R.id.tvWelcome)
-        tvWelcome.text = "Bienvenido, $username"
+        tvWelcome.text = getString(R.string.bienvenido_usuario) + " "+ username
 
         contenedorProyectos = findViewById(R.id.contenedorProyectos)
 
