@@ -183,4 +183,10 @@
     <string name="editar_perfil">Editar Perfil</string>
     <string name="nuevo_proyecto">Nuevo proyecto</string>
 
+    <!-- Editar Perfil -->
+    <string name="nombreapellidos">Nombre y Apellidos</string>
+    <string name="correo">Correo Electronico</string>
+    <string name="telefono">Telefono</string>
+    <string name="nuevacontraseña">Nueva Contraseña</string>
+
 </resources>

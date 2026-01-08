@@ -170,4 +170,11 @@
     <string name="tareasasignadas_usuario">Tasques assignades:</string>
     <string name="editar_perfil">Editar Perfil</string>
     <string name="nuevo_proyecto">Nou Projecte</string>
+
+    <!-- Editar Perfil -->
+    <string name="nombreapellidos">Nom y Cognoms</string>
+    <string name="correo">Correo Electronic</string>
+    <string name="telefono">Numero de Teléfon</string>
+    <string name="nuevacontraseña">Nova Contrasenya</string>
+
 </resources>
