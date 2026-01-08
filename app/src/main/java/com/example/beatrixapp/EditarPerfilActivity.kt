@@ -24,10 +24,8 @@ class EditarPerfilActivity : AppCompatActivity() {
     private lateinit var btnCancelar: Button
     private lateinit var btnAtras: ImageButton
 
-    // Nombre del archivo donde guardaremos los cambios
     private val NOMBRE_ARCHIVO_JSON = "usuarios_data.json"
 
-    // Usuario que estamos editando (esto debería venir del Login o la sesión)
     private var usuarioLogueadoActual = "afernandezzz" // Cambia esto por la variable global o Intent
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -18,6 +18,7 @@
         android:text="@string/nuevo_proyecto"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:textColor="@color/white"
         android:background="#26C6DA"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"

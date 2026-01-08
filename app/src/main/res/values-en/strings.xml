@@ -169,6 +169,6 @@
     <string name="estadotareas_usuario">Task Status</string>
     <string name="proyectosasignados_usuario">Assigned Projects:</string>
     <string name="tareasasignadas_usuario">Assigned Tasks:</string>
-
+    <string name="editar_perfil">Edit Profile</string>
     <string name="nuevo_proyecto">New Project</string>
 </resources>

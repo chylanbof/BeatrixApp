@@ -172,7 +172,7 @@
                     android:id="@+id/btnEditarPerfil"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Editar Perfil"
+                    android:text="@string/editar_perfil"
                     android:textColor="#26C6DA"
                     android:backgroundTint="@android:color/white"
                     android:textStyle="bold"

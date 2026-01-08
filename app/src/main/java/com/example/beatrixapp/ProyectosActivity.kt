@@ -17,8 +17,8 @@ import java.io.InputStreamReader
 
 class ProyectosActivity : AppCompatActivity() {
 
-    // 1. El usuario que queremos filtrar
-    private val targetUsername = "mgomez"
+    // 1. CAMBIO: Variable de sesión dinámica (ya no es fija "mgomez")
+    private var usuarioLogueado: String? = null
 
     data class ProyectoUI(val nombre: String, val infoExtra: String)
 
@@ -26,42 +26,28 @@ class ProyectosActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_proyectos)
 
-        val btnPerfil: ImageView = findViewById(R.id.btn_perfil)
-        btnPerfil.setOnClickListener {
-            val intent = Intent(this, UsuarioActivity::class.java)
-            startActivity(intent)
+        // 2. RECUPERAR SESIÓN REAL
+        val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        usuarioLogueado = prefs.getString("loggedUser", null)
+
+        // 3. SEGURIDAD: Si no hay sesión, cerramos la actividad
+        if (usuarioLogueado == null) {
+            finish()
+            return
         }
 
-        // Cargamos los proyectos filtrados por el usuario asignado
+        // 4. LÓGICA DE INTERFAZ
+        val btnPerfil: ImageView = findViewById(R.id.btn_perfil)
+        btnPerfil.setOnClickListener {
+            startActivity(Intent(this, UsuarioActivity::class.java))
+        }
+
+        // Cargamos los proyectos usando el usuario de la sesión
         val listaProyectos = obtenerProyectosDesdeJSON()
         configurarRecyclerView(listaProyectos)
 
-        //Usar botones para enviar a otros activitys
-        val includeLayout = findViewById<View>(R.id.boton_bottom)
-
-        val botonHome = includeLayout.findViewById<ImageView>(R.id.btn_home)
-        botonHome.setOnClickListener {
-            val intentHome = Intent(this, MainActivity::class.java)
-            startActivity(intentHome)
-        }
-
-        val botonProyectos = includeLayout.findViewById<ImageView>(R.id.btn_proyecto)
-        botonProyectos.setOnClickListener {
-            val intentProyecto = Intent(this, ProyectosActivity:: class.java)
-            startActivity(intentProyecto)
-        }
-
-        val botonUsuarios = includeLayout.findViewById<ImageView>(R.id.btn_perfil)
-        botonUsuarios.setOnClickListener {
-            val intentHome = Intent(this, UsuarioActivity:: class.java)
-            startActivity(intentHome)
-        }
-
-        val botonCalendario = includeLayout.findViewById<ImageView>(R.id.btn_calendario)
-        botonCalendario.setOnClickListener {
-            val intentCalendario = Intent(this, CalendarioActivity:: class.java)
-            startActivity(intentCalendario)
-        }
+        // CONFIGURAR MENÚ INFERIOR
+        setupNavigationButtons()
     }
 
     private fun configurarRecyclerView(proyectos: List<ProyectoUI>) {
@@ -74,31 +60,30 @@ class ProyectosActivity : AppCompatActivity() {
     private fun obtenerProyectosDesdeJSON(): List<ProyectoUI> {
         val proyectosEncontrados = mutableListOf<ProyectoUI>()
 
+        // Usamos una variable local para evitar problemas de nulabilidad dentro del bucle
+        val target = usuarioLogueado ?: return proyectosEncontrados
+
         try {
             val inputStream = resources.openRawResource(R.raw.proyectos)
             val jsonString = inputStream.bufferedReader().use { it.readText() }
             val jsonArray = JSONArray(jsonString)
 
-            // Recorremos cada Proyecto
             for (i in 0 until jsonArray.length()) {
                 val proyectoObj = jsonArray.getJSONObject(i)
-
-                // 2. Obtenemos la lista de Usuarios Asignados a este proyecto
                 val usuariosAsignadosArray = proyectoObj.getJSONArray("UsuariosAsignados")
                 var usuarioEncontrado = false
 
-                // 3. Buscamos dentro de la lista de usuarios si está "mgomez"
+                // BUSCAR AL USUARIO LOGUEADO EN EL PROYECTO
                 for (j in 0 until usuariosAsignadosArray.length()) {
                     val usuarioObj = usuariosAsignadosArray.getJSONObject(j)
                     val nombreUsuario = usuarioObj.optString("nombreUsuario", "")
 
-                    if (nombreUsuario == targetUsername) {
+                    if (nombreUsuario == target) {
                         usuarioEncontrado = true
-                        break // Si lo encontramos, dejamos de buscar en este proyecto
+                        break
                     }
                 }
 
-                // 4. Si el usuario está asignado, lo añadimos a la lista de la interfaz
                 if (usuarioEncontrado) {
                     val nombreProyecto = proyectoObj.getString("NombreProyecto")
                     val tareasArray = proyectoObj.getJSONArray("Tareas")
@@ -114,6 +99,27 @@ class ProyectosActivity : AppCompatActivity() {
         }
 
         return proyectosEncontrados
+    }
+
+    // ==========================================
+    //      NAVEGACIÓN (Sincronizada)
+    // ==========================================
+
+    private fun setupNavigationButtons() {
+        val includeLayout = findViewById<View>(R.id.boton_bottom)
+
+        includeLayout.findViewById<ImageView>(R.id.btn_home).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        includeLayout.findViewById<ImageView>(R.id.btn_proyecto).setOnClickListener {
+            // Ya estamos aquí
+        }
+        includeLayout.findViewById<ImageView>(R.id.btn_perfil).setOnClickListener {
+            startActivity(Intent(this, UsuarioActivity::class.java))
+        }
+        includeLayout.findViewById<ImageView>(R.id.btn_calendario).setOnClickListener {
+            startActivity(Intent(this, CalendarioActivity::class.java))
+        }
     }
 
     // ==========================================

@@ -23,69 +23,52 @@ import java.io.InputStreamReader
 
 class UsuarioActivity : BaseActivity() {
 
-    // Variable global para simular la sesión.
-    private var usuarioLogueado = "afernandez"
+    // PROPIEDAD DE CLASE: Ahora es nula por defecto y se llena con la sesión real
+    private var usuarioLogueado: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         LocaleHelper.setLocale(this, LocaleHelper.getIdiomaGuardado(this))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_usuarios)
 
-        // 1. Cargar Datos Personales Iniciales
-        cargarDatosDelPerfil(usuarioLogueado)
+        // 1. RECUPERAR SESIÓN: Usamos la misma lógica que en CalendarioActivity
+        val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+        usuarioLogueado = prefs.getString("loggedUser", null)
 
-        // 2. Cargar Estadísticas y Gráficos
-        cargarEstadisticas(usuarioLogueado)
+        // 2. SEGURIDAD: Si no hay usuario, cerramos la pantalla
+        if (usuarioLogueado == null) {
+            finish()
+            return
+        }
 
-        // 3. Configurar Botón "Editar Perfil"
+        // 3. CARGAR DATOS (Usamos !! porque ya validamos que no es null arriba)
+        cargarDatosDelPerfil(usuarioLogueado!!)
+        cargarEstadisticas(usuarioLogueado!!)
+
+        // 4. CONFIGURAR BOTÓN EDITAR
         val btnEditar = findViewById<Button>(R.id.btnEditarPerfil)
         btnEditar.setOnClickListener {
             val intent = Intent(this, EditarPerfilActivity::class.java)
-            // Enviamos el usuario por si la otra activity lo necesita
             intent.putExtra("USUARIO_KEY", usuarioLogueado)
             startActivity(intent)
         }
 
+        // 5. CONFIGURAR IDIOMA
         val btnCambiarIdioma = findViewById<ImageButton>(R.id.btnCambiarIdioma)
         btnCambiarIdioma.setOnClickListener {
             mostrarDialogoIdioma()
         }
 
-        //Usar botones para enviar a otros activitys
-        val includeLayout = findViewById<View>(R.id.boton_bottom)
-
-        val botonHome = includeLayout.findViewById<ImageView>(R.id.btn_home)
-        botonHome.setOnClickListener {
-            val intentHome = Intent(this, MainActivity::class.java)
-            startActivity(intentHome)
-        }
-
-        val botonProyectos = includeLayout.findViewById<ImageView>(R.id.btn_proyecto)
-        botonProyectos.setOnClickListener {
-            val intentProyecto = Intent(this, ProyectosActivity:: class.java)
-            startActivity(intentProyecto)
-        }
-
-        val botonUsuarios = includeLayout.findViewById<ImageView>(R.id.btn_perfil)
-        botonUsuarios.setOnClickListener {
-            val intentHome = Intent(this, UsuarioActivity:: class.java)
-            startActivity(intentHome)
-        }
-
-        val botonCalendario = includeLayout.findViewById<ImageView>(R.id.btn_calendario)
-        botonCalendario.setOnClickListener {
-            val intentCalendario = Intent(this, CalendarioActivity:: class.java)
-            startActivity(intentCalendario)
-        }
-
+        // 6. NAVEGACIÓN (Bottom Menu)
+        setupNavigationButtons()
     }
 
-    // Al volver de "Editar Perfil", recargamos los datos por si hubo cambios
+    // Al volver de "Editar Perfil", recargamos los datos
     override fun onResume() {
         super.onResume()
-        cargarDatosDelPerfil(usuarioLogueado)
-        // Opcional: Si editar perfil afectara a las estadísticas, descomenta la siguiente línea:
-        // cargarEstadisticas(usuarioLogueado)
+        usuarioLogueado?.let {
+            cargarDatosDelPerfil(it)
+        }
     }
 
     // ==========================================
@@ -93,9 +76,7 @@ class UsuarioActivity : BaseActivity() {
     // ==========================================
 
     private fun cargarDatosDelPerfil(usernameTarget: String) {
-        // Leemos JSON (priorizando cambios guardados en memoria interna)
         val jsonString = leerJSONUsuariosPriorizandoInterno()
-
         if (jsonString.isNotEmpty()) {
             try {
                 val jsonArray = JSONArray(jsonString)
@@ -137,7 +118,6 @@ class UsuarioActivity : BaseActivity() {
     // ==========================================
 
     private fun cargarEstadisticas(usernameTarget: String) {
-        // CORREGIDO: Ahora usamos la función inteligente para proyectos también
         val jsonString = leerJSONProyectosPriorizandoInterno()
 
         if (jsonString.isNotEmpty()) {
@@ -145,15 +125,12 @@ class UsuarioActivity : BaseActivity() {
                 val jsonArray = JSONArray(jsonString)
                 var contadorProyectos = 0
                 var contadorTareas = 0
-
-                // Mapa para el Gráfico 1 (Estado de mis tareas)
                 val mapaEstadosTareas = HashMap<String, Int>()
 
-                // Recorremos Proyectos
                 for (i in 0 until jsonArray.length()) {
                     val proyecto = jsonArray.getJSONObject(i)
 
-                    // A. Contar Proyectos Asignados al usuario
+                    // Proyectos asignados
                     if (proyecto.has("UsuariosAsignados")) {
                         val usuariosProy = proyecto.getJSONArray("UsuariosAsignados")
                         for (j in 0 until usuariosProy.length()) {
@@ -164,12 +141,11 @@ class UsuarioActivity : BaseActivity() {
                         }
                     }
 
-                    // B. Contar Tareas y Estados
+                    // Tareas y Estados
                     if (proyecto.has("Tareas")) {
                         val tareasArray = proyecto.getJSONArray("Tareas")
                         for (k in 0 until tareasArray.length()) {
                             val tarea = tareasArray.getJSONObject(k)
-
                             if (tarea.has("usuariosAsignados")) {
                                 val usuariosTarea = tarea.getJSONArray("usuariosAsignados")
                                 var esTareaMia = false
@@ -190,11 +166,9 @@ class UsuarioActivity : BaseActivity() {
                     }
                 }
 
-                // 1. Actualizar Textos
                 findViewById<TextView>(R.id.tvProyectosCount).text = contadorProyectos.toString()
                 findViewById<TextView>(R.id.tvTareasCount).text = contadorTareas.toString()
 
-                // 2. Pintar Gráfico Izquierdo (Mis Tareas)
                 if (contadorTareas > 0) {
                     configurarGraficoTareas(mapaEstadosTareas)
                 }
@@ -205,42 +179,33 @@ class UsuarioActivity : BaseActivity() {
         }
     }
 
-    // --- GRÁFICO 1: MIS TAREAS (IZQUIERDA) ---
     private fun configurarGraficoTareas(mapaEstados: HashMap<String, Int>) {
         val pieChart = findViewById<PieChart>(R.id.pieChart)
-
         val entries = ArrayList<PieEntry>()
         for ((estado, cantidad) in mapaEstados) {
             entries.add(PieEntry(cantidad.toFloat(), estado))
         }
 
         val dataSet = PieDataSet(entries, "")
-        dataSet.setDrawValues(false) // Quitar números dentro del gráfico
+        dataSet.setDrawValues(false)
 
-        // Colores personalizados
         val colores = ArrayList<Int>()
-        colores.add(Color.parseColor("#66BB6A")) // Turquesa
-        colores.add(Color.parseColor("#FFCA28")) // Amarillo
-        colores.add(Color.parseColor("#EF5350")) // Rojo
-        colores.add(Color.parseColor("#166269")) // Verde Oscuro
-        colores.add(Color.parseColor("#AB47BC")) // Violeta
+        colores.add(Color.parseColor("#66BB6A"))
+        colores.add(Color.parseColor("#FFCA28"))
+        colores.add(Color.parseColor("#EF5350"))
+        colores.add(Color.parseColor("#166269"))
+        colores.add(Color.parseColor("#AB47BC"))
         dataSet.colors = colores
 
-        val data = PieData(dataSet)
-        pieChart.data = data
-
-        // Estilo visual del gráfico
+        pieChart.data = PieData(dataSet)
         pieChart.description.isEnabled = false
         pieChart.centerText = "Mis Tareas"
         pieChart.setCenterTextSize(14f)
         pieChart.setDrawEntryLabels(false)
 
-        // Leyenda
         val legend = pieChart.legend
         legend.isEnabled = true
         legend.textColor = Color.WHITE
-        legend.textSize = 12f
-        legend.formSize = 12f
         legend.isWordWrapEnabled = true
 
         pieChart.animateY(1000)
@@ -251,54 +216,48 @@ class UsuarioActivity : BaseActivity() {
     //      UTILIDADES DE ARCHIVOS
     // ==========================================
 
-    // Lee el archivo JSON original de la carpeta raw (Backup)
     private fun leerArchivoRaw(resourceId: Int): String? {
         return try {
             val inputStream = resources.openRawResource(resourceId)
             val reader = BufferedReader(InputStreamReader(inputStream))
             reader.use { it.readText() }
-        } catch (e: Exception) {
-            null
-        }
+        } catch (e: Exception) { null }
     }
 
-    // 1. LECTURA INTELIGENTE DE USUARIOS
     private fun leerJSONUsuariosPriorizandoInterno(): String {
-        val nombreArchivoEditado = "usuarios_data.json"
-        try {
-            // Intento 1: Leer memoria interna
-            val fileInputStream = openFileInput(nombreArchivoEditado)
-            val inputStreamReader = InputStreamReader(fileInputStream)
-            val bufferedReader = BufferedReader(inputStreamReader)
-            val stringBuilder = StringBuilder()
-            var text: String?
-            while (bufferedReader.readLine().also { text = it } != null) {
-                stringBuilder.append(text)
-            }
-            return stringBuilder.toString()
+        return try {
+            openFileInput("usuarios_data.json").bufferedReader().use { it.readText() }
         } catch (e: Exception) {
-            // Intento 2: Si falla, leer raw
-            return leerArchivoRaw(R.raw.usuarios) ?: "[]"
+            leerArchivoRaw(R.raw.usuarios) ?: "[]"
         }
     }
 
-    // 2. LECTURA INTELIGENTE DE PROYECTOS (NUEVA FUNCIÓN)
     private fun leerJSONProyectosPriorizandoInterno(): String {
-        val nombreArchivoEditado = "proyectos_data.json"
-        try {
-            // Intento 1: Leer memoria interna
-            val fileInputStream = openFileInput(nombreArchivoEditado)
-            val inputStreamReader = InputStreamReader(fileInputStream)
-            val bufferedReader = BufferedReader(inputStreamReader)
-            val stringBuilder = StringBuilder()
-            var text: String?
-            while (bufferedReader.readLine().also { text = it } != null) {
-                stringBuilder.append(text)
-            }
-            return stringBuilder.toString()
+        return try {
+            openFileInput("proyectos_data.json").bufferedReader().use { it.readText() }
         } catch (e: Exception) {
-            // Intento 2: Si falla, leer raw original
-            return leerArchivoRaw(R.raw.proyectos) ?: "[]"
+            leerArchivoRaw(R.raw.proyectos) ?: "[]"
+        }
+    }
+
+    // ==========================================
+    //      INTERFAZ Y NAVEGACIÓN
+    // ==========================================
+
+    private fun setupNavigationButtons() {
+        val includeLayout = findViewById<View>(R.id.boton_bottom)
+
+        includeLayout.findViewById<ImageView>(R.id.btn_home).setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+        includeLayout.findViewById<ImageView>(R.id.btn_proyecto).setOnClickListener {
+            startActivity(Intent(this, ProyectosActivity::class.java))
+        }
+        includeLayout.findViewById<ImageView>(R.id.btn_perfil).setOnClickListener {
+            // Ya estamos aquí
+        }
+        includeLayout.findViewById<ImageView>(R.id.btn_calendario).setOnClickListener {
+            startActivity(Intent(this, CalendarioActivity::class.java))
         }
     }
 
@@ -309,32 +268,22 @@ class UsuarioActivity : BaseActivity() {
             .create()
 
         dialogView.findViewById<LinearLayout>(R.id.btnEspañol).setOnClickListener {
-            LocaleHelper.setLocale(this, "es")
-            recreate()
+            cambiarIdioma("es")
             dialog.dismiss()
         }
-
         dialogView.findViewById<LinearLayout>(R.id.btnCatalan).setOnClickListener {
-            LocaleHelper.setLocale(this, "ca")
-            recreate()
+            cambiarIdioma("ca")
             dialog.dismiss()
         }
-
         dialogView.findViewById<LinearLayout>(R.id.btnIngles).setOnClickListener {
-            LocaleHelper.setLocale(this, "en")
-            recreate()
+            cambiarIdioma("en")
             dialog.dismiss()
         }
-
         dialog.show()
     }
-
 
     private fun cambiarIdioma(codigo: String) {
         LocaleHelper.setLocale(this, codigo)
         recreate()
     }
-
-
-
 }

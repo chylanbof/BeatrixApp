@@ -180,7 +180,7 @@
     <string name="estadotareas_usuario">Estado de Tareas</string>
     <string name="proyectosasignados_usuario">Proyectos Asignados:</string>
     <string name="tareasasignadas_usuario">Tareas Asignadas:</string>
-
+    <string name="editar_perfil">Editar Perfil</string>
     <string name="nuevo_proyecto">Nuevo proyecto</string>
 
 </resources>
