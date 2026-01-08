@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nombre del Proyecto"
-        android:textSize="25dp"
+        android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="#333333"
         android:fontFamily="@font/playfairdisplaysemibold"/>
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Descripción del proyecto"
-        android:textSize="20dp"
+        android:textSize="18dp"
         android:textColor="#666666"
         android:layout_marginTop="4dp"
         android:fontFamily="@font/montserratmedium"/>
@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tareas del proyecto"
-        android:textSize="20sp"
+        android:textSize="18dp"
         android:textColor="#888888"
         android:layout_marginTop="6dp"
         android:fontFamily="@font/montserratmedium"/>

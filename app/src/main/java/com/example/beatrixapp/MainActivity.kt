@@ -9,6 +9,7 @@ import android.text.Spanned
 import android.text.style.StyleSpan
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -39,7 +40,41 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        
+
+        //Usar botones para enviar a otros activitys
+        val includeLayout = findViewById<View>(R.id.boton_bottom)
+
+        val botonHome = includeLayout.findViewById<ImageView>(R.id.btn_home)
+        botonHome.setOnClickListener {
+            val intentHome = Intent(this, MainActivity::class.java)
+            startActivity(intentHome)
+        }
+
+        val botonProyectos = includeLayout.findViewById<ImageView>(R.id.btn_proyecto)
+        botonProyectos.setOnClickListener {
+            val intentProyecto = Intent(this, ProyectosActivity:: class.java)
+            startActivity(intentProyecto)
+        }
+
+        val botonCalendario = includeLayout.findViewById<ImageView>(R.id.btn_calendario)
+        botonCalendario.setOnClickListener {
+            val intentCalendario = Intent(this, CalendarioActivity:: class.java)
+            startActivity(intentCalendario)
+        }
+
+        val botonUsuarios = includeLayout.findViewById<ImageView>(R.id.btn_perfil)
+        botonUsuarios.setOnClickListener {
+            val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+            val loggedUser = prefs.getString("loggedUser", null) ?: return@setOnClickListener
+
+            val intentUsuario = Intent(this, UsuarioActivity::class.java)
+            intentUsuario.putExtra("USERNAME", loggedUser) // Enviar el nombre de usuario que ha iniciado sesión
+            startActivity(intentUsuario)
+        }
+
+
+
+
         val username = intent.getStringExtra("USERNAME") ?: "Usuario"
         val tvWelcome = findViewById<TextView>(R.id.tvWelcome)
         tvWelcome.text = "Bienvenido, $username"
@@ -52,29 +87,28 @@ class MainActivity : AppCompatActivity() {
         listaDeProyectos = leerProyectosDesdeArchivo(this).toMutableList()
 
         // Ordenar proyectos por fecha de entrega
-        try {
-            listaDeProyectos.sortBy {
-                val fullDateString = it.fechaEntrega
-                val dateString = fullDateString?.take(19)
+        listaDeProyectos.sortBy {
+            val fullDateString = it.fechaEntrega
+            val dateString = fullDateString?.take(19)
 
-                if (dateString.isNullOrBlank()) {
+            if (dateString.isNullOrBlank()) {
+                Date(0)
+            } else {
+                try {
+                    formatoFecha.parse(dateString) ?: Date(0)
+                } catch (e: Exception) {
+                    Log.e("MainActivity", "Error de formato de fecha: $dateString", e)
                     Date(0)
-                } else {
-                    try {
-                        formatoFecha.parse(dateString) ?: Date(0)
-                    } catch (e: Exception) {
-                        Log.e("MainActivity", "Error de formato de fecha: $dateString", e)
-                        Date(0)
-                    }
                 }
             }
-        } catch (e: Exception) {
-            Log.e("MainActivity", "Error sorting projects", e)
         }
+        // Sólo mostrar los 3 proyectos más recientes.
+        val proyectosMasCercanos = listaDeProyectos.take(3)
 
-        for (proyecto in listaDeProyectos) {
+        for (proyecto in proyectosMasCercanos) {
             agregarProyecto(proyecto, contenedorProyectos, this)
         }
+
     }
 
     private fun copiarProyectosARutaInterna(context: Context) {
@@ -150,28 +184,34 @@ class MainActivity : AppCompatActivity() {
         val txtDescripcionProyecto = proyectoView.findViewById<TextView>(R.id.txtDescripcionProyecto)
         val txtTiempo = proyectoView.findViewById<TextView>(R.id.txtTiempo)
 
-        txtNombreProyecto.text = proyecto.nombreProyecto ?: "Proyecto Desconocido"
-        txtDescripcionProyecto.text = proyecto.descripcionProyecto ?: "Sin descripción"
+        txtNombreProyecto.text = getString(
+            R.string.nombre_proyecto_text,
+            proyecto.nombreProyecto ?: getString(R.string.sin_nombre_proyecto)
+        )
+
+        txtDescripcionProyecto.text = getString(
+            R.string.descripcion_proyecto_text,
+            proyecto.descripcionProyecto ?: getString(R.string.sin_descripcion_proyecto)
+        )
 
         val inicioValor = proyecto.fechaInicio?.take(16) ?: "N/A"
         val entregaValor = proyecto.fechaEntrega?.take(16) ?: "N/A"
 
-        val inicioLabel = "Inicio: "
-        val entregaLabel = "\nEntrega: "
-        val textoCompleto = inicioLabel + inicioValor + entregaLabel + entregaValor
+        val textoCompleto = getString(R.string.tiempo_proyecto, inicioValor, entregaValor)
         val spannable = SpannableString(textoCompleto)
 
+        val inicioLabelLength = "Inicio: ".length
         spannable.setSpan(
             StyleSpan(Typeface.BOLD),
             0,
-            inicioLabel.length,
+            inicioLabelLength,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        val entregaStart = inicioLabel.length + inicioValor.length
+        val entregaStart = inicioLabelLength + inicioValor.length
         spannable.setSpan(
             StyleSpan(Typeface.BOLD),
             entregaStart,
-            entregaStart + entregaLabel.length,
+            entregaStart + "\nEntrega: ".length,
             Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
         )
 

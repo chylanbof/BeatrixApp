@@ -4,8 +4,10 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.Paint
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -47,6 +49,33 @@ class UsuarioActivity : BaseActivity() {
         val btnCambiarIdioma = findViewById<ImageButton>(R.id.btnCambiarIdioma)
         btnCambiarIdioma.setOnClickListener {
             mostrarDialogoIdioma()
+        }
+
+        //Usar botones para enviar a otros activitys
+        val includeLayout = findViewById<View>(R.id.boton_bottom)
+
+        val botonHome = includeLayout.findViewById<ImageView>(R.id.btn_home)
+        botonHome.setOnClickListener {
+            val intentHome = Intent(this, MainActivity::class.java)
+            startActivity(intentHome)
+        }
+
+        val botonProyectos = includeLayout.findViewById<ImageView>(R.id.btn_proyecto)
+        botonProyectos.setOnClickListener {
+            val intentProyecto = Intent(this, ProyectosActivity:: class.java)
+            startActivity(intentProyecto)
+        }
+
+        val botonUsuarios = includeLayout.findViewById<ImageView>(R.id.btn_perfil)
+        botonUsuarios.setOnClickListener {
+            val intentHome = Intent(this, UsuarioActivity:: class.java)
+            startActivity(intentHome)
+        }
+
+        val botonCalendario = includeLayout.findViewById<ImageView>(R.id.btn_calendario)
+        botonCalendario.setOnClickListener {
+            val intentCalendario = Intent(this, CalendarioActivity:: class.java)
+            startActivity(intentCalendario)
         }
 
     }

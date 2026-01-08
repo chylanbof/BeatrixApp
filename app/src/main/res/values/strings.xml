@@ -120,8 +120,67 @@
         <string name="error_pdf">Error al crear el PDF</string>
         <string name="abrir_pdf_con">Abrir PDF con</string>
 
+    <!-- Bienvenido -->
+    <string name="bienvenido_usuario">Bienvenido, %1$s</string>
+
+    <!-- Proyecto -->
+    <string name="nombre_proyecto_text">%1$s</string>
+    <string name="descripcion_proyecto_text">%1$s</string>
+    <string name="tiempo_proyecto">Inicio: %1$s\nEntrega: %2$s</string>
+
+    <!-- Valores por defecto -->
+    <string name="sin_nombre_proyecto">Proyecto Desconocido</string>
+    <string name="sin_descripcion_proyecto">Sin descripción</string>
+
+    <string name="hint_username">Nombre de usuario</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="btn_entrar">Entrar</string>
+
+    <string name="login_empty_username">Por favor, introduzca el nombre de usuario</string>
+    <string name="login_empty_password">La contraseña no puede estar vacía</string>
+    <string name="login_success">Inicio de sesión correcto</string>
+    <string name="login_failed">Usuario o contraseña incorrectos</string>
+    <string name="login_error_loading">Error al cargar el archivo de usuarios</string>
 
 
 
+    <!-- CALENDARIO / PROYECTOS -->
+    <string name="tareas_asignadas">Tareas asignadas:</string>
+    <string name="asignado_sin_tareas">Asignado al proyecto (sin tareas creadas).</string>
+    <string name="sin_tareas">Sin tareas directas o subtareas asignadas.</string>
+    <string name="calendario">Calendario</string>
+
+    <!-- 🤝 REUNIONES -->
+    <string name="sin_titulo">Sin título</string>
+    <string name="sin_participantes">Sin participantes</string>
+
+    <!-- Subtareas Adapter -->
+    <string name="sin_descripcion_subtarea">Sin descripción</string>   <!-- para tvDescripcion -->
+    <string name="usuarios_prefix">Usuarios: </string>                <!-- para tvUsuariosSub -->
+    >>>>>>> Anthony_branch
+
+    <!-- TareaAdapter -->
+    <string name="inicio_fecha">Inicio: </string>            <!-- prefijo de fecha de inicio -->
+    <string name="entrega_fecha"> | Entrega: </string>      <!-- prefijo de fecha de entrega -->
+    <string name="estado_desconocido">Desconocido</string>  <!-- si estado es null -->
+    <string name="usuarios_asignados_prefix">Asignados: </string> <!-- prefijo de usuarios asignados -->
+
+
+    <!-- Proyectos Activity -->
+
+    <string name="titulo_proyectos">TUS PROYECTOS</string>
+
+    <!-- Usuarios Activity -->
+
+    <string name="nombre_usuario">Nombre de Usuario</string>
+    <string name="correo_usuario">Correo electronico</string>
+    <string name="telefono_usuario">Numero de telefono</string>
+    <string name="contraseña_usuario">Contraseña</string>
+    <string name="estadisticas_usuario">Estadísticas</string>
+    <string name="estadotareas_usuario">Estado de Tareas</string>
+    <string name="proyectosasignados_usuario">Proyectos Asignados:</string>
+    <string name="tareasasignadas_usuario">Tareas Asignadas:</string>
+
+    <string name="nuevo_proyecto">Nuevo proyecto</string>
 
 </resources>

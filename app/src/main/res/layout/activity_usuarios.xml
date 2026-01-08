@@ -6,14 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#26C6DA"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:padding="16dp">
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation_bar"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/boton_bottom"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,7 +44,8 @@
                     android:text="Nombre Apelllido"
                     android:textColor="@android:color/white"
                     android:textSize="28sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:fontFamily="@font/playfairdisplaymedium"/>
             </LinearLayout>
 
             <LinearLayout
@@ -60,10 +64,11 @@
                         android:layout_width="105dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Nombre de Usuario:"
+                        android:text="@string/nombre_usuario"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textStyle="bold"
+                        />
 
                     <TextView
                         android:id="@+id/tvNombreUsuario"
@@ -87,7 +92,7 @@
                         android:layout_width="51dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Correo electronico:"
+                        android:text="@string/correo_usuario"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -113,7 +118,7 @@
                         android:layout_width="133dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Numero de Telefono:"
+                        android:text="@string/telefono_usuario"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -139,7 +144,7 @@
                         android:layout_width="187dp"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="16dp"
-                        android:text="Contraseña:"
+                        android:text="@string/contraseña_usuario"
                         android:textColor="@android:color/white"
                         android:textSize="20sp"
                         android:textStyle="bold" />
@@ -184,12 +189,13 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Estadísticas"
+                    android:text="@string/estadisticas_usuario"
                     android:textColor="@color/white"
                     android:textSize="26sp"
                     android:gravity="center"
                     android:paddingVertical="12dp"
-                    android:elevation="4dp"/>
+                    android:elevation="4dp"
+                    android:fontFamily="@font/playfairdisplaymedium"/>
 
             </LinearLayout>
 
@@ -214,7 +220,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Proyectos Asignados:"
+                        android:text="@string/proyectosasignados_usuario"
                         android:textColor="#26C6DA"
                         android:textSize="20sp"
                         android:paddingLeft="15dp"/>
@@ -257,7 +263,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Tareas Asignadas:"
+                        android:text="@string/tareasasignadas_usuario"
                         android:textColor="#26C6DA"
                         android:textSize="20sp"
                         android:paddingLeft="15dp"/>
@@ -289,7 +295,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Estado de Tareas"
+                    android:text="@string/estadotareas_usuario"
                     android:textColor="@android:color/white"
                     android:textSize="20sp"
                     android:gravity="center"
@@ -304,37 +310,26 @@
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/bottom_navigation_bar"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="#EDEDED"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <include
-            android:id="@+id/boton_bottom"
-            layout="@layout/boton_bottom"
-            android:layout_width="match_parent"
-            android:layout_height="70dp" />
-    </LinearLayout>
-
     <ImageButton
         android:id="@+id/btnCambiarIdioma"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="29dp"
+        android:layout_height="36dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="16dp"
         android:background="@android:color/transparent"
         android:contentDescription="Cambiar idioma"
-        android:src="@drawable/bandera_esp"
         android:scaleType="fitCenter"
+        android:src="@drawable/bandera_esp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <include
+        android:id="@+id/boton_bottom"
+        layout="@layout/boton_bottom"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -113,4 +113,62 @@
     <string name="error_pdf">Error creating PDF</string>
     <string name="abrir_pdf_con">Open PDF with</string>
 
+
+
+    <!-- Bienvenido -->
+    <string name="bienvenido_usuario">Welcome, %1$s</string>
+
+    <!-- Project -->
+    <string name="nombre_proyecto_text">%1$s</string>
+    <string name="descripcion_proyecto_text">%1$s</string>
+    <string name="tiempo_proyecto">Start: %1$s\nEnd: %2$s</string>
+
+    <!-- Default values -->
+    <string name="sin_nombre_proyecto">Unknown Project</string>
+    <string name="sin_descripcion_proyecto">No description</string>
+    <string name="hint_username">Username</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_entrar">Login</string>
+
+    <string name="login_empty_username">Please enter username</string>
+    <string name="login_empty_password">Password cannot be empty</string>
+    <string name="login_success">Login successful</string>
+    <string name="login_failed">Incorrect username or password</string>
+    <string name="login_error_loading">Error loading users file</string>
+
+
+    <!-- 📅 CALENDAR / PROJECTS -->
+    <string name="tareas_asignadas">Assigned tasks:</string>
+    <string name="asignado_sin_tareas">Assigned to the project (no tasks created).</string>
+    <string name="sin_tareas">No direct tasks or subtasks assigned.</string>
+    <string name="calendario">Calendar</string>
+
+    <!-- 🤝 MEETINGS -->
+    <string name="sin_titulo">Untitled</string>
+    <string name="sin_participantes">No participants</string>
+
+    <!-- Subtareas Adapter -->
+    <string name="sin_descripcion_subtarea">No description</string>
+    <string name="usuarios_prefix">Users: </string>
+
+    <!-- TareaAdapter -->
+    <string name="inicio_fecha">Start: </string>
+    <string name="entrega_fecha"> | Due: </string>
+    <string name="estado_desconocido">Unknown</string>
+    <string name="usuarios_asignados_prefix">Assigned: </string>
+
+    <!-- Proyectos Activity -->
+    <string name="titulo_proyectos">YOUR PROJECTS</string>
+
+    <!-- Usuarios Activity -->
+    <string name="nombre_usuario">Username</string>
+    <string name="correo_usuario">Email</string>
+    <string name="telefono_usuario">Phone Number</string>
+    <string name="contraseña_usuario">Password</string>
+    <string name="estadisticas_usuario">Statistics</string>
+    <string name="estadotareas_usuario">Task Status</string>
+    <string name="proyectosasignados_usuario">Assigned Projects:</string>
+    <string name="tareasasignadas_usuario">Assigned Tasks:</string>
+
+    <string name="nuevo_proyecto">New Project</string>
 </resources>

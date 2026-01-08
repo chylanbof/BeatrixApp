@@ -1,8 +1,8 @@
 package com.example.beatrixapp.model
 
 data class Usuario(
-    val nombreApellidos: String?,
-    val nombreUsuario: String?,
+    val nombreApellidos: String,
+    val nombreUsuario: String,
     val contrasena: String?,
     val email: String?,
     val telefono: String?,
