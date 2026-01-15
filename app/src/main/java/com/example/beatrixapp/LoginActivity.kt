@@ -52,25 +52,25 @@ class LoginActivity : BaseActivity() {
 
             if (username.isEmpty()) {
                 Toast.makeText(this, getString(R.string.login_empty_username), Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
             }
-            if (password.isEmpty()) {
+            else if (password.isEmpty()) {
                 //Toast.makeText(this, "La contraseña no puede estar vacía", Toast.LENGTH_SHORT).show()
                 Toast.makeText(this, getString(R.string.login_empty_password), Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            if (checkLogin(username, password)) {
-                Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT).show()
-                val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
-                prefs.edit().putString("loggedUser", username).apply()
-
-                val intent = Intent(this, MainActivity::class.java)
-                intent.putExtra("USERNAME", username)
-                startActivity(intent)
-                finish()
             } else {
-                Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_SHORT).show()
+                if (checkLogin(username, password)) {
+                    Toast.makeText(this, getString(R.string.login_success), Toast.LENGTH_SHORT)
+                        .show()
+                    val prefs = getSharedPreferences("user_session", MODE_PRIVATE)
+                    prefs.edit().putString("loggedUser", username).apply()
+
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("USERNAME", username)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(this, getString(R.string.login_failed), Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
     }
